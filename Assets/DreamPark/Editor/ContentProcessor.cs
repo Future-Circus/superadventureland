@@ -460,8 +460,10 @@ namespace DreamPark {
                 }
 
                 // Scene object
-                if (script.gameObject.scene.IsValid())
+                if (script.gameObject.scene.IsValid()) {
                     EditorSceneManager.MarkSceneDirty(script.gameObject.scene);
+                    EditorSceneManager.SaveScene(script.gameObject.scene);
+                }
 
                 var field = script.GetType().GetField("gameId");
                 if (field != null)
