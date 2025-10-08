@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5153624265514685240}
   - component: {fileID: 9051291708424337490}
   m_Layer: 0
-  m_Name: YOUR_GAME_HERE-Level
+  m_Name: YOUR_GAME_HERE-SmallLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameId: YOUR_GAME_HERE
-  size: 0
-  defaultAnchorPosition: {x: 0, y: -3.2}
+  size: 1
+  defaultAnchorPosition: {x: 0, y: -9.3}
   generateFloor: 1
 --- !u!114 &5153624265514685240
 MonoBehaviour:
