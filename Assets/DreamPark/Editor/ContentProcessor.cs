@@ -176,6 +176,22 @@ namespace DreamPark {
                     EditorUtility.SetDirty(bag);
                     Debug.Log($"🌐 Set {groupName} to Remote paths");
 
+                    // ----- FIX: Ensure internal schema names match their filenames -----
+                    string schemasDir = "Assets/AddressableAssetsData/AssetGroups/Schemas";
+                    string[] schemaGuids = AssetDatabase.FindAssets($"t:ScriptableObject {groupName}", new[] { schemasDir });
+                    foreach (string schemaGuid in schemaGuids)
+                    {
+                        string schemaPath = AssetDatabase.GUIDToAssetPath(schemaGuid);
+                        string fileName = Path.GetFileNameWithoutExtension(schemaPath);
+                        var schema = AssetDatabase.LoadMainAssetAtPath(schemaPath);
+                        if (schema != null && schema.name != fileName)
+                        {
+                            schema.name = fileName;
+                            EditorUtility.SetDirty(schema);
+                            Debug.Log($"🔧 Fixed internal schema name: {schema.name}");
+                        }
+                    }
+
                     // ----- 5. Add all assets in folder -----
                     string[] assetGuids = AssetDatabase.FindAssets("", new[] { folder });
                     foreach (string guid in assetGuids)
