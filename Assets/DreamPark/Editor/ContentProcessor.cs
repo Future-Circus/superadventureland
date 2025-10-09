@@ -186,7 +186,7 @@ namespace DreamPark {
 
                         AddressableAssetEntry entry = settings.CreateOrMoveEntry(guid, group, readOnly: false, postEvent: false);
 
-                        entry.address = Path.GetFileNameWithoutExtension(assetPath);
+                        entry.address = GetGameFolderName() + "/" + Path.GetFileNameWithoutExtension(assetPath);
                         foreach (var label in entry.labels.ToList())
                             entry.SetLabel(label, false, false);
 
@@ -371,16 +371,16 @@ namespace DreamPark {
 
                 if (prefabRoot == null) continue;
 
-                // New root name
-                string desiredRootName = AddPrefix(prefabRoot.name);
-                string gameIdForPrefab = gamePrefix;
+                // // New root name
+                // string desiredRootName = AddPrefix(prefabRoot.name);
+                // string gameIdForPrefab = gamePrefix;
 
-                // Rename root GO if needed
-                if (prefabRoot.name != desiredRootName)
-                {
-                    prefabRoot.name = desiredRootName;
-                    changed++;
-                }
+                // // Rename root GO if needed
+                // if (prefabRoot.name != desiredRootName)
+                // {
+                //     prefabRoot.name = desiredRootName;
+                //     changed++;
+                // }
 
                 // Assign gameId fields inside prefab
                 var components = prefabRoot.GetComponentsInChildren<MonoBehaviour>(true);
@@ -390,7 +390,7 @@ namespace DreamPark {
                     var field = mb.GetType().GetField("gameId");
                     if (field != null && field.FieldType == typeof(string))
                     {
-                        field.SetValue(mb, gameIdForPrefab);
+                        field.SetValue(mb, gamePrefix);
                         EditorUtility.SetDirty(mb);
                     }
                 }
@@ -399,22 +399,22 @@ namespace DreamPark {
                 PrefabUtility.SaveAsPrefabAsset(prefabRoot, path);
                 PrefabUtility.UnloadPrefabContents(prefabRoot);
 
-                // Rename prefab asset file to match root name (optional, safe)
-                string currentFileName = Path.GetFileNameWithoutExtension(path);
-                if (currentFileName != desiredRootName)
-                {
-                    string newPath = Path.Combine(Path.GetDirectoryName(path)!, desiredRootName + ".prefab").Replace("\\", "/");
-                    if (!AssetDatabase.AssetPathExists(newPath))
-                    {
-                        string err = AssetDatabase.MoveAsset(path, newPath);
-                        if (string.IsNullOrEmpty(err))
-                        {
-                            renamedFiles++;
-                            path = newPath;
-                        }
-                        else Debug.LogWarning($"⚠️ Could not rename prefab asset '{currentFileName}' → '{desiredRootName}': {err}");
-                    }
-                }
+                // // Rename prefab asset file to match root name (optional, safe)
+                // string currentFileName = Path.GetFileNameWithoutExtension(path);
+                // if (currentFileName != desiredRootName)
+                // {
+                //     string newPath = Path.Combine(Path.GetDirectoryName(path)!, desiredRootName + ".prefab").Replace("\\", "/");
+                //     if (!AssetDatabase.AssetPathExists(newPath))
+                //     {
+                //         string err = AssetDatabase.MoveAsset(path, newPath);
+                //         if (string.IsNullOrEmpty(err))
+                //         {
+                //             renamedFiles++;
+                //             path = newPath;
+                //         }
+                //         else Debug.LogWarning($"⚠️ Could not rename prefab asset '{currentFileName}' → '{desiredRootName}': {err}");
+                //     }
+                // }
             }
 
             if (changed > 0 || renamedFiles > 0)
@@ -444,8 +444,9 @@ namespace DreamPark {
                     continue;
                 }
 
-                string newName = AddPrefix(script.gameObject.name);
-                script.gameObject.name = newName;
+                // not renaming the gameObject name for now
+                // string newName = AddPrefix(script.gameObject.name);
+                // script.gameObject.name = newName;
 
                 // Prefab instance
                 if (PrefabUtility.IsPartOfPrefabInstance(script.gameObject))
