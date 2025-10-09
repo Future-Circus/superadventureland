@@ -34,6 +34,7 @@ namespace DreamPark.API
         }
         
         [Tooltip("Optional: override base URLs at runtime.")]
+        public static string prodBaseUrl = "https://dreampark-ce5dbc979cbc.herokuapp.com";
         public static string devBaseUrl  = "https://dreampark-dev-da8108e9492c.herokuapp.com";
         public static void POST(string endpoint, string authToken, object body, Action<bool, APIResponse> callback)
         {
@@ -47,12 +48,16 @@ namespace DreamPark.API
                 Debug.Log("Posting multipart: " + body);
                 #if UNITY_EDITOR
                 EditorCoroutineUtility.StartCoroutineOwnerless(PostMultipart(url, authToken, body as List<KeyValuePair<string, UploadContentData>>, callback));
+                #else
+                CoroutineRunner.Run(PostMultipart(url, authToken, body as List<KeyValuePair<string, UploadContentData>>, callback));
                 #endif
                 return;
             }
             Debug.Log("Posting request: " + url);
             #if UNITY_EDITOR
             EditorCoroutineUtility.StartCoroutineOwnerless(PostRequest(url, authToken, bodyRaw, callback));
+            #else
+            CoroutineRunner.Run(PostRequest(url, authToken, bodyRaw, callback));
             #endif
         }
 
@@ -61,6 +66,8 @@ namespace DreamPark.API
             var url = devBaseUrl + endpoint;
             #if UNITY_EDITOR
             EditorCoroutineUtility.StartCoroutineOwnerless(GetRequest(url, authToken, callback));
+            #else
+            CoroutineRunner.Run(GetRequest(url, authToken, callback));
             #endif
         }
         private static IEnumerator PostRequest(string url, string authToken, byte[] bodyRaw, Action<bool, APIResponse> callback)
@@ -99,6 +106,8 @@ namespace DreamPark.API
         private static IEnumerator PostMultipart(string url, string authToken, List<KeyValuePair<string, UploadContentData>> files, Action<bool, APIResponse> callback)
         {
             WWWForm form = new WWWForm();
+
+            // Add multiple files
             foreach (var kvp in files)
             {
                 form.AddBinaryData(kvp.Key, kvp.Value.data, kvp.Value.fileName, kvp.Value.mimeType);
@@ -110,10 +119,12 @@ namespace DreamPark.API
                     req.SetRequestHeader("Authorization", authToken);
 
                 var operation = req.SendWebRequest();
+
+                // Poll until done
                 while (!operation.isDone)
                 {
                     Debug.Log($"[Multipart Upload] Upload Progress: {req.uploadProgress:P1}, Download Progress: {req.downloadProgress:P1}");
-                    yield return null;
+                    yield return null; // wait 1 frame
                 }
 
                 Debug.Log("[Multipart Upload] Completed request, status: " + req.result);
@@ -122,6 +133,8 @@ namespace DreamPark.API
                 callback?.Invoke(response.success, response);
             }
         }
+
+        // ---- Shared Response Builder ----
         private static APIResponse BuildResponse(UnityWebRequest req)
         {
             bool success = !(req.result == UnityWebRequest.Result.ConnectionError ||

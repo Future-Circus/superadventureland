@@ -138,8 +138,9 @@ namespace DreamPark {
                 return;
             }
 
-            string remoteBuildPath = settings.profileSettings.GetValueByName(settings.activeProfileId, "RemoteBuildPath");
-            string remoteLoadPath = settings.profileSettings.GetValueByName(settings.activeProfileId, "RemoteLoadPath");
+
+            string remoteBuildPath = settings.profileSettings.GetValueByName(settings.activeProfileId, AddressableAssetSettings.kRemoteBuildPath);
+            string remoteLoadPath = settings.profileSettings.GetValueByName(settings.activeProfileId, AddressableAssetSettings.kRemoteLoadPath);
 
             Debug.Log($"🌐 Active profile remote paths:\nBuild: {remoteBuildPath}\nLoad:  {remoteLoadPath}");
 
@@ -166,8 +167,8 @@ namespace DreamPark {
 
                     // ----- 4. Configure as Remote -----
                     var bag = group.GetSchema<BundledAssetGroupSchema>() ?? group.AddSchema<BundledAssetGroupSchema>();
-                    bag.BuildPath.SetVariableByName(settings, "RemoteBuildPath");
-                    bag.LoadPath.SetVariableByName(settings, "RemoteLoadPath");
+                    bag.BuildPath.SetVariableByName(settings, AddressableAssetSettings.kRemoteBuildPath);
+                    bag.LoadPath.SetVariableByName(settings, AddressableAssetSettings.kRemoteLoadPath);
                     bag.UseAssetBundleCache = true;
                     bag.UseAssetBundleCrc = true;
                     bag.BundleMode = BundledAssetGroupSchema.BundlePackingMode.PackTogether;
