@@ -278,7 +278,9 @@ namespace DreamPark {
                 return;
             }
 
-            string[] csFiles = Directory.GetFiles(root, "*.cs", SearchOption.AllDirectories);
+            string[] csFiles = Directory.GetFiles(root, "*.cs", SearchOption.AllDirectories)
+            .Where(f => !f.Contains("/ThirdParty/") && !f.Contains("\\ThirdParty\\"))
+            .ToArray();
             int modified = 0, skipped = 0;
 
             foreach (string sysPath in csFiles)
