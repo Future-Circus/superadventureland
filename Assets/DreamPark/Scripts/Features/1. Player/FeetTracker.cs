@@ -39,12 +39,12 @@ namespace DreamPark {
 
         void LateUpdate () {
             if (rb != null) {
-                rb.position = new Vector3(head.position.x, head.position.y - yOffset, head.position.z) + GetDirection() * Mathf.Clamp(kickMultiplier*GetVelocity(10f),0f,0.2f);
+                rb.position = new Vector3(head.position.x, head.position.y + yOffset, head.position.z) + GetDirection() * Mathf.Clamp(kickMultiplier*GetVelocity(10f),0f,0.2f);
                 if (GetVelocity() > 0.01f) {
                     rb.rotation = Quaternion.LookRotation(GetDirection());
                 }
             } else {
-                transform.position = new Vector3(head.position.x, head.position.y - yOffset, head.position.z) + GetDirection() * Mathf.Clamp(kickMultiplier*GetVelocity(10f),0f,0.2f);
+                transform.position = new Vector3(head.position.x, head.position.y + yOffset, head.position.z) + GetDirection() * Mathf.Clamp(kickMultiplier*GetVelocity(10f),0f,0.2f);
                 if (GetVelocity() > 0.01f) {
                     transform.rotation = Quaternion.LookRotation(GetDirection());
                 }

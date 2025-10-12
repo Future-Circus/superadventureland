@@ -102,4 +102,13 @@ public class MusicArea : MonoBehaviour
             currentMusicArea = null;
         }
     }
+// #if UNITY_EDITOR
+//     public void OnDrawGizmos()
+//     {
+//         Gizmos.color = Color.yellow;
+//         var visualHalfExtents = halfExtents;
+//         visualHalfExtents.y = 5f;
+//         Gizmos.DrawWireCube(transform.position + new Vector3(0, 5f, 0), visualHalfExtents * 2f);
+//     }
+// #endif
 }

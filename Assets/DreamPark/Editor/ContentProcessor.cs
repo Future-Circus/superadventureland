@@ -9,21 +9,23 @@ using System.Collections.Generic;
 using System;
 using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace DreamPark {
     [InitializeOnLoad]
     public static class ContentProcessor
     {
+        private const string kLastFingerprintKey = "DreamPark.ContentProcessor.lastFingerprint";
+
         static ContentProcessor()
         {
-            // Automatically run after compilation or domain reload
-            EditorApplication.delayCall += AssignAllGameIds;
-
-            // 🔔 subscribe to folder changes
-            ContentFolderWatchdog.OnContentFolderChanged += AssignAllGameIds;
+            // Subscribe to file change events from the Watchdog
+            ContentFolderWatchdog.OnContentFilesChanged += OnContentFilesChanged;
         }
 
-        // ---------------- HELPERS ----------------
+        // ---------------------------------------------------------------------
+        // Helpers
+        // ---------------------------------------------------------------------
 
         private static string GetGameFolderName()
         {
@@ -53,218 +55,339 @@ namespace DreamPark {
             return name.Replace("[", "").Replace("]", "").Trim();
         }
 
-        // Replace anything before the first dash with our prefix (idempotent)
-        private static string AddPrefix(string name)
+        private static void EnsureGlobalLabel(AddressableAssetSettings settings, string gameId)
         {
-            string prefix = GetGamePrefix();
-            int dash = name.IndexOf('-');
-            if (dash >= 0 && dash + 1 < name.Length)
-                name = name.Substring(dash + 1);
-            return prefix + "-" + Sanitize(name);
+            settings?.AddLabel(gameId);
         }
 
-        // Try to read gameId from the asset path (Content/<GameName>/...), fallback to GetGamePrefix
-        private static string ExtractGameIdFromPath(string assetPath)
+        // ---------------------------------------------------------------------
+        // Manual run entry point
+        // ---------------------------------------------------------------------
+        [MenuItem("DreamPark/Tools/Force Update Game ID")]
+        public static void AssignAllGameIds()
         {
-            var parts = assetPath.Replace("\\", "/").Split('/');
-            for (int i = 0; i < parts.Length - 1; i++)
-            {
-                if (parts[i] == "Content")
-                {
-                    return Sanitize(parts[i + 1]);
-                }
-            }
-            return GetGamePrefix();
-        }
+            if (EditorApplication.isCompiling || EditorApplication.isUpdating) return;
 
-        // Ensure Addressables has a global label entry for this gameId
-    private static void EnsureGlobalLabel(AddressableAssetSettings settings, string gameId)
-    {
-        // AddLabel returns false if it already exists; safe & idempotent
-        settings.AddLabel(gameId);
-    }
-
-    // Apply the gameId label to ALL addressable entries whose asset lives under Assets/Content/<gameId>/**
-    private static void ApplyGameIdLabelToContentEntries(AddressableAssetSettings settings, string gameId)
-    {
-        string contentRoot = $"Assets/Content/{gameId}/";
-        EnsureGlobalLabel(settings, gameId);
-
-        int labeled = 0;
-        foreach (var group in settings.groups.Where(g => g != null))
-        {
-            // AddressableAssetGroup.entries is safe to enumerate
-            foreach (var entry in group.entries.ToList())
-            {
-                var path = AssetDatabase.GUIDToAssetPath(entry.guid).Replace("\\", "/");
-                if (string.IsNullOrEmpty(path) || !path.StartsWith(contentRoot)) continue;
-
-                // add gameId label, remove placeholder if you used one
-                entry.SetLabel(gameId, true, true);
-                entry.SetLabel("YOUR_GAME_HERE", false, true);
-                labeled++;
-            }
-        }
-
-        if (labeled > 0)
-        {
-            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryModified, null, true);
-            Debug.Log($"🏷  Applied label '{gameId}' to {labeled} entry(ies) under {contentRoot}");
-        }
-    }
-
-    [MenuItem("DreamPark/Tools/Build Addressable Groups")]
-        public static void BuildGroups()
-        {
-            // ----- 1. Locate Content root -----
-            string contentRoot = "Assets/Content";
+            string gamePrefix = GetGameFolderName();
+            string contentRoot = $"Assets/Content/{gamePrefix}";
             if (!AssetDatabase.IsValidFolder(contentRoot))
             {
-                Debug.LogError("❌ No folder found at Assets/Content/");
+                Debug.LogWarning($"⚠️ No folder found at {contentRoot}");
                 return;
             }
 
-            string[] gameDirs = Directory.GetDirectories(contentRoot);
-            if (gameDirs.Length == 0)
+            Debug.Log($"🔄 Force updating all prefabs and addressables for {gamePrefix}...");
+
+            // Process all prefabs under this content folder
+            string[] allPrefabs = AssetDatabase.FindAssets("t:Prefab", new[] { contentRoot })
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .ToArray();
+
+            UpdateSpecificPrefabs(allPrefabs.ToList(), gamePrefix);
+            ApplyGameIdLabelToContentEntries(AddressableAssetSettingsDefaultObject.Settings, gamePrefix);
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Debug.Log("✅ Finished manual full content update.");
+        }
+
+        // ---------------------------------------------------------------------
+        // Incremental change handler
+        // ---------------------------------------------------------------------
+        private static void OnContentFilesChanged(List<string> changedFiles)
+        {
+            string gamePrefix = GetGameFolderName();
+            string contentRoot = $"Assets/Content/{gamePrefix}";
+            if (!AssetDatabase.IsValidFolder(contentRoot)) return;
+
+            // Filter only prefabs
+            var prefabPaths = changedFiles
+                .Where(p => p.EndsWith(".prefab", StringComparison.OrdinalIgnoreCase))
+                .Select(p => Path.GetRelativePath(Application.dataPath, p).Replace("\\", "/"))
+                .Select(rel => "Assets/" + rel)
+                .Where(File.Exists)
+                .ToList();
+
+            if (prefabPaths.Count == 0)
             {
-                Debug.LogError("❌ No sub-folders under Assets/Content/");
-                return;
-            }
+                // Check if an asset (like FBX, texture, etc.) changed → addressables only
+                var otherAssets = changedFiles
+                    .Where(p => p.StartsWith(Application.dataPath))
+                    .Select(p => Path.GetRelativePath(Application.dataPath, p).Replace("\\", "/"))
+                    .Select(rel => "Assets/" + rel)
+                    .Where(p => AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(p) != null)
+                    .ToList();
 
-            var settings = AddressableAssetSettingsDefaultObject.Settings;
-            if (settings == null)
-            {
-                Debug.LogError("❌ AddressableAssetSettings not found.");
-                return;
-            }
-
-
-            string remoteBuildPath = settings.profileSettings.GetValueByName(settings.activeProfileId, AddressableAssetSettings.kRemoteBuildPath);
-            string remoteLoadPath = settings.profileSettings.GetValueByName(settings.activeProfileId, AddressableAssetSettings.kRemoteLoadPath);
-
-            Debug.Log($"🌐 Active profile remote paths:\nBuild: {remoteBuildPath}\nLoad:  {remoteLoadPath}");
-
-            // ----- 3. Process each game folder -----
-            foreach (string gameDir in gameDirs)
-            {
-                string gameName = Path.GetFileName(gameDir);
-                string gamePrefix = Sanitize(gameName);
-
-                string[] subfolders = Directory.GetDirectories(gameDir);
-                foreach (string folder in subfolders)
+                if (otherAssets.Count > 0)
                 {
-                    string folderName = Path.GetFileName(folder);
-                    string groupName = $"{gamePrefix}-{folderName}";
+                    ApplyGameIdLabelToContentEntries(AddressableAssetSettingsDefaultObject.Settings, gamePrefix, otherAssets);
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                }
+                return;
+            }
 
-                    // Find or create the group
-                    var group = settings.groups.FirstOrDefault(g => g != null && g.Name == groupName);
-                    if (group == null)
+            UpdateSpecificPrefabs(prefabPaths, gamePrefix);
+            ApplyGameIdLabelToContentEntries(AddressableAssetSettingsDefaultObject.Settings, gamePrefix, prefabPaths);
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        // ---------------------------------------------------------------------
+        // Prefab Updates (incremental)
+        // ---------------------------------------------------------------------
+        private static void UpdateSpecificPrefabs(List<string> prefabPaths, string gameId)
+        {
+            if (prefabPaths == null || prefabPaths.Count == 0) return;
+
+            AssetDatabase.StartAssetEditing();
+            int modified = 0;
+
+            try
+            {
+                foreach (var path in prefabPaths)
+                {
+                    if (string.IsNullOrEmpty(path) || !File.Exists(path))
+                        continue;
+
+                    using (var scope = new PrefabUtility.EditPrefabContentsScope(path))
                     {
-                        group = settings.CreateGroup(groupName, false, false, true,
-                            new List<AddressableAssetGroupSchema>(new System.Type[] { typeof(BundledAssetGroupSchema), typeof(ContentUpdateGroupSchema) }.Select(t => (AddressableAssetGroupSchema)Activator.CreateInstance(t))));
-                        Debug.Log($"📦 Created group: {groupName}");
-                    }
-
-                    // ----- 4. Configure as Remote -----
-                    var bag = group.GetSchema<BundledAssetGroupSchema>() ?? group.AddSchema<BundledAssetGroupSchema>();
-                    bag.BuildPath.SetVariableByName(settings, AddressableAssetSettings.kRemoteBuildPath);
-                    bag.LoadPath.SetVariableByName(settings, AddressableAssetSettings.kRemoteLoadPath);
-                    bag.UseAssetBundleCache = true;
-                    bag.UseAssetBundleCrc = true;
-                    bag.BundleMode = BundledAssetGroupSchema.BundlePackingMode.PackTogether;
-                    bag.Compression = BundledAssetGroupSchema.BundleCompressionMode.LZ4;
-                    EditorUtility.SetDirty(bag);
-                    Debug.Log($"🌐 Set {groupName} to Remote paths");
-
-                    // ----- FIX: Ensure internal schema names match their filenames -----
-                    string schemasDir = "Assets/AddressableAssetsData/AssetGroups/Schemas";
-                    string[] schemaGuids = AssetDatabase.FindAssets($"t:ScriptableObject {groupName}", new[] { schemasDir });
-                    foreach (string schemaGuid in schemaGuids)
-                    {
-                        string schemaPath = AssetDatabase.GUIDToAssetPath(schemaGuid);
-                        string fileName = Path.GetFileNameWithoutExtension(schemaPath);
-                        var schema = AssetDatabase.LoadMainAssetAtPath(schemaPath);
-                        if (schema != null && schema.name != fileName)
+                        var root = scope.prefabContentsRoot;
+                        bool any = false;
+                        foreach (var mb in root.GetComponentsInChildren<MonoBehaviour>(true))
                         {
-                            schema.name = fileName;
-                            EditorUtility.SetDirty(schema);
-                            Debug.Log($"🔧 Fixed internal schema name: {schema.name}");
+                            if (mb == null) continue;
+                            var f = mb.GetType().GetField("gameId");
+                            if (f != null && f.FieldType == typeof(string))
+                            {
+                                if (!string.Equals((string)f.GetValue(mb), gameId, StringComparison.Ordinal))
+                                {
+                                    f.SetValue(mb, gameId);
+                                    EditorUtility.SetDirty(mb);
+                                    any = true;
+                                }
+                            }
+                        }
+
+                        if (any)
+                        {
+                            PrefabUtility.SaveAsPrefabAsset(scope.prefabContentsRoot, path);
+                            modified++;
                         }
                     }
+                }
 
-                    // ----- 5. Add all assets in folder -----
-                    string[] assetGuids = AssetDatabase.FindAssets("", new[] { folder });
-                    foreach (string guid in assetGuids)
+                if (modified > 0)
+                    Debug.Log($"🧩 Updated {modified} prefab(s) for gameId={gameId}.");
+            }
+            finally
+            {
+                AssetDatabase.StopAssetEditing();
+            }
+        }
+
+        private static bool ShouldSkipAsset(string assetPath)
+        {
+            if (!assetPath.Contains("/ThirdParty/") && !assetPath.Contains("\\ThirdParty\\"))
+                return false;
+
+            if (string.IsNullOrEmpty(assetPath) || assetPath.EndsWith(".meta"))
+                return true;
+
+            var main = AssetDatabase.LoadMainAssetAtPath(assetPath);
+            if (main == null)
+                return true;
+
+            // Skip if the main asset itself is flagged
+            if ((main.hideFlags & (HideFlags.DontSave | HideFlags.HideAndDontSave | HideFlags.DontUnloadUnusedAsset)) != 0)
+            {
+                Debug.LogWarning($"⏭️ Skipped (HideFlags) asset: {assetPath}");
+                return true;
+            }
+
+            // For prefabs, check all serialized references
+            if (main is GameObject go)
+            {
+                foreach (var c in go.GetComponentsInChildren<Component>(true))
+                {
+                    if (c == null) continue;
+                    if ((c.hideFlags & (HideFlags.DontSave | HideFlags.HideAndDontSave | HideFlags.DontUnloadUnusedAsset)) != 0)
                     {
-                        string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                        if (assetPath.EndsWith(".meta") || assetPath.EndsWith(".cs") || assetPath.EndsWith(".unity") || AssetDatabase.IsValidFolder(assetPath))
-                            continue;
-
-                        AddressableAssetEntry entry = settings.CreateOrMoveEntry(guid, group, readOnly: false, postEvent: false);
-
-                        entry.address = GetGameFolderName() + "/" + Path.GetFileNameWithoutExtension(assetPath);
-                        foreach (var label in entry.labels.ToList())
-                            entry.SetLabel(label, false, false);
-
-                        entry.SetLabel(gamePrefix, true, true);
+                        Debug.LogWarning($"⏭️ Skipped prefab with DontSave component: {assetPath}");
+                        return true;
                     }
 
-                    EditorUtility.SetDirty(group);
+                    // NEW: scan serialized fields for hidden refs
+                    using (var so = new SerializedObject(c))
+                    {
+                        var prop = so.GetIterator();
+                        while (prop.NextVisible(true))
+                        {
+                            if (prop.propertyType == SerializedPropertyType.ObjectReference)
+                            {
+                                var obj = prop.objectReferenceValue;
+                                if (obj != null && (obj.hideFlags & (HideFlags.DontSave | HideFlags.HideAndDontSave)) != 0)
+                                {
+                                    Debug.LogWarning($"⏭️ Skipped prefab with hidden DontSave reference ({obj.name}) in {assetPath}");
+                                    return true;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
-            // ----- 6. Save and refresh -----
-            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, null, true);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            EditorApplication.RepaintProjectWindow();
-
-            Debug.Log("✅ Finished building and configuring remote Addressable groups.");
+            return false;
         }
 
-        // Ensure variable exists in Addressables profile
-        private static void EnsureProfileVariable(AddressableAssetSettings settings, string varName, string defaultValue)
+        private static List<string> disallowedExtensionsList = new List<string> {
+            ".meta",
+            ".cs",
+            ".unity",
+            ".blend",
+            ".blend1",
+            ".js",
+            ".boo",
+            ".asmdef",
+            ".asmref",
+            ".dll",
+            ".pdb",
+            ".mdb",
+            ".sln",
+            ".csproj",
+            ".buildreport",
+            ".assetstore",
+            ".log",
+            ".tmp",
+            ".max",
+            ".ma",
+            ".mb",  
+            ".c4d",
+            ".psd",
+            ".ai",
+            ".svg",
+            ".unitypackage",
+            ".zip",
+            ".7z",
+            ".gz",
+            ".rar",
+            ".tar",
+            ".hdr",
+            ".so",
+            ".pdf",
+            ".exe",
+            ".app",
+            ".apk",
+            ".aab",
+            ".ipa",
+            ".so",
+            ".bundle",
+            ".framework",
+            ".dylib"
+        };
+
+        // ---------------------------------------------------------------------
+        // Addressable Updates (targeted)
+        // ---------------------------------------------------------------------
+        private static void ApplyGameIdLabelToContentEntries(AddressableAssetSettings settings, string gameId, List<string> specificPaths = null)
         {
-            var profileSettings = settings.profileSettings;
-            if (profileSettings.GetVariableNames().Contains(varName))
-                return;
+            if (settings == null) return;
 
-            profileSettings.CreateValue(varName, defaultValue);
-            profileSettings.SetValue(settings.activeProfileId, varName, defaultValue);
-            Debug.Log($"➕ Created Addressables profile variable: {varName} = {defaultValue}");
-        }
+            EnsureGlobalLabel(settings, gameId);
 
-        // Addressables RemoveGroup compatibility across versions
-        private static void RemoveGroupCompat(AddressableAssetSettings settings, AddressableAssetGroup group)
-        {
-            var t = typeof(AddressableAssetSettings);
-            var withBool = t.GetMethod("RemoveGroup", new[] { typeof(AddressableAssetGroup), typeof(bool) });
-            if (withBool != null) { withBool.Invoke(settings, new object[] { group, true }); return; }
-
-            var noBool = t.GetMethod("RemoveGroup", new[] { typeof(AddressableAssetGroup) });
-            if (noBool != null) { noBool.Invoke(settings, new object[] { group }); return; }
-
-            // Fallback cleanup if asset still exists
-            string path = AssetDatabase.GetAssetPath(group);
-            if (!string.IsNullOrEmpty(path) && AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path) != null)
-                AssetDatabase.DeleteAsset(path);
-        }
-
-        private static AddressableAssetGroup CloneGroup(AddressableAssetSettings settings, AddressableAssetGroup oldGroup, string newName)
-        {
-            var schemaTypes = oldGroup.Schemas.Select(s => s.GetType()).ToArray();
-            var newGroup = settings.CreateGroup(newName, false, false, true, new List<AddressableAssetGroupSchema>(schemaTypes.Select(t => (AddressableAssetGroupSchema)Activator.CreateInstance(t))));
-
-            for (int i = 0; i < oldGroup.Schemas.Count; i++)
+            IEnumerable<string> assetPaths;
+            if (specificPaths != null && specificPaths.Count > 0)
             {
-                var src = oldGroup.Schemas[i];
-                var dst = newGroup.Schemas[i];
-                if (src && dst)
-                    EditorUtility.CopySerialized(src, dst);
+                assetPaths = specificPaths;
+            }
+            else
+            {
+                string contentRoot = $"Assets/Content/{gameId}/";
+                assetPaths = AssetDatabase.FindAssets("", new[] { contentRoot })
+                    .Select(AssetDatabase.GUIDToAssetPath)
+                    .Where(p => !string.IsNullOrEmpty(p) && !AssetDatabase.IsValidFolder(p))
+                    .Where(p => !disallowedExtensionsList.Any(p.EndsWith))
+                    .Where(p => !ShouldSkipAsset(p));
+
+                // Collect allowed assets first
+                var validAssets = AssetDatabase.FindAssets("", new[] { contentRoot })
+                    .Select(AssetDatabase.GUIDToAssetPath)
+                    .Where(p => !string.IsNullOrEmpty(p))
+                    .Where(p => !AssetDatabase.IsValidFolder(p))
+                    .Where(p => !disallowedExtensionsList.Any(ext => p.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                    .Where(p => !ShouldSkipAsset(p))
+                    .ToHashSet(); // prevent duplicates
+
+                // Then selectively remove only invalid entries
+                foreach (var group in settings.groups.Where(g => g != null))
+                {
+                    foreach (var e in group.entries.ToList())
+                    {
+                        string path = AssetDatabase.GUIDToAssetPath(e.guid);
+                        if (!validAssets.Contains(path))
+                        {
+                            settings.RemoveAssetEntry(e.guid);
+                        }
+                    }
+                }
             }
 
-            EditorUtility.SetDirty(newGroup);
-            return newGroup;
+            int labeled = 0, moved = 0;
+            foreach (var assetPath in assetPaths)
+            {
+                var guid = AssetDatabase.AssetPathToGUID(assetPath);
+                if (string.IsNullOrEmpty(guid)) continue;
+
+                var rel = assetPath.Replace("\\", "/");
+                int idx = rel.IndexOf($"{gameId}/");
+                if (idx < 0) continue;
+
+                var subPath = rel.Substring(idx + gameId.Length + 1);
+                var firstSlash = subPath.IndexOf('/');
+                string folderName = firstSlash > 0 ? subPath.Substring(0, firstSlash) : "Root";
+                string groupName = $"{Sanitize(gameId)}-{folderName}";
+
+                var group = settings.groups.FirstOrDefault(g => g != null && g.Name == groupName)
+                    ?? settings.CreateGroup(groupName, false, false, true,
+                        new List<AddressableAssetGroupSchema> {
+                            (AddressableAssetGroupSchema)Activator.CreateInstance(typeof(BundledAssetGroupSchema)),
+                            (AddressableAssetGroupSchema)Activator.CreateInstance(typeof(ContentUpdateGroupSchema))
+                        });
+
+                var bag = group.GetSchema<BundledAssetGroupSchema>() ?? group.AddSchema<BundledAssetGroupSchema>();
+                bag.BuildPath.SetVariableByName(settings, AddressableAssetSettings.kRemoteBuildPath);
+                bag.LoadPath.SetVariableByName(settings, AddressableAssetSettings.kRemoteLoadPath);
+                bag.UseAssetBundleCache = true;
+                bag.UseAssetBundleCrc = true;
+                bag.BundleMode = BundledAssetGroupSchema.BundlePackingMode.PackTogether;
+                bag.Compression = BundledAssetGroupSchema.BundleCompressionMode.LZ4;
+
+                var entry = settings.FindAssetEntry(guid);
+                if (entry == null || entry.parentGroup != group)
+                {
+                    entry = settings.CreateOrMoveEntry(guid, group, false, false);
+                    moved++;
+                }
+
+                if (AssetDatabase.GetMainAssetTypeAtPath(assetPath) == typeof(GameObject) || AssetDatabase.GetMainAssetTypeAtPath(assetPath) == typeof(AudioClip))
+                {
+                    string desiredAddress = $"{gameId}/{Path.GetFileNameWithoutExtension(assetPath)}";
+                    if (entry.address != desiredAddress)
+                        entry.address = desiredAddress;
+                }
+
+                if (!entry.labels.Contains(gameId))
+                {
+                    entry.SetLabel(gameId, true, true);
+                    labeled++;
+                }
+            }
+
+            if (labeled > 0 || moved > 0)
+                Debug.Log($"🏷 Addressables: {moved} moved/created, {labeled} labeled for '{gameId}'.");
+
+            EnforceContentNamespaces();
         }
 
         [UnityEditor.Callbacks.DidReloadScripts]
@@ -279,8 +402,9 @@ namespace DreamPark {
             }
 
             string[] csFiles = Directory.GetFiles(root, "*.cs", SearchOption.AllDirectories)
-            .Where(f => !f.Contains("/ThirdParty/") && !f.Contains("\\ThirdParty\\"))
-            .ToArray();
+                .Where(f => !f.Contains("/ThirdParty/") && !f.Contains("\\ThirdParty\\"))
+                .ToArray();
+
             int modified = 0, skipped = 0;
 
             foreach (string sysPath in csFiles)
@@ -304,49 +428,57 @@ namespace DreamPark {
                     : $"{gameId}.{folderStructure.Replace("/", ".")}";
                 expectedNamespace = SanitizeNamespace(expectedNamespace);
 
-                // read file as one string with normalized newlines
+                // read file text with normalized newlines
                 string text = File.ReadAllText(path, Encoding.UTF8)
-                                .Replace("\r\n", "\n")
-                                .Replace("\r", "\n");
+                    .Replace("\r\n", "\n")
+                    .Replace("\r", "\n");
 
-                // --- strip existing namespace wrapper if present ---
+                // strip existing namespace wrapper if present
                 var nsPattern = new System.Text.RegularExpressions.Regex(
                     @"^\s*namespace\s+[A-Za-z0-9_.]+\s*\{([\s\S]*)\}\s*$",
                     System.Text.RegularExpressions.RegexOptions.Multiline);
+
                 if (nsPattern.IsMatch(text))
                 {
                     string inner = nsPattern.Match(text).Groups[1].Value;
-                    // remove one indentation level and trim extra blank lines
                     var innerLines = inner.Split('\n')
                         .Select(l => l.StartsWith("    ") ? l.Substring(4) : l)
                         .ToList();
-                    // trim leading/trailing empties
+
                     while (innerLines.Count > 0 && string.IsNullOrWhiteSpace(innerLines[0])) innerLines.RemoveAt(0);
                     while (innerLines.Count > 0 && string.IsNullOrWhiteSpace(innerLines[^1])) innerLines.RemoveAt(innerLines.Count - 1);
                     text = string.Join("\n", innerLines);
                 }
 
-                // --- build final wrapped script with clean spacing ---
+                // wrap with clean namespace
                 var sb = new StringBuilder();
                 sb.AppendLine($"namespace {expectedNamespace}");
                 sb.AppendLine("{");
-
                 string[] rawLines = text.Split('\n');
                 foreach (var line in rawLines)
                 {
-                    // keep blank lines exactly once
                     if (string.IsNullOrWhiteSpace(line))
                         sb.AppendLine();
                     else
                         sb.AppendLine("    " + line.TrimEnd());
                 }
-
                 sb.AppendLine("}");
 
-                // collapse any >2 consecutive blank lines
-                string final = System.Text.RegularExpressions.Regex.Replace(sb.ToString(), @"\n{3,}", "\n\n");
+                string final = Regex.Replace(sb.ToString(), @"\n{3,}", "\n\n");
+
+                if (final.Contains("class CoreExtensionsInterface"))
+                {
+                    string pattern = @"(\[.*?\]\s*)?(public\s*)?(static\s+string\s+gameId\s*=\s*)(?:""[^""]*""|string\.Empty|null|[^;\n]*)";
+                    string replacement = $"${{1}}${{2}}${{3}}\"{gameId}\"";
+                    string updated = Regex.Replace(final, pattern, replacement);
+
+                    final = updated;
+                    Debug.Log($"updatedupdatedupdatedupdatedupdated: {updated}");
+
+                }
 
                 File.WriteAllText(path, final.TrimEnd() + "\n", Encoding.UTF8);
+
                 Debug.Log($"🧩 Ensured single namespace '{expectedNamespace}' in {path}");
                 modified++;
             }
@@ -364,190 +496,45 @@ namespace DreamPark {
             return ns;
         }
 
-    private static void ProcessContentPrefabsOnly()
+        [MenuItem("DreamPark/Tools/Scan Script Usage")]
+        public static void Scan()
         {
-            string gamePrefix = GetGameFolderName();
-            string contentRoot = $"Assets/Content/{gamePrefix}";
-            if (!AssetDatabase.IsValidFolder(contentRoot))
-            {
-                Debug.LogWarning($"⚠️ No folder found at {contentRoot}");
-                return;
-            }
+            string[] scriptGuids = AssetDatabase.FindAssets("t:MonoScript", new[] { "Assets/Content" });
+            var scriptPaths = scriptGuids.Select(AssetDatabase.GUIDToAssetPath).ToArray();
+            var used = new HashSet<string>();
 
-            // Get all prefabs only under this game's Content folder
-            string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { contentRoot });
-            int changed = 0, renamedFiles = 0;
+            string[] assetGuids = AssetDatabase.FindAssets("t:Object");
+            int checkedCount = 0;
 
-            foreach (var guid in guids)
+            foreach (var guid in assetGuids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
-                if (string.IsNullOrEmpty(path)) continue;
+                if (path.EndsWith(".cs") || AssetDatabase.IsValidFolder(path)) continue;
 
-                GameObject prefabRoot = null;
-                try { prefabRoot = PrefabUtility.LoadPrefabContents(path); }
-                catch { continue; }
-
-                if (prefabRoot == null) continue;
-
-                // // New root name
-                // string desiredRootName = AddPrefix(prefabRoot.name);
-                // string gameIdForPrefab = gamePrefix;
-
-                // // Rename root GO if needed
-                // if (prefabRoot.name != desiredRootName)
-                // {
-                //     prefabRoot.name = desiredRootName;
-                //     changed++;
-                // }
-
-                // Assign gameId fields inside prefab
-                var components = prefabRoot.GetComponentsInChildren<MonoBehaviour>(true);
-                foreach (var mb in components)
+                var deps = AssetDatabase.GetDependencies(path, recursive: true);
+                foreach (var dep in deps)
                 {
-                    if (mb == null) continue;
-                    var field = mb.GetType().GetField("gameId");
-                    if (field != null && field.FieldType == typeof(string))
-                    {
-                        field.SetValue(mb, gamePrefix);
-                        EditorUtility.SetDirty(mb);
-                    }
+                    if (dep.EndsWith(".cs"))
+                        used.Add(dep);
                 }
 
-                // Save and unload prefab
-                PrefabUtility.SaveAsPrefabAsset(prefabRoot, path);
-                PrefabUtility.UnloadPrefabContents(prefabRoot);
-
-                // // Rename prefab asset file to match root name (optional, safe)
-                // string currentFileName = Path.GetFileNameWithoutExtension(path);
-                // if (currentFileName != desiredRootName)
-                // {
-                //     string newPath = Path.Combine(Path.GetDirectoryName(path)!, desiredRootName + ".prefab").Replace("\\", "/");
-                //     if (!AssetDatabase.AssetPathExists(newPath))
-                //     {
-                //         string err = AssetDatabase.MoveAsset(path, newPath);
-                //         if (string.IsNullOrEmpty(err))
-                //         {
-                //             renamedFiles++;
-                //             path = newPath;
-                //         }
-                //         else Debug.LogWarning($"⚠️ Could not rename prefab asset '{currentFileName}' → '{desiredRootName}': {err}");
-                //     }
-                // }
+                checkedCount++;
             }
 
-            if (changed > 0 || renamedFiles > 0)
+            Debug.Log($"🔍 Scanned {checkedCount} assets for script dependencies.");
+
+            // --- Log all unused scripts individually ---
+            int unusedCount = 0;
+            foreach (string scriptPath in scriptPaths)
             {
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
+                if (!used.Contains(scriptPath))
+                {
+                    Debug.LogWarning($"🗑 Unused script detected: {scriptPath}");
+                    unusedCount++;
+                }
             }
 
-            Debug.Log($"🧩 Updated prefabs inside {contentRoot}. Root renames: {changed}, file renames: {renamedFiles}");
-        }
-
-        // ---------------- MAIN ----------------
-
-        [MenuItem("DreamPark/Tools/Force Update Game ID")]
-        static void AssignAllGameIds()
-        {
-            // --- Step 1: Assign gameId fields + rename scene/instances (your original behavior) ---
-            var allScripts = Resources.FindObjectsOfTypeAll<MonoBehaviour>()
-                .Where(mb => mb != null && mb.GetType().GetField("gameId") != null);
-
-            foreach (var script in allScripts)
-            {
-                var path = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(script));
-                if (string.IsNullOrEmpty(path))
-                {
-                    // Only warn for scene objects that won’t have a script asset path
-                    continue;
-                }
-
-                // not renaming the gameObject name for now
-                // string newName = AddPrefix(script.gameObject.name);
-                // script.gameObject.name = newName;
-
-                // Prefab instance
-                if (PrefabUtility.IsPartOfPrefabInstance(script.gameObject))
-                {
-                    PrefabUtility.RecordPrefabInstancePropertyModifications(script.gameObject);
-                }
-
-                // Prefab asset root loaded in memory (rare; still save)
-                if (PrefabUtility.IsPartOfPrefabAsset(script.gameObject))
-                {
-                    string prefabPath = AssetDatabase.GetAssetPath(script.gameObject);
-                    AssetDatabase.SaveAssetIfDirty(AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(prefabPath));
-                }
-
-                // Scene object
-                if (script.gameObject.scene.IsValid()) {
-                    EditorSceneManager.MarkSceneDirty(script.gameObject.scene);
-                    EditorSceneManager.SaveScene(script.gameObject.scene);
-                }
-
-                var field = script.GetType().GetField("gameId");
-                if (field != null)
-                {
-                    field.SetValue(script, GetGamePrefix());
-                    EditorUtility.SetDirty(script);
-                }
-
-                EditorUtility.SetDirty(script.gameObject);
-            }
-
-            // --- Step 1b: Process prefab ASSETS (root name + gameId inside prefab asset) ---
-            ProcessContentPrefabsOnly();
-
-            // --- Step 2: Rename Addressable Groups via migration (1.21+ safe) ---
-            var settings = AddressableAssetSettingsDefaultObject.Settings;
-            if (settings == null)
-            {
-                Debug.LogError("❌ AddressableAssetSettings not found.");
-                return;
-            }
-
-            var groupsSnapshot = settings.groups.Where(g => g != null).ToList();
-            string prefix = GetGamePrefix();
-            int migrated = 0;
-
-            foreach (var oldGroup in groupsSnapshot)
-            {
-                if (oldGroup == null || oldGroup.ReadOnly) continue;
-
-                string desiredName = AddPrefix(oldGroup.Name);
-                if (oldGroup.Name == desiredName) continue;
-
-                bool wasDefault = settings.DefaultGroup == oldGroup;
-
-                // Create or reuse destination group
-                var destGroup = settings.groups.FirstOrDefault(g => g != null && g.Name == desiredName);
-                if (destGroup == null)
-                {
-                    destGroup = CloneGroup(settings, oldGroup, desiredName);
-                }
-
-                // Move entries using the supported API
-                var entries = oldGroup.entries.ToList();
-                foreach (var entry in entries)
-                {
-                    settings.CreateOrMoveEntry(entry.guid, destGroup, readOnly: false, postEvent: false);
-                }
-
-                if (wasDefault) settings.DefaultGroup = destGroup;
-
-                RemoveGroupCompat(settings, oldGroup);
-                migrated++;
-                Debug.Log($"✅ Migrated group '{oldGroup.Name}' → '{destGroup.Name}'");
-            }
-
-            BuildGroups();
-            EnforceContentNamespaces();
-
-            settings.SetDirty(AddressableAssetSettings.ModificationEvent.GroupAdded, null, true);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-
-            Debug.Log($"🎯 Finished. Migrated {migrated} Addressable group(s) with prefix '{prefix}-'.");
+            Debug.Log($"✅ Script usage scan complete. Found {unusedCount} unused script(s).");
         }
     }
 }

@@ -128,64 +128,6 @@ public static class Extensions
         return Vector3.Distance(pos1, pos2);
     }
 
-    public static AudioSource PlaySFX(this AudioClip clip, Vector3 position, float volume = 1f, float pitch = 1f, Transform parent = null)
-    {
-        GameObject tempGO = new GameObject("TempAudio");
-        tempGO.transform.position = position;
-        AudioSource audioSource = tempGO.AddComponent<AudioSource>();
-        audioSource.clip = clip;
-        audioSource.volume = volume;
-        audioSource.spatialBlend = 1;
-        audioSource.maxDistance = 10;
-        audioSource.pitch = pitch;
-        tempGO.AddComponent<RealisticRolloff>();
-        audioSource.Play();
-        if (parent != null)
-        {
-            tempGO.transform.SetParent(parent);
-            tempGO.transform.localPosition = Vector3.zero;
-            tempGO.transform.localRotation = Quaternion.identity;
-            audioSource.loop = true;
-        }
-        else
-        {
-            UnityEngine.Object.Destroy(tempGO, clip.length);
-        }
-        return audioSource;
-    }
-
-    public static AudioSource PlaySFX(this string clipName, Vector3 position, float volume = 1f, float pitch = 1f, Transform parent = null)
-    {
-        AudioClip clip = Resources.Load<AudioClip>(clipName);
-        if (clip == null)
-        {
-            Debug.LogWarning($"Audio clip '{clipName}' not found in Resources");
-            return null;
-        }
-        return clip.PlaySFX(position, volume, pitch);
-    }
-
-    public static ParticleSystem PlayVFX(this string vfxName, Vector3 position, Quaternion rotation = default, Transform parent = null, float durationOverride = -1f)
-    {
-        ParticleSystem vfxPrefab = Resources.Load<ParticleSystem>(vfxName);
-        if (vfxPrefab == null)
-        {
-            Debug.LogWarning($"VFX '{vfxName}' not found in Resources");
-            return null;
-        }
-
-        // Instantiate the VFX at the given position and rotation, and optionally set parent
-        ParticleSystem instance = UnityEngine.Object.Instantiate(vfxPrefab, position, rotation == default ? vfxPrefab.transform.rotation : rotation, parent);
-
-        instance.Play();
-
-        // Destroy after the system's duration unless overridden
-        float lifetime = durationOverride > 0f ? durationOverride : instance.main.duration + instance.main.startLifetime.constantMax;
-        UnityEngine.Object.Destroy(instance.gameObject, lifetime);
-
-        return instance;
-    }
-
     public static void SetParentAndCenter(this Transform child, Transform parent)
     {
         child.position = parent.position;
@@ -1249,4 +1191,18 @@ public static class Extensions
 		}
 		return transform.parent;
 	}
+    public static bool IsDestroyed(this GameObject gameObject)
+    {
+        return gameObject == null || gameObject.transform == null;
+    }
+
+    public static bool IsDestroyed(this Component component)
+    {
+        return component.gameObject == null || component.gameObject.transform == null;
+    }
+
+    public static bool IsDestroyed(this Transform transform)
+    {
+        return transform.gameObject == null;
+    }
 }

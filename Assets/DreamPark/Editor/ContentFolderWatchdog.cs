@@ -1,38 +1,114 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using System;
-using System.Linq;
 
-[InitializeOnLoad]
-public static class ContentFolderWatchdog
+namespace DreamPark
 {
-    // 🚨 public event other scripts can subscribe to
-    public static event Action OnContentFolderChanged;
-
-    static ContentFolderWatchdog()
+    [InitializeOnLoad]
+    public static class ContentFolderWatchdog
     {
-        // fires whenever assets change
-        AssetPostprocessorCallback.OnAnyAssetChange += HandleAssetChange;
-    }
+        /// <summary>Fires after file changes settle, passing a list of changed absolute file paths.</summary>
+        public static event Action<List<string>> OnContentFilesChanged;
 
-    private static void HandleAssetChange(string[] paths)
-    {
-        foreach (var path in paths)
+        private static FileSystemWatcher _watcher;
+        private static readonly HashSet<string> _pendingChanges = new();
+        private static double _nextRunTime;
+        private const double DebounceSeconds = 0.5;
+
+        static ContentFolderWatchdog()
         {
-            if (path.StartsWith("Assets/Content/", StringComparison.OrdinalIgnoreCase))
+            string contentRoot = Path.Combine(Application.dataPath, "Content");
+            if (!Directory.Exists(contentRoot))
+                return;
+
+            // --- OS-level watcher ---
+            _watcher = new FileSystemWatcher(contentRoot)
             {
-                Debug.Log($"📂 Content folder changed: {path}");
-                // fire the event
-                OnContentFolderChanged?.Invoke();
-                break;
+                IncludeSubdirectories = true,
+                EnableRaisingEvents = true,
+                NotifyFilter = NotifyFilters.FileName |
+                               NotifyFilters.DirectoryName |
+                               NotifyFilters.LastWrite
+            };
+
+            _watcher.Changed += OnChanged;
+            _watcher.Created += OnChanged;
+            _watcher.Deleted += OnChanged;
+            _watcher.Renamed += OnRenamed;
+
+            // --- Unity-level fallback for imported/moved assets ---
+            AssetPostprocessorWatcher.OnAssetChanged += path =>
+            {
+                lock (_pendingChanges)
+                    _pendingChanges.Add(path);
+                Debounce();
+            };
+        }
+
+        private static void OnChanged(object sender, FileSystemEventArgs e)
+        {
+            if (e.FullPath.EndsWith(".meta", StringComparison.OrdinalIgnoreCase))
+                return;
+
+            lock (_pendingChanges)
+                _pendingChanges.Add(e.FullPath.Replace("\\", "/"));
+
+            Debounce();
+        }
+
+        private static void OnRenamed(object sender, RenamedEventArgs e)
+        {
+            lock (_pendingChanges)
+                _pendingChanges.Add(e.FullPath.Replace("\\", "/"));
+
+            Debounce();
+        }
+
+        private static void Debounce()
+        {
+            EditorApplication.update -= CheckDebounce;
+            _nextRunTime = EditorApplication.timeSinceStartup + DebounceSeconds;
+            EditorApplication.update += CheckDebounce;
+        }
+
+        private static void CheckDebounce()
+        {
+            if (EditorApplication.timeSinceStartup < _nextRunTime)
+                return;
+
+            EditorApplication.update -= CheckDebounce;
+
+            List<string> snapshot;
+            lock (_pendingChanges)
+            {
+                snapshot = _pendingChanges.ToList();
+                _pendingChanges.Clear();
             }
+
+            if (snapshot.Count > 0)
+                OnContentFilesChanged?.Invoke(snapshot);
+        }
+
+        /// <summary>
+        /// Returns true if the last detected change was under the given path (e.g. "Assets/Content/GameName").
+        /// </summary>
+        public static bool LastChangeWasUnder(string assetRelativePath)
+        {
+            string absTarget = Path.GetFullPath(assetRelativePath).Replace("\\", "/");
+            lock (_pendingChanges)
+                return _pendingChanges.Any(p => p.StartsWith(absTarget, StringComparison.OrdinalIgnoreCase));
         }
     }
 
-    // internal hook into asset pipeline
-    private class AssetPostprocessorCallback : AssetPostprocessor
+    // ---------------------------------------------------------------------
+    // Unity import fallback (catches drag-drops, FBX imports, moves, etc.)
+    // ---------------------------------------------------------------------
+    internal class AssetPostprocessorWatcher : AssetPostprocessor
     {
-        public static event Action<string[]> OnAnyAssetChange;
+        public static event Action<string> OnAssetChanged;
 
         static void OnPostprocessAllAssets(
             string[] importedAssets,
@@ -40,12 +116,24 @@ public static class ContentFolderWatchdog
             string[] movedAssets,
             string[] movedFromAssetPaths)
         {
-            // broadcast any changed paths
-            OnAnyAssetChange?.Invoke(importedAssets
-                .Concat(deletedAssets)
-                .Concat(movedAssets)
-                .Concat(movedFromAssetPaths)
-                .ToArray());
+            void Handle(IEnumerable<string> assets)
+            {
+                foreach (string path in assets)
+                {
+                    if (!path.StartsWith("Assets/Content/", StringComparison.OrdinalIgnoreCase))
+                        continue;
+                    if (path.EndsWith(".meta", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    string abs = Path.GetFullPath(path).Replace("\\", "/");
+                    OnAssetChanged?.Invoke(abs);
+                }
+            }
+
+            Handle(importedAssets);
+            Handle(deletedAssets);
+            Handle(movedAssets);
+            Handle(movedFromAssetPaths);
         }
     }
 }

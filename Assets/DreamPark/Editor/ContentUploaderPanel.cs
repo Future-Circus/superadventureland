@@ -8,6 +8,7 @@ using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Settings;
 using System.Linq;
+using UnityEngine.AddressableAssets;
 namespace DreamPark {
     public class ContentUploaderPanel : EditorWindow
     {
@@ -70,7 +71,11 @@ namespace DreamPark {
             GUI.enabled = !isUploading && !string.IsNullOrEmpty(gameId) && !string.IsNullOrEmpty(contentName);
             if (GUILayout.Button("Upload", GUILayout.Height(32)))
             {
-                UploadContent();
+                UploadContent(true);
+            }
+            if (GUILayout.Button("Try Reupload", GUILayout.Height(32)))
+            {
+                UploadContent(false);
             }
             GUI.enabled = true;
 
@@ -101,7 +106,7 @@ namespace DreamPark {
             });
         }
 
-        private void UploadContent()
+        private void UploadContent(bool build = false)
         {
             try {
             if (string.IsNullOrEmpty(gameId))
@@ -134,22 +139,45 @@ namespace DreamPark {
                     {
                         Debug.LogWarning("ServerData folder does not exist.");
                     }
-                                    
-                    BuildUnityPackage(gameId);
-                    BuildForTarget(BuildTarget.Android, BuildTargetGroup.Android, $"{targetUrl}/Android");
-                    BuildForTarget(BuildTarget.iOS, BuildTargetGroup.iOS, $"{targetUrl}/iOS");
-                    BuildForTarget(BuildTarget.StandaloneOSX, BuildTargetGroup.Standalone, $"{targetUrl}/StandaloneOSX");
-                    BuildForTarget(BuildTarget.StandaloneWindows, BuildTargetGroup.Standalone, $"{targetUrl}/StandaloneWindows");
-                    ContentAPI.UploadContent(gameId, (success, response) => {
-                        if (success) {
-                            Debug.Log("✅ Content uploaded successfully");
-                            EditorUtility.DisplayDialog("Success", $"'{contentName}' uploaded successfully!", "OK");
-                        } else {
-                            Debug.LogError($"❌ Content uploaded failed: {response.error}");
-                            EditorUtility.DisplayDialog("Error", $"Upload failed: {response.error}", "OK");
+
+                    bool buildSuccess = true;
+                    try
+                    {      
+                        if (build) {
+                            Caching.ClearCache();
+                            Addressables.ClearResourceLocators();
+                            AssetDatabase.Refresh();
+                            Debug.Log("✅ Cache purge complete.");
+
+                            //refresh database with new addressables
+                            ContentProcessor.AssignAllGameIds();
+
+                            buildSuccess &= BuildUnityPackage(gameId);
+                            if (!buildSuccess) throw new Exception("Unity package build failed");
+                            buildSuccess &= BuildForTarget(BuildTarget.Android, BuildTargetGroup.Android, $"{targetUrl}/Android");
+                            if (!buildSuccess) throw new Exception("Android build failed");
+                            buildSuccess &= BuildForTarget(BuildTarget.iOS, BuildTargetGroup.iOS, $"{targetUrl}/iOS");
+                            if (!buildSuccess) throw new Exception("iOS build failed");
+                            buildSuccess &= BuildForTarget(BuildTarget.StandaloneOSX, BuildTargetGroup.Standalone, $"{targetUrl}/StandaloneOSX");
+                            if (!buildSuccess) throw new Exception("OSX build failed");
+                            buildSuccess &= BuildForTarget(BuildTarget.StandaloneWindows, BuildTargetGroup.Standalone, $"{targetUrl}/StandaloneWindows");
+                            if (!buildSuccess) throw new Exception("Windows build failed");
                         }
+                        ContentAPI.UploadContent(gameId, (success, response) => {
+                            if (success) {
+                                Debug.Log("✅ Content uploaded successfully");
+                                EditorUtility.DisplayDialog("Success", $"'{contentName}' uploaded successfully!", "OK");
+                            } else {
+                                Debug.LogError($"❌ Content uploaded failed: {response.error}");
+                                EditorUtility.DisplayDialog("Error", $"Upload failed: {response.error}", "OK");
+                            }
+                            isUploading = false;
+                        });
+                    } catch (Exception e) {
+                        Debug.LogError("❌ Addressable build failed: " + e);
+                        EditorUtility.DisplayDialog("Error", $"Error: {e.Message}", "OK");
                         isUploading = false;
-                    });
+                    }
                     return;
                 }
                 else
@@ -159,7 +187,7 @@ namespace DreamPark {
                         if (success)
                         {
                             Debug.Log($"✅ Content '{contentName}' uploaded successfully!");
-                            UploadContent();
+                            UploadContent(build);
                         }
                         else
                         {
@@ -176,7 +204,7 @@ namespace DreamPark {
                 isUploading = false;
             }
         }
-        public static void BuildForTarget(BuildTarget target, BuildTargetGroup group, string targetUrl)
+        public static bool BuildForTarget(BuildTarget target, BuildTargetGroup group, string targetUrl)
         {
             try {
                 
@@ -212,13 +240,14 @@ namespace DreamPark {
                     throw new System.Exception($"❌ Addressables build failed for {target}: {result.Error}");
                 }
                 Debug.Log($"✅ Addressables build complete for {target}");
-
+                return true;
             } catch (Exception e) {
                 Debug.LogError($"❌ Addressables build failed for {target}: {e}");
+                return false;
             }
         }
 
-        public static void BuildUnityPackage(string contentId) {
+        public static bool BuildUnityPackage(string contentId) {
             Debug.Log($"Building unity package for {contentId}");
             try {
             string sourceFolder = "Assets/Content/" + ContentProcessor.GetGamePrefix(); // change this to your folder
@@ -231,7 +260,7 @@ namespace DreamPark {
                 if (assetPaths.Length == 0)
                 {
                     Debug.LogError("No scripts found in folder: " + sourceFolder);
-                    return;
+                    return false;
                 }
 
                 // Export to a temporary location
@@ -260,8 +289,10 @@ namespace DreamPark {
                 File.Copy(tempPath, destPath, overwrite: true);
 
                 Debug.Log("Scripts exported to: " + destPath);
+                return true;
             } catch (Exception e) {
                 Debug.LogError("❌ Content upload failed: " + e);
+                return false;
             }
         }
     }
