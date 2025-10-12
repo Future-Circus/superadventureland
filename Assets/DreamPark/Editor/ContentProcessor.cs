@@ -23,6 +23,20 @@ namespace DreamPark {
             ContentFolderWatchdog.OnContentFilesChanged += OnContentFilesChanged;
         }
 
+        [InitializeOnLoadMethod]
+        private static void RunOnStartup()
+        {
+            // Wait until the editor is fully ready (one frame delay)
+            EditorApplication.delayCall += () =>
+            {
+                if (!EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isCompiling)
+                {
+                    Debug.Log("🪄 Auto-running AssignAllGameIds on Editor startup...");
+                    AssignAllGameIds();
+                }
+            };
+        }
+
         // ---------------------------------------------------------------------
         // Helpers
         // ---------------------------------------------------------------------
@@ -310,26 +324,32 @@ namespace DreamPark {
                     .Where(p => !disallowedExtensionsList.Any(p.EndsWith))
                     .Where(p => !ShouldSkipAsset(p));
 
-                // Collect allowed assets first
-                var validAssets = AssetDatabase.FindAssets("", new[] { contentRoot })
-                    .Select(AssetDatabase.GUIDToAssetPath)
-                    .Where(p => !string.IsNullOrEmpty(p))
-                    .Where(p => !AssetDatabase.IsValidFolder(p))
-                    .Where(p => !disallowedExtensionsList.Any(ext => p.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
-                    .Where(p => !ShouldSkipAsset(p))
-                    .ToHashSet(); // prevent duplicates
+                try {
+                    // Collect allowed assets first
+                    var validAssets = AssetDatabase.FindAssets("", new[] { contentRoot })
+                        .Select(AssetDatabase.GUIDToAssetPath)
+                        .Where(p => !string.IsNullOrEmpty(p))
+                        .Where(p => !AssetDatabase.IsValidFolder(p))
+                        .Where(p => !disallowedExtensionsList.Any(ext => p.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                        .Where(p => !ShouldSkipAsset(p))
+                        .ToHashSet(); // prevent duplicates
 
-                // Then selectively remove only invalid entries
-                foreach (var group in settings.groups.Where(g => g != null))
-                {
-                    foreach (var e in group.entries.ToList())
+                    // Then selectively remove only invalid entries
+                    foreach (var group in settings.groups.Where(g => g != null))
                     {
-                        string path = AssetDatabase.GUIDToAssetPath(e.guid);
-                        if (!validAssets.Contains(path))
+                        foreach (var e in group.entries.ToList())
                         {
-                            settings.RemoveAssetEntry(e.guid);
+                            string path = AssetDatabase.GUIDToAssetPath(e.guid);
+                            if (!validAssets.Contains(path))
+                            {
+                                settings.RemoveAssetEntry(e.guid);
+                            }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"Error removing invalid assets from content entries: {e.Message}");
                 }
             }
 
