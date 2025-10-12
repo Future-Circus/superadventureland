@@ -80,6 +80,7 @@ namespace DreamPark {
         [MenuItem("DreamPark/Tools/Force Update Game ID")]
         public static void AssignAllGameIds()
         {
+            Debug.Log("🔄 Assigning all game IDs...");
             if (EditorApplication.isCompiling || EditorApplication.isUpdating) return;
 
             string gamePrefix = GetGameFolderName();
@@ -243,7 +244,7 @@ namespace DreamPark {
                                 var obj = prop.objectReferenceValue;
                                 if (obj != null && (obj.hideFlags & (HideFlags.DontSave | HideFlags.HideAndDontSave)) != 0)
                                 {
-                                    Debug.LogWarning($"⏭️ Skipped prefab with hidden DontSave reference ({obj.name}) in {assetPath}");
+                                    //Debug.LogWarning($"⏭️ Skipped prefab with hidden DontSave reference ({obj.name}) in {assetPath}");
                                     return true;
                                 }
                             }
@@ -452,6 +453,20 @@ namespace DreamPark {
                 string text = File.ReadAllText(path, Encoding.UTF8)
                     .Replace("\r\n", "\n")
                     .Replace("\r", "\n");
+                    
+                var nsPatternCheck = new Regex(@"^\s*namespace\s+([A-Za-z0-9_.]+)", RegexOptions.Multiline);
+
+                var match = nsPatternCheck.Match(text);
+                if (match.Success)
+                {
+                    string existingNamespace = match.Groups[1].Value.Trim();
+                    if (existingNamespace == expectedNamespace)
+                    {
+                        // ✅ Namespace already correct — skip rewriting
+                        skipped++;
+                        continue;
+                    }
+                }
 
                 // strip existing namespace wrapper if present
                 var nsPattern = new System.Text.RegularExpressions.Regex(
@@ -460,6 +475,13 @@ namespace DreamPark {
 
                 if (nsPattern.IsMatch(text))
                 {
+                    string existingNamespace = nsPattern.Match(text).Groups[1].Value.Trim();
+                    if (existingNamespace == expectedNamespace)
+                    {
+                        // ✅ Already correct, skip rewriting
+                        skipped++;
+                        continue;
+                    }
                     string inner = nsPattern.Match(text).Groups[1].Value;
                     var innerLines = inner.Split('\n')
                         .Select(l => l.StartsWith("    ") ? l.Substring(4) : l)
@@ -494,7 +516,6 @@ namespace DreamPark {
 
                     final = updated;
                     Debug.Log($"updatedupdatedupdatedupdatedupdated: {updated}");
-
                 }
 
                 File.WriteAllText(path, final.TrimEnd() + "\n", Encoding.UTF8);
