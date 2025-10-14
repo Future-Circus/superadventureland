@@ -7,9 +7,10 @@
     using System;
     using System.IO;
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.SceneManagement;
+    using DreamPark;
 
     [CustomEditor(typeof(ProceduralLavaPit), true)]
     public class ProceduralLavaPitEditor : UnityEditor.Editor
@@ -29,10 +30,12 @@
                 lavaPit.SaveMeshIfPrefab();
             }
 
-            if (!_boot) {
+            if (!_boot)
+            {
                 _boot = true;
-                if (lavaPit.points.Count == 0) {
-                lavaPit.points = new Vector3[]{
+                if (lavaPit.points.Count == 0)
+                {
+                    lavaPit.points = new Vector3[]{
                     new Vector3(-1, 0, -1),
                     new Vector3(1, 0, -1),
                     new Vector3(1, 0, 1),
@@ -42,10 +45,14 @@
             }
         }
 
-         private Vector3 PlayModeConversion (Vector3 v, ProceduralLavaPit p) {
-            if (Application.isPlaying) {
+        private Vector3 PlayModeConversion(Vector3 v, ProceduralLavaPit p)
+        {
+            if (Application.isPlaying)
+            {
                 return p.ogPosition.TransformPoint(v);
-            } else {
+            }
+            else
+            {
                 return p.transform.TransformPoint(v);
             }
         }
@@ -100,7 +107,7 @@
             }
         }
     }
-    #endif
+#endif
 
     [ExecuteInEditMode]
     public class ProceduralLavaPit : MonoBehaviour
@@ -115,15 +122,19 @@
         public int subdivisions = 10;
         [Range(1.0f, 100.0f)]
         public float textureScale = 40f;
+        public float warningInterval = 5f;
         public Material stoneMaterial;
         public Material lavaMaterial;
         public Material occluderMaterial;
         private GameObject depthMaskObject;
         private MeshFilter depthMaskMeshFilter;
+        private float timeInside = 0f;
+        private float nextWarningTime = 0f;
 
         [NonSerialized] public Transform ogPosition;
 
-        void Awake () {
+        void Awake()
+        {
             if (!Application.isPlaying)
                 return;
 
@@ -133,9 +144,34 @@
             ogPosition.parent = transform.parent;
         }
 
-        void Start() {
-            if (Application.isPlaying) {
+        void Start()
+        {
+            if (Application.isPlaying)
+            {
                 SetupDepthMask();
+            }
+        }
+
+        void Update()
+        {
+            if (IsPlayerVolumeInsidePit(Camera.main.transform))
+            {
+                // Track continuous time inside
+                timeInside += Time.deltaTime;
+
+                // First second passes before first warning
+                if (timeInside >= warningInterval && Time.time >= nextWarningTime)
+                {
+                    Debug.LogWarning("⚠️ Player is inside the lava pit!");
+                    SpawnCoinSplash();
+                    nextWarningTime = Time.time + warningInterval;
+                }
+            }
+            else
+            {
+                // Reset all timers when leaving pit
+                timeInside = 0f;
+                nextWarningTime = 0f;
             }
         }
 
@@ -186,7 +222,7 @@
 
                 // UVs for walls based on cumulative length
                 float u = cumulativeLength / totalWallLength;
-                u = u*textureScale;
+                u = u * textureScale;
                 uvs.Add(new Vector2(u, 1)); // Top UV
                 uvs.Add(new Vector2(u, 0)); // Bottom UV
                 cumulativeLength += segmentLengths[i];
@@ -251,7 +287,7 @@
                     vertices.Add(edgeStart);
                     vertices.Add(edgeEnd);
 
-                      // Add UVs for subdivisions
+                    // Add UVs for subdivisions
                     uvs.Add(new Vector2(0.5f, 0.5f)); // Placeholder UV for edgeStart
                     uvs.Add(new Vector2(0.5f, 0.5f)); // Placeholder UV for edgeEnd
 
@@ -279,7 +315,7 @@
             {
                 Vector3 top = transform.TransformPoint(p[i]);
                 Vector3 occluderTop = top + new Vector3(0, 0.01f, 0); // Slightly above ground
-                Vector3 occluderBottom = transform.TransformPoint(p[i]) - new Vector3(0, Mathf.Max(depth,0.5f), 0);
+                Vector3 occluderBottom = transform.TransformPoint(p[i]) - new Vector3(0, Mathf.Max(depth, 0.5f), 0);
 
                 vertices.Add(transform.InverseTransformPoint(occluderTop)); // Top occluder vertex
                 vertices.Add(transform.InverseTransformPoint(occluderBottom)); // Bottom occluder vertex
@@ -346,7 +382,8 @@
             MeshFilter maskMeshFilter;
 
             // Create a new GameObject for the depth mask
-            if (depthMaskObject == null) {
+            if (depthMaskObject == null)
+            {
                 depthMaskObject = new GameObject("DepthMask");
                 depthMaskObject.transform.SetParent(referenceMeshFilter.transform, false);
                 depthMaskMeshFilter = depthMaskObject.AddComponent<MeshFilter>();
@@ -371,7 +408,7 @@
                 new Vector2(0, 1)
             };
 
-           List<int> triangles = new List<int>
+            List<int> triangles = new List<int>
             {
                 0, 2, 1,  // First triangle (flipped)
                 0, 3, 2   // Second triangle (flipped)
@@ -415,13 +452,14 @@
 
             environmentDepthManager.MaskBias = 0.2f;
         }
-        public virtual void PreProcessGenerateLavaPit() {
+        public virtual void PreProcessGenerateLavaPit()
+        {
             GenerateLavaPit(new List<Vector3>(points));
         }
 
         public void SaveMeshIfPrefab()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             Debug.Log("Save Mesh!");
             Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
 
@@ -432,7 +470,8 @@
             }
 
             PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
-            if (prefabStage == null) {
+            if (prefabStage == null)
+            {
                 Debug.Log("Not part of a prefab instance — skipping mesh save.");
                 return;
             }
@@ -462,18 +501,20 @@
 
             // Assign mesh
             MeshFilter mf = gameObject.GetComponent<MeshFilter>();
-            if (mf != null) {
+            if (mf != null)
+            {
                 mf.sharedMesh = AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
                 EditorSceneManager.MarkSceneDirty(prefabStage.scene);
             }
 
             Debug.Log($"Saved mesh to {meshPath} and assigned to prefab '{prefabName}'");
-            #endif
+#endif
         }
 
         private void OnDestroy()
         {
-            if (depthMaskObject != null) {
+            if (depthMaskObject != null)
+            {
                 EnvironmentDepthManager environmentDepthManager = FindFirstObjectByType<EnvironmentDepthManager>();
 
                 if (environmentDepthManager == null)
@@ -482,6 +523,72 @@
                     return;
                 }
                 environmentDepthManager.MaskMeshFilters = environmentDepthManager.MaskMeshFilters.Except(new List<MeshFilter> { depthMaskMeshFilter }).ToList();
+            }
+        }
+
+        public bool IsPlayerVolumeInsidePit(Transform playerTransform)
+        {
+            Vector3 halfSize = 0.15f * Vector3.one;
+
+            // All 8 corners of the cube (in local space relative to its transform)
+            Vector3[] localCorners = new Vector3[]
+            {
+                new Vector3(-halfSize.x, 0, -halfSize.z),
+                new Vector3(-halfSize.x, 0,  halfSize.z),
+                new Vector3( halfSize.x, 0, -halfSize.z),
+                new Vector3( halfSize.x, 0,  halfSize.z),
+            };
+
+            foreach (var cornerLocal in localCorners)
+            {
+                // Convert corner to world, then to pit local space
+                Vector3 worldCorner = playerTransform.TransformPoint(cornerLocal);
+                Vector3 localToPit = transform.InverseTransformPoint(worldCorner);
+
+                // Check if corner is inside polygon
+                if (!IsPointInPolygon(localToPit, points))
+                {
+                    return false; // If any corner is outside, cube is not fully inside
+                }
+            }
+
+            return true; // All corners inside
+        }
+
+        public bool IsPlayerPointInsidePit(Transform playerTransform)
+        {
+            // Convert player position to local space of the pit
+            Vector3 localPos = transform.InverseTransformPoint(playerTransform.position);
+
+            // Run point-in-polygon test
+            return IsPointInPolygon(localPos, points);
+        }
+
+        // Classic even-odd rule point-in-polygon test
+        private bool IsPointInPolygon(Vector3 point, List<Vector3> polygon)
+        {
+            bool inside = false;
+            for (int i = 0, j = polygon.Count - 1; i < polygon.Count; j = i++)
+            {
+                bool intersect = ((polygon[i].z > point.z) != (polygon[j].z > point.z)) &&
+                                 (point.x < (polygon[j].x - polygon[i].x) * (point.z - polygon[i].z) /
+                                 (polygon[j].z - polygon[i].z) + polygon[i].x);
+                if (intersect)
+                    inside = !inside;
+            }
+            return inside;
+        }
+
+        private void SpawnCoinSplash()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                // Small random offset around the spawn point
+                Vector3 randomPos = Camera.main.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f;
+                randomPos.y = Camera.main.transform.position.y; // keep items starting on chest height
+
+                Item coin = Instantiate(Resources.Load<Item>("E_COIN"), randomPos, UnityEngine.Random.rotation);
+                coin.dp_canSplash = true;
             }
         }
     }

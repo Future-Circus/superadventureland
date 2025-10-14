@@ -40,7 +40,7 @@
         [HideInInspector] public string dp_collectFx = "FX_CoinParticle";
         [HideInInspector] public string dp_collectSfx = "coin";
         [HideInInspector] public float dp_spawnUpwardForce = 8f;
-        [HideInInspector] public float dp_spawnOutwardForce = 2f;
+        [HideInInspector] public float dp_spawnOutwardForce = 1f;
         public bool dp_isStatic = true;
         public bool dp_canSplash = false;
 
@@ -128,19 +128,23 @@
                     }
                     break;
                 case ItemState.SPLASH:
+                    rb.excludeLayers = ~0;
                     rb.useGravity = true;
                     rb.isKinematic = false;
-                    Vector2 randomCircle = Random.insideUnitCircle.normalized;
-                    Vector3 horizontalDir = new Vector3(randomCircle.x, 0f, randomCircle.y);
+                    float maxAngle = 30f;
+                    float angleOffset = Random.Range(-maxAngle, maxAngle);
+                    Vector3 forwardDir = Camera.main.transform.forward; // define "forward" of the chest/player
+                    Vector3 rotatedDir = Quaternion.Euler(0f, angleOffset, 0f) * forwardDir;
                     float upwardForce = Random.Range(dp_spawnUpwardForce * 0.6f, dp_spawnUpwardForce * 0.8f);
                     float outwardForce = Random.Range(dp_spawnOutwardForce * 0.6f, dp_spawnOutwardForce * 0.8f);
-                    Vector3 finalForce = horizontalDir * outwardForce + Vector3.up * upwardForce;
+                    Vector3 finalForce = rotatedDir * outwardForce + Vector3.up * upwardForce;
                     rb.AddForce(finalForce, ForceMode.Impulse);
                     rb.AddTorque(Random.insideUnitSphere * outwardForce * 0.3f, ForceMode.Impulse);
                     break;
                 case ItemState.SPLASHING:
                     if (transform.position.y < 0f)
                     {
+                        rb.excludeLayers = 0;
                         rb.linearVelocity = Vector3.zero;
                         rb.isKinematic = true;
                         SetState(ItemState.RISE);
