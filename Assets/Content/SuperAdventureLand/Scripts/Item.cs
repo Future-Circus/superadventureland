@@ -3,11 +3,12 @@
     using UnityEngine;
     using UnityEngine.Events;
     using Random = UnityEngine.Random;
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.Events;
-    #endif
-    public enum ItemState {
+#endif
+    public enum ItemState
+    {
         START,
         STARTING,
         DROP,
@@ -25,6 +26,8 @@
         DESTROYED,
         POP,
         POPPING,
+        SPLASH,
+        SPLASHING
     }
 
     public class Item : Entity<ItemState>
@@ -36,7 +39,10 @@
         [HideInInspector] private float currentYRotation = 0.0f; // Track current Y-axis rotation for constant rotation
         [HideInInspector] public string dp_collectFx = "FX_CoinParticle";
         [HideInInspector] public string dp_collectSfx = "coin";
+        [HideInInspector] public float dp_spawnUpwardForce = 8f;
+        [HideInInspector] public float dp_spawnOutwardForce = 2f;
         public bool dp_isStatic = true;
+        public bool dp_canSplash = false;
 
         private Vector3 popUpForce;
         private Vector3 popUpTorque;
@@ -46,12 +52,21 @@
             base.Start();
             dp_trueHeight = transform.localPosition.y + dp_targetHeight;
         }
-        public override void ExecuteState() {
-            switch (state) {
+        public override void ExecuteState()
+        {
+            switch (state)
+            {
                 case ItemState.START:
-                    if (dp_isStatic) {
+                    if (dp_canSplash)
+                    {
+                        SetState(ItemState.SPLASH);
+                    }
+                    else if (dp_isStatic)
+                    {
                         SetState(ItemState.SPIN);
-                    } else {
+                    }
+                    else
+                    {
                         SetState(ItemState.DROP);
                     }
                     break;
@@ -107,8 +122,28 @@
                     rb.AddTorque(popUpTorque, ForceMode.Impulse);
                     break;
                 case ItemState.POPPING:
-                    if (!stateWillChange) {
+                    if (!stateWillChange)
+                    {
                         SetState(ItemState.DROP);
+                    }
+                    break;
+                case ItemState.SPLASH:
+                    rb.useGravity = true;
+                    rb.isKinematic = false;
+                    Vector2 randomCircle = Random.insideUnitCircle.normalized;
+                    Vector3 horizontalDir = new Vector3(randomCircle.x, 0f, randomCircle.y);
+                    float upwardForce = Random.Range(dp_spawnUpwardForce * 0.6f, dp_spawnUpwardForce * 0.8f);
+                    float outwardForce = Random.Range(dp_spawnOutwardForce * 0.6f, dp_spawnOutwardForce * 0.8f);
+                    Vector3 finalForce = horizontalDir * outwardForce + Vector3.up * upwardForce;
+                    rb.AddForce(finalForce, ForceMode.Impulse);
+                    rb.AddTorque(Random.insideUnitSphere * outwardForce * 0.3f, ForceMode.Impulse);
+                    break;
+                case ItemState.SPLASHING:
+                    if (transform.position.y < 0f)
+                    {
+                        rb.linearVelocity = Vector3.zero;
+                        rb.isKinematic = true;
+                        SetState(ItemState.RISE);
                     }
                     break;
                 default:
@@ -129,33 +164,45 @@
 
         public virtual void GroundHit(CollisionWrapper collision)
         {
-            if (isSpinning) {
+            if (isSpinning)
+            {
                 return;
             }
-            if (lastCollision != null) {
-                if (transform.parent != null) {
+
+            if (lastCollision != null)
+            {
+                if (transform.parent != null)
+                {
                     var worldToLocal = transform.parent.InverseTransformPoint(lastCollision.collisionPoint);
                     dp_trueHeight = worldToLocal.y + dp_targetHeight;
-                } else {
+                }
+                else
+                {
                     dp_trueHeight = lastCollision.collisionPoint.y + dp_targetHeight;
                 }
             }
 
-            if (state == ItemState.DROP || state == ItemState.DROPPING) {
+            if (state == ItemState.DROP || state == ItemState.DROPPING)
+            {
                 SetState(ItemState.GROUNDING);
             }
         }
         public virtual void LevelHit(CollisionWrapper collision)
         {
-            if (isSpinning) {
+            if (isSpinning)
+            {
                 return;
             }
             lastCollision = collision;
-            if (lastCollision != null) {
-                if (transform.parent != null) {
+            if (lastCollision != null)
+            {
+                if (transform.parent != null)
+                {
                     var worldToLocal = transform.parent.InverseTransformPoint(lastCollision.collisionPoint);
                     dp_trueHeight = worldToLocal.y + dp_targetHeight;
-                } else {
+                }
+                else
+                {
                     dp_trueHeight = lastCollision.collisionPoint.y + dp_targetHeight;
                 }
             }
@@ -173,8 +220,9 @@
             SetState(ItemState.POP);
         }
 
-        public void SetupInteractionFilters() {
-            #if UNITY_EDITOR
+        public void SetupInteractionFilters()
+        {
+#if UNITY_EDITOR
             interactionFilters = new InteractionFilter[] {
                 new InteractionFilter {
                     layers = new string[] { "Player" },
@@ -204,20 +252,23 @@
             UnityEventTools.AddPersistentListener(interactionFilters[2].onInteractionEnter, LavaHit);
             UnityEventTools.AddPersistentListener(interactionFilters[3].onInteractionEnter, LevelHit);
             UnityEditor.EditorUtility.SetDirty(this);
-            #endif
+#endif
         }
 
-         public void OnValidate()
+        public void OnValidate()
         {
-            #if UNITY_EDITOR
-            if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0)) {
+#if UNITY_EDITOR
+            if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0))
+            {
                 SetupInteractionFilters();
             }
-            #endif
+#endif
         }
 
-        public bool isSpinning {
-            get {
+        public bool isSpinning
+        {
+            get
+            {
                 return state == ItemState.SPIN || state == ItemState.SPINNING;
             }
         }
