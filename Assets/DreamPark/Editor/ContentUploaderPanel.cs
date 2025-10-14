@@ -126,7 +126,7 @@ namespace DreamPark {
                     Debug.Log("Content found: " + response.json.Print());
                     var contentDirectory = response.json;
                     var versionNumber = contentDirectory.HasField("content") && contentDirectory.GetField("content").HasField("versions") ? contentDirectory.GetField("content").GetField("versions").list.Count+1 : 1;     
-                    var targetUrl = $"https://dreampark-dev-da8108e9492c.herokuapp.com/api/content/addressables/{gameId}/{versionNumber}";
+                    var targetUrl = $"https://dreampark-dev-da8108e9492c.herokuapp.com/app/content/addressables/{gameId}/{versionNumber}";
 
                     string projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
                     string serverDataPath = Path.Combine(projectRoot, "ServerData");
