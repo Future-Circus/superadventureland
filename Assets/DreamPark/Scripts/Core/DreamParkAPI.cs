@@ -60,6 +60,15 @@ namespace DreamPark.API
             CoroutineRunner.Run(PostRequest(url, authToken, bodyRaw, callback));
             #endif
         }
+        public static void PUT(string endpoint, string authToken, byte[] data, string contentType, Action<bool, string> callback)
+        {
+            var url = endpoint.StartsWith("http") ? endpoint : devBaseUrl + endpoint;
+            #if UNITY_EDITOR
+            EditorCoroutineUtility.StartCoroutineOwnerless(PutRequest(url, data, contentType, callback));
+            #else
+            CoroutineRunner.Run(PutRequest(url, data, contentType, callback));
+            #endif
+        }
 
         public static void GET(string endpoint, string authToken, Action<bool, APIResponse> callback)
         {
@@ -131,6 +140,31 @@ namespace DreamPark.API
 
                 var response = BuildResponse(req);
                 callback?.Invoke(response.success, response);
+            }
+        }
+
+        private static IEnumerator PutRequest(string url, byte[] data, string contentType, Action<bool, string> callback)
+        {
+            using (UnityWebRequest req = new UnityWebRequest(url, "PUT"))
+            {
+                req.uploadHandler = new UploadHandlerRaw(data);
+                req.downloadHandler = new DownloadHandlerBuffer();
+                req.SetRequestHeader("Content-Type", contentType);
+
+                var op = req.SendWebRequest();
+                while (!op.isDone)
+                {
+                    Debug.Log($"[Signed Upload] Progress: {req.uploadProgress:P1}");
+                    yield return null;
+                }
+
+                bool success = req.result == UnityWebRequest.Result.Success || req.responseCode == 200;
+                if (success)
+                    Debug.Log($"✅ Uploaded successfully to Firebase: {url}");
+                else
+                    Debug.LogError($"❌ Upload failed: {req.responseCode} - {req.error}");
+
+                callback?.Invoke(success, req.downloadHandler.text);
             }
         }
 

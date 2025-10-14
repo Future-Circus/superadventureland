@@ -130,20 +130,20 @@ namespace DreamPark {
 
                     string projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
                     string serverDataPath = Path.Combine(projectRoot, "ServerData");
-                    if (Directory.Exists(serverDataPath))
-                    {
-                        Directory.Delete(serverDataPath, true);
-                        Debug.Log("ServerData folder deleted successfully.");
-                    }
-                    else
-                    {
-                        Debug.LogWarning("ServerData folder does not exist.");
-                    }
 
                     bool buildSuccess = true;
                     try
                     {      
                         if (build) {
+                            if (Directory.Exists(serverDataPath))
+                            {
+                                Directory.Delete(serverDataPath, true);
+                                Debug.Log("ServerData folder deleted successfully.");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("ServerData folder does not exist.");
+                            }
                             Caching.ClearCache();
                             Addressables.ClearResourceLocators();
                             AssetDatabase.Refresh();
@@ -260,7 +260,7 @@ namespace DreamPark {
                 if (assetPaths.Length == 0)
                 {
                     Debug.LogError("No scripts found in folder: " + sourceFolder);
-                    return false;
+                    return true;
                 }
 
                 // Export to a temporary location
