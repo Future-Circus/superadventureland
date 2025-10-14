@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Defective.JSON;
 using UnityEngine;
+using UnityEngine.Networking;
 using APIResponse = DreamPark.API.DreamParkAPI.APIResponse;
 
 namespace DreamPark.API
@@ -33,7 +35,7 @@ namespace DreamPark.API
         public List<UploadContentData> data = null;
 
         public PlatformContentData(string platform) {
-            this.platform = platform.ToLower();
+            this.platform = platform;
             string directory = Path.Combine("ServerData", this.platform);
             if (Directory.Exists(directory))
             {
@@ -138,12 +140,148 @@ namespace DreamPark.API
         }
 
         public static void UploadContent(string contentId, Action<bool, APIResponse> callback) {
+            // 1️⃣ Collect local files for all platforms
             UploadContentRequest data = new UploadContentRequest();
-            var list = data.ToList();
-            Debug.Log("Uploading content: " + list);
-            DreamParkAPI.POST($"/api/content/{contentId}/upload", AuthAPI.GetUserAuth(), list, (success, response) => {
-                callback?.Invoke(success, response);
-            });
+            var files = data.ToList();
+
+            if (files == null || files.Count == 0)
+            {
+                Debug.LogWarning("No files found to upload.");
+                callback?.Invoke(false, new DreamParkAPI.APIResponse(false, 0, "No files found"));
+                return;
+            }
+
+            Debug.Log($"[ContentAPI] Uploading {files.Count} files for content {contentId}");
+
+        #if UNITY_EDITOR
+            Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutineOwnerless(UploadFlow(contentId, files, callback));
+        #else
+            CoroutineRunner.Run(UploadFlow(contentId, files, callback));
+        #endif
+        }
+
+        private static IEnumerator UploadFlow(string contentId, List<KeyValuePair<string, UploadContentData>> files, Action<bool, APIResponse> callback)
+        {
+            // Convert coroutine to async UniTask for concurrency
+            UploadFlowAsync(contentId, files, callback).Forget();
+            yield break;
+        }
+
+        private static async UniTaskVoid UploadFlowAsync(string contentId, List<KeyValuePair<string, UploadContentData>> files, Action<bool, DreamParkAPI.APIResponse> callback)
+        {
+            int uploaded = 0;
+            int failed = 0;
+            int versionNumber = 1;
+            var uploadTasks = new List<UniTask>();
+            var uploadedFilesDict = new Dictionary<string, List<string>>();
+
+            // 🔹 Create a parallel upload task for each file
+            foreach (var kvp in files)
+            {
+                string platform = kvp.Key;
+                UploadContentData file = kvp.Value;
+
+                uploadTasks.Add(HandleFileUpload(contentId, platform, file)
+                    .ContinueWith(result =>
+                    {
+                        if (result.success)
+                        {
+                            uploaded++;
+                            lock (uploadedFilesDict)
+                            {
+                                if (!uploadedFilesDict.ContainsKey(platform))
+                                    uploadedFilesDict[platform] = new List<string>();
+                                uploadedFilesDict[platform].Add(result.uploadPath);
+                            }
+                        }
+                        else
+                        {
+                            failed++;
+                        }
+                    }));
+            }
+
+            // 🔹 Wait for all uploads to complete concurrently
+            await UniTask.WhenAll(uploadTasks);
+
+            bool overallSuccess = failed == 0;
+            string summary = $"Uploaded {uploaded}/{files.Count} files ({failed} failed)";
+            Debug.Log($"[ContentUploader] {summary}");
+
+            // 🔹 Build commit body
+            JSONObject commitBody = new JSONObject();
+            JSONObject uploadedFilesJson = new JSONObject();
+
+            foreach (var kvp in uploadedFilesDict)
+            {
+                JSONObject arr = new JSONObject(JSONObject.Type.Array);
+                foreach (var path in kvp.Value)
+                    arr.Add(path);
+                uploadedFilesJson.AddField(kvp.Key, arr);
+            }
+
+            commitBody.AddField("uploadedFiles", uploadedFilesJson);
+            commitBody.AddField("versionNumber", versionNumber);
+
+            // 🔹 Commit upload version metadata to server
+            DreamParkAPI.POST($"/api/content/{contentId}/commitUpload", AuthAPI.GetUserAuth(), commitBody,
+                (success, response) =>
+                {
+                    Debug.Log(success ? "✅ Version committed!" : $"❌ Commit failed: {response.error}");
+                    callback?.Invoke(success, response);
+                });
+        }
+
+        private static async UniTask<(bool success, string uploadPath)> HandleFileUpload(string contentId, string platform, UploadContentData file)
+        {
+            try
+            {
+                // Step 1: request presigned URL
+                var body = new JSONObject();
+                body.AddField("platform", platform);
+                body.AddField("filename", file.fileName);
+                body.AddField("contentType", file.mimeType);
+
+                var tcs = new UniTaskCompletionSource<(bool success, string url, string uploadPath)>();
+                DreamParkAPI.POST($"/api/content/{contentId}/uploadUrl", AuthAPI.GetUserAuth(), body, (success, response) =>
+                {
+                    if (success && response.json != null)
+                    {
+                        var uploadUrl = response.json.GetField("uploadUrl")?.stringValue;
+                        var uploadPath = response.json.GetField("uploadPath")?.stringValue;
+                        tcs.TrySetResult((true, uploadUrl, uploadPath));
+                    }
+                    else
+                    {
+                        Debug.LogError($"❌ Failed to get presigned URL for {file.fileName}");
+                        tcs.TrySetResult((false, null, null));
+                    }
+                });
+
+                var (ok, uploadUrl, uploadPath) = await tcs.Task;
+                if (!ok || string.IsNullOrEmpty(uploadUrl))
+                    return (false, null);
+
+                // Step 2: upload to Firebase
+                var uploadTcs = new UniTaskCompletionSource<bool>();
+                DreamParkAPI.PUT(uploadUrl, "", file.data, file.mimeType, (success, _) =>
+                {
+                    uploadTcs.TrySetResult(success);
+                });
+
+                bool successUpload = await uploadTcs.Task;
+                if (successUpload)
+                    Debug.Log($"✅ Uploaded {file.fileName} ({platform})");
+                else
+                    Debug.LogError($"❌ Upload failed for {file.fileName}");
+
+                return (successUpload, successUpload ? uploadPath : null);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"❌ Exception uploading {file.fileName}: {ex.Message}");
+                return (false, null);
+            }
         }
     }
 }
