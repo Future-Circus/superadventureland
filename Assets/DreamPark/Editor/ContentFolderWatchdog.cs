@@ -16,7 +16,8 @@ namespace DreamPark
         private static FileSystemWatcher _watcher;
         private static readonly HashSet<string> _pendingChanges = new();
         private static double _nextRunTime;
-        private const double DebounceSeconds = 0.5;
+        private const double DebounceSeconds = 2.0;
+        private static bool _paused;
 
         static ContentFolderWatchdog()
         {
@@ -42,15 +43,51 @@ namespace DreamPark
             // --- Unity-level fallback for imported/moved assets ---
             AssetPostprocessorWatcher.OnAssetChanged += path =>
             {
+                if (_paused || IsIgnorablePath(path)) return;
                 lock (_pendingChanges)
                     _pendingChanges.Add(path);
                 Debounce();
             };
         }
 
+        // ----------------------------------------------------------
+        // 🔧 Control methods
+        // ----------------------------------------------------------
+        public static void Pause()
+        {
+            _paused = true;
+            if (_watcher != null)
+                _watcher.EnableRaisingEvents = false;
+        }
+
+        public static void Resume()
+        {
+            _paused = false;
+            if (_watcher != null)
+                _watcher.EnableRaisingEvents = true;
+        }
+
+        // ----------------------------------------------------------
+        // 🧹 Watcher Event Handlers
+        // ----------------------------------------------------------
         private static void OnChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.FullPath.EndsWith(".meta", StringComparison.OrdinalIgnoreCase))
+            if (_paused || IsIgnorablePath(e.FullPath))
+                return;
+
+            lock (_pendingChanges)
+            {
+                if (_pendingChanges.Count > 1000)
+                    _pendingChanges.Clear(); // Safety fuse
+                _pendingChanges.Add(e.FullPath.Replace("\\", "/"));
+            }
+
+            Debounce();
+        }
+
+        private static void OnRenamed(object sender, RenamedEventArgs e)
+        {
+            if (_paused || IsIgnorablePath(e.FullPath))
                 return;
 
             lock (_pendingChanges)
@@ -59,14 +96,9 @@ namespace DreamPark
             Debounce();
         }
 
-        private static void OnRenamed(object sender, RenamedEventArgs e)
-        {
-            lock (_pendingChanges)
-                _pendingChanges.Add(e.FullPath.Replace("\\", "/"));
-
-            Debounce();
-        }
-
+        // ----------------------------------------------------------
+        // ⏳ Debounce + Batch Handling
+        // ----------------------------------------------------------
         private static void Debounce()
         {
             EditorApplication.update -= CheckDebounce;
@@ -85,11 +117,38 @@ namespace DreamPark
             lock (_pendingChanges)
             {
                 snapshot = _pendingChanges.ToList();
-                _pendingChanges.Clear();
+                _pendingChanges.Clear(); // Clear early to avoid duplicate triggers
             }
 
-            if (snapshot.Count > 0)
-                OnContentFilesChanged?.Invoke(snapshot);
+            if (snapshot.Count == 0)
+                return;
+
+            var folders = snapshot.Select(Path.GetDirectoryName)
+                                  .Distinct()
+                                  .Take(5);
+            Debug.Log($"🕵️‍♀️ _pendingChanges: {snapshot.Count} in {string.Join(", ", folders)}");
+
+            OnContentFilesChanged?.Invoke(snapshot);
+        }
+
+        // ----------------------------------------------------------
+        // 🧠 Utilities
+        // ----------------------------------------------------------
+        private static bool IsIgnorablePath(string fullPath)
+        {
+            if (string.IsNullOrEmpty(fullPath))
+                return true;
+
+            string lower = fullPath.ToLowerInvariant();
+
+            return lower.EndsWith(".meta")
+                || lower.EndsWith(".tmp")
+                || lower.Contains("/library/")
+                || lower.Contains("/obj/")
+                || lower.Contains("/temp/")
+                || lower.Contains("/logs/")
+                || lower.Contains("/build/")
+                || lower.Contains("/packages/");
         }
 
         /// <summary>

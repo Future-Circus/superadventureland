@@ -23,16 +23,22 @@ namespace DreamPark {
             ContentFolderWatchdog.OnContentFilesChanged += OnContentFilesChanged;
         }
 
-        [InitializeOnLoadMethod]
+      [InitializeOnLoadMethod]
         private static void RunOnStartup()
         {
-            // Wait until the editor is fully ready (one frame delay)
+            // Only run once per Unity session
+            if (SessionState.GetBool("DreamPark_RanOnStartup", false))
+                return;
+
+            SessionState.SetBool("DreamPark_RanOnStartup", true);
+
             EditorApplication.delayCall += () =>
             {
                 if (!EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isCompiling)
                 {
-                    Debug.Log("🪄 Auto-running AssignAllGameIds on Editor startup...");
+                    Debug.Log("🪄 Auto-running AssignAllGameIds on Editor startup (first time this session)...");
                     AssignAllGameIds();
+                    EnforceContentNamespaces();
                 }
             };
         }
@@ -111,42 +117,79 @@ namespace DreamPark {
         // ---------------------------------------------------------------------
         private static void OnContentFilesChanged(List<string> changedFiles)
         {
+            if (changedFiles == null || changedFiles.Count == 0)
+                return;
+
             string gamePrefix = GetGameFolderName();
             string contentRoot = $"Assets/Content/{gamePrefix}";
-            if (!AssetDatabase.IsValidFolder(contentRoot)) return;
-
-            // Filter only prefabs
-            var prefabPaths = changedFiles
-                .Where(p => p.EndsWith(".prefab", StringComparison.OrdinalIgnoreCase))
-                .Select(p => Path.GetRelativePath(Application.dataPath, p).Replace("\\", "/"))
-                .Select(rel => "Assets/" + rel)
-                .Where(File.Exists)
-                .ToList();
-
-            if (prefabPaths.Count == 0)
-            {
-                // Check if an asset (like FBX, texture, etc.) changed → addressables only
-                var otherAssets = changedFiles
-                    .Where(p => p.StartsWith(Application.dataPath))
-                    .Select(p => Path.GetRelativePath(Application.dataPath, p).Replace("\\", "/"))
-                    .Select(rel => "Assets/" + rel)
-                    .Where(p => AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(p) != null)
-                    .ToList();
-
-                if (otherAssets.Count > 0)
-                {
-                    ApplyGameIdLabelToContentEntries(AddressableAssetSettingsDefaultObject.Settings, gamePrefix, otherAssets);
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
-                }
+            if (!AssetDatabase.IsValidFolder(contentRoot))
                 return;
+
+            // ✅ Cache the Addressable settings once
+            var settings = AddressableAssetSettingsDefaultObject.Settings;
+            if (settings == null)
+                return;
+
+            // ✅ Local helper to convert absolute → Unity-relative paths safely
+            static string ToAssetPath(string absolutePath)
+            {
+                if (string.IsNullOrEmpty(absolutePath) || !absolutePath.StartsWith(Application.dataPath))
+                    return null;
+
+                string rel = Path.GetRelativePath(Application.dataPath, absolutePath)
+                    .Replace("\\", "/");
+                return "Assets/" + rel;
             }
 
-            UpdateSpecificPrefabs(prefabPaths, gamePrefix);
-            ApplyGameIdLabelToContentEntries(AddressableAssetSettingsDefaultObject.Settings, gamePrefix, prefabPaths);
+            // ✅ Precompute all Unity asset paths once
+            var assetPaths = changedFiles
+                .Select(ToAssetPath)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Distinct()
+                .ToList();
 
+            if (assetPaths.Count == 0)
+                return;
+
+            // ✅ Separate by type using extension filters (fast, not LoadAssetAtPath)
+            var prefabPaths = assetPaths
+                .Where(p => p.EndsWith(".prefab", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            var scriptPaths = assetPaths
+                .Where(p => p.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            var otherAssets = assetPaths
+                .Except(prefabPaths)
+                .Except(scriptPaths)
+                .Where(p => !AssetDatabase.IsValidFolder(p))
+                .ToList();
+
+            // ✅ Handle prefabs first
+            if (prefabPaths.Count > 0)
+            {
+                UpdateSpecificPrefabs(prefabPaths, gamePrefix);
+                ApplyGameIdLabelToContentEntries(settings, gamePrefix, prefabPaths);
+            }
+
+            // ✅ Handle other addressable assets (textures, FBX, etc.)
+            if (otherAssets.Count > 0)
+            {
+                ApplyGameIdLabelToContentEntries(settings, gamePrefix, otherAssets);
+            }
+
+            // ✅ Enforce namespaces for scripts (optional but good)
+            if (scriptPaths.Count > 0)
+            {
+                EnforceContentNamespaces(scriptPaths);
+            }
+
+            // ✅ Save + refresh once
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+
+            Debug.Log($"🔄 Processed {prefabPaths.Count} prefabs, {otherAssets.Count} assets, {scriptPaths.Count} scripts for {gamePrefix}");
         }
 
         // ---------------------------------------------------------------------
@@ -407,13 +450,10 @@ namespace DreamPark {
 
             if (labeled > 0 || moved > 0)
                 Debug.Log($"🏷 Addressables: {moved} moved/created, {labeled} labeled for '{gameId}'.");
-
-            EnforceContentNamespaces();
         }
 
-        [UnityEditor.Callbacks.DidReloadScripts]
         [MenuItem("DreamPark/Tools/Enforce Content Namespaces")]
-        public static void EnforceContentNamespaces()
+        public static void EnforceContentNamespaces(List<string> specificPaths = null)
         {
             string root = Path.Combine(Application.dataPath, "Content");
             if (!Directory.Exists(root))
@@ -422,7 +462,7 @@ namespace DreamPark {
                 return;
             }
 
-            string[] csFiles = Directory.GetFiles(root, "*.cs", SearchOption.AllDirectories)
+            string[] csFiles = specificPaths != null && specificPaths.Count > 0 ? specificPaths.ToArray() : Directory.GetFiles(root, "*.cs", SearchOption.AllDirectories)
                 .Where(f => !f.Contains("/ThirdParty/") && !f.Contains("\\ThirdParty\\"))
                 .ToArray();
 
