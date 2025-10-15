@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2306461661769408057}
   - component: {fileID: 6686961925186408466}
-  m_Layer: 0
+  - component: {fileID: 2070161651752530407}
+  m_Layer: 10
   m_Name: M_CANNONSNOUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,3 +48,15 @@ MonoBehaviour:
   musicTrack: {fileID: 8300000, guid: 6dd8131887af5455691d1053649d219b, type: 3}
   volume: 0.6
   priority: 99
+--- !u!114 &2070161651752530407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3310396336246427809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76499aff74c84a19a190d99c2fa511d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

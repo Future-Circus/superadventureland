@@ -6439,6 +6439,7 @@ GameObject:
   - component: {fileID: 6231367941540933264}
   - component: {fileID: 8034152753943587026}
   - component: {fileID: 6008096900255123979}
+  - component: {fileID: 5247429901262491603}
   m_Layer: 10
   m_Name: TriggerBossFight
   m_TagString: Untagged
@@ -6561,6 +6562,18 @@ MonoBehaviour:
   musicTrack: {fileID: 8300000, guid: 6dd8131887af5455691d1053649d219b, type: 3}
   volume: 0.6
   priority: 2
+--- !u!114 &5247429901262491603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9192960596896310263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76499aff74c84a19a190d99c2fa511d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3877758325296183759
 PrefabInstance:
   m_ObjectHideFlags: 0

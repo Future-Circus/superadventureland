@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 82158661621646612}
   - component: {fileID: 7096060402946076699}
-  m_Layer: 0
+  - component: {fileID: 1499790718502946678}
+  m_Layer: 10
   m_Name: M_ADVENTURE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,3 +48,15 @@ MonoBehaviour:
   musicTrack: {fileID: 8300000, guid: ac014584ccd7f4f189936f29ff399f74, type: 3}
   volume: 0.6
   priority: 1
+--- !u!114 &1499790718502946678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923576138918628236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76499aff74c84a19a190d99c2fa511d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
