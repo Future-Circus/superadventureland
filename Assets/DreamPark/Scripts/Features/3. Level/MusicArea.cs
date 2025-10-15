@@ -36,6 +36,8 @@ public class MusicArea : MonoBehaviour
         if (TryGetComponent(out LevelTemplate levelTemplate)) {
             var bounds2D = GameLevelDimensions.GetDimensionsInMeters(levelTemplate.size);
             halfExtents = new Vector3(bounds2D.x/2f, 50f, bounds2D.y/2f);
+        } else {
+            halfExtents = transform.localScale * 0.5f;
         }
     }
     void Update () {
@@ -89,26 +91,31 @@ public class MusicArea : MonoBehaviour
     }
     bool IsPointWithinBounds(Vector3 point, Transform obj, Vector3 halfExtents)
     {
-        // Convert the world point to local space of the object
-        Vector3 localPoint = obj.InverseTransformPoint(point);
+        // Vector from center to point in world space
+        Vector3 toPoint = point - obj.position;
 
-        // Now just check local bounds
-        return Mathf.Abs(localPoint.x) <= halfExtents.x &&
-            Mathf.Abs(localPoint.y) <= halfExtents.y &&
-            Mathf.Abs(localPoint.z) <= halfExtents.z;
+        // Project onto the object’s local axes
+        float x = Vector3.Dot(toPoint, obj.right);
+        float y = Vector3.Dot(toPoint, obj.up);
+        float z = Vector3.Dot(toPoint, obj.forward);
+
+        // Check against half extents (which can come directly from localScale * 0.5f)
+        return Mathf.Abs(x) <= halfExtents.x &&
+            Mathf.Abs(y) <= halfExtents.y &&
+            Mathf.Abs(z) <= halfExtents.z;
     }
     void OnDestroy() {
         if (currentMusicArea == this) {
             currentMusicArea = null;
         }
     }
-// #if UNITY_EDITOR
-//     public void OnDrawGizmos()
-//     {
-//         Gizmos.color = Color.yellow;
-//         var visualHalfExtents = halfExtents;
-//         visualHalfExtents.y = 5f;
-//         Gizmos.DrawWireCube(transform.position + new Vector3(0, 5f, 0), visualHalfExtents * 2f);
-//     }
-// #endif
+#if UNITY_EDITOR
+    public void OnDrawGizmos()
+    {
+        if (!TryGetComponent(out LevelTemplate levelTemplate)) {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(transform.position, transform.localScale);
+        }
+    }
+#endif
 }
