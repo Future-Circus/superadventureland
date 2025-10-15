@@ -11,6 +11,7 @@ public class MusicArea : MonoBehaviour
     private bool isPlaying = false;
     private AudioSource audioSource;
     private Vector3 halfExtents = Vector3.zero;
+    private LevelTemplate levelTemplate;
     public virtual void Awake() {
         if (!musicTrack) {
             enabled = false;
@@ -29,11 +30,13 @@ public class MusicArea : MonoBehaviour
         audioSource.priority = priority;
         audioSource.clip = musicTrack;
         audioSource.spatialBlend = 1;
+        audioSource.volume = 0;
 
         BodyTracker bodyTracker = musicEmitter.AddComponent<BodyTracker>();
         bodyTracker.yOffset = 2f;
 
-        if (TryGetComponent(out LevelTemplate levelTemplate)) {
+        levelTemplate = GetComponent<LevelTemplate>();
+        if (levelTemplate) {
             var bounds2D = GameLevelDimensions.GetDimensionsInMeters(levelTemplate.size);
             halfExtents = new Vector3(bounds2D.x/2f, 50f, bounds2D.y/2f);
         } else {
@@ -41,6 +44,9 @@ public class MusicArea : MonoBehaviour
         }
     }
     void Update () {
+        if (!levelTemplate) {
+            halfExtents = transform.localScale * 0.5f;
+        }
         if (Camera.main) {
             if (IsPointWithinBounds(Camera.main.transform.position, transform, halfExtents)) {
                 if (!isPlaying) {
