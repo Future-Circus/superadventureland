@@ -169,7 +169,11 @@
                 timeInside += Time.deltaTime;
                 if (timeInside >= punishInterval && Time.time >= nextWarningTime)
                 {
-                    SpawnCoinSplash();
+                    if (DreamBand.Instance != null && DreamBand.Instance is SA_DreamBand saDreamBand)
+                    {
+                        saDreamBand.InjurePlayer();
+                    }
+
                     nextWarningTime = Time.time + punishInterval;
                 }
             }
@@ -635,19 +639,6 @@
             EncapsulateBounds(t);
 
             return combined ?? new Bounds(t.position, Vector3.zero);
-        }
-
-        private void SpawnCoinSplash()
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                // Small random offset around the spawn point
-                Vector3 randomPos = Camera.main.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f;
-                randomPos.y = Camera.main.transform.position.y + 0.5f; // keep items spawning from above the player to avoid collecting them on spawn
-
-                Item coin = Instantiate(Resources.Load<Item>("E_COIN"), randomPos, Quaternion.identity);
-                coin.dp_canSplash = true;
-            }
         }
     }
 }
