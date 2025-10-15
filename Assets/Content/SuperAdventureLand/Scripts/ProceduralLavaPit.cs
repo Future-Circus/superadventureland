@@ -43,6 +43,8 @@
                 }.ToList();
                 }
             }
+
+            EditorGUILayout.HelpBox("Add platforms as children of the lava pit for player detection. Make sure they are on the Level layer.", MessageType.Info);
         }
 
         private Vector3 PlayModeConversion(Vector3 v, ProceduralLavaPit p)
@@ -122,7 +124,7 @@
         public int subdivisions = 10;
         [Range(1.0f, 100.0f)]
         public float textureScale = 40f;
-        public float warningInterval = 5f;
+        public float punishInterval = 5f;
         public Material stoneMaterial;
         public Material lavaMaterial;
         public Material occluderMaterial;
@@ -130,7 +132,8 @@
         private MeshFilter depthMaskMeshFilter;
         private float timeInside = 0f;
         private float nextWarningTime = 0f;
-
+        private Vector3 playerVolumeHalfSize = new Vector3(0.15f, 0.15f, 0.15f);
+        private List<GameObject> platforms = new List<GameObject>();
         [NonSerialized] public Transform ogPosition;
 
         void Awake()
@@ -150,21 +153,24 @@
             {
                 SetupDepthMask();
             }
+
+            int layer = LayerMask.NameToLayer("Level");
+            foreach (Transform child in transform)
+            {
+                if (child.gameObject.layer == layer)
+                    platforms.Add(child.gameObject);
+            }
         }
 
         void Update()
         {
-            if (IsPlayerVolumeInsidePit(Camera.main.transform))
+            if (punishInterval > 0 && IsPlayerVolumeInsidePit(Camera.main.transform) && !IsAnyPlayerPointInsidePlatform(Camera.main.transform))
             {
-                // Track continuous time inside
                 timeInside += Time.deltaTime;
-
-                // First second passes before first warning
-                if (timeInside >= warningInterval && Time.time >= nextWarningTime)
+                if (timeInside >= punishInterval && Time.time >= nextWarningTime)
                 {
-                    Debug.LogWarning("⚠️ Player is inside the lava pit!");
                     SpawnCoinSplash();
-                    nextWarningTime = Time.time + warningInterval;
+                    nextWarningTime = Time.time + punishInterval;
                 }
             }
             else
@@ -528,15 +534,13 @@
 
         public bool IsPlayerVolumeInsidePit(Transform playerTransform)
         {
-            Vector3 halfSize = 0.15f * Vector3.one;
-
             // All 8 corners of the cube (in local space relative to its transform)
             Vector3[] localCorners = new Vector3[]
             {
-                new Vector3(-halfSize.x, 0, -halfSize.z),
-                new Vector3(-halfSize.x, 0,  halfSize.z),
-                new Vector3( halfSize.x, 0, -halfSize.z),
-                new Vector3( halfSize.x, 0,  halfSize.z),
+                new Vector3(-playerVolumeHalfSize.x, 0, -playerVolumeHalfSize.z),
+                new Vector3(-playerVolumeHalfSize.x, 0,  playerVolumeHalfSize.z),
+                new Vector3( playerVolumeHalfSize.x, 0, -playerVolumeHalfSize.z),
+                new Vector3( playerVolumeHalfSize.x, 0,  playerVolumeHalfSize.z),
             };
 
             foreach (var cornerLocal in localCorners)
@@ -564,6 +568,20 @@
             return IsPointInPolygon(localPos, points);
         }
 
+        public bool IsAnyPlayerPointInsidePlatform(Transform playerTransform)
+        {
+            foreach (GameObject platform in platforms)
+            {
+                Bounds bounds = GetCombinedBoundsXZ(platform.transform, true);
+                if (IsPointInBounds(playerTransform.position, bounds))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         // Classic even-odd rule point-in-polygon test
         private bool IsPointInPolygon(Vector3 point, List<Vector3> polygon)
         {
@@ -579,15 +597,55 @@
             return inside;
         }
 
+        private bool IsPointInBounds(Vector3 point, Bounds bounds)
+        {
+            // Only X-Z plane check
+            return point.x >= bounds.min.x && point.x <= bounds.max.x &&
+                   point.z >= bounds.min.z && point.z <= bounds.max.z;
+        }
+
+        public Bounds GetCombinedBoundsXZ(Transform t, bool includeChildren = true)
+        {
+            Bounds? combined = null;
+
+            void EncapsulateBounds(Transform tr)
+            {
+                if (tr.TryGetComponent<Collider>(out var col))
+                {
+                    if (combined == null)
+                        combined = col.bounds;
+                    else
+                        combined.Value.Encapsulate(col.bounds);
+                }
+                else if (tr.TryGetComponent<Renderer>(out var rend))
+                {
+                    if (combined == null)
+                        combined = rend.bounds;
+                    else
+                        combined.Value.Encapsulate(rend.bounds);
+                }
+
+                if (includeChildren)
+                {
+                    foreach (Transform child in tr)
+                        EncapsulateBounds(child);
+                }
+            }
+
+            EncapsulateBounds(t);
+
+            return combined ?? new Bounds(t.position, Vector3.zero);
+        }
+
         private void SpawnCoinSplash()
         {
             for (int i = 0; i < 5; i++)
             {
                 // Small random offset around the spawn point
                 Vector3 randomPos = Camera.main.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f;
-                randomPos.y = Camera.main.transform.position.y; // keep items starting on chest height
+                randomPos.y = Camera.main.transform.position.y + 0.5f; // keep items spawning from above the player to avoid collecting them on spawn
 
-                Item coin = Instantiate(Resources.Load<Item>("E_COIN"), randomPos, UnityEngine.Random.rotation);
+                Item coin = Instantiate(Resources.Load<Item>("E_COIN"), randomPos, Quaternion.identity);
                 coin.dp_canSplash = true;
             }
         }
