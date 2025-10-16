@@ -151,6 +151,7 @@ namespace DreamPark {
 
                             //refresh database with new addressables
                             ContentProcessor.AssignAllGameIds();
+                            ContentProcessor.EnforceContentNamespaces();
 
                             buildSuccess &= BuildUnityPackage(gameId);
                             if (!buildSuccess) throw new Exception("Unity package build failed");
