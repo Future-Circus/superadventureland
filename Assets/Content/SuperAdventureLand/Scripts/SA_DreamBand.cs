@@ -26,7 +26,7 @@
                     int punishCoinCount = Mathf.Min(3, coinCount);
                     coinCount -= punishCoinCount;
                     coinText.text = coinCount.ToString();
-                    for (int i = 0; i < coinCount; i++)
+                    for (int i = 0; i < punishCoinCount; i++)
                     {
                         Vector3 randomPos = Camera.main.transform.position + Random.insideUnitSphere * 0.5f;
                         randomPos.y = Camera.main.transform.position.y + 0.5f; // keep items spawning from above the player to avoid collecting them on spawn

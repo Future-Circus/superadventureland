@@ -124,7 +124,6 @@
         public int subdivisions = 10;
         [Range(1.0f, 100.0f)]
         public float textureScale = 40f;
-        public float punishInterval = 5f;
         public Material stoneMaterial;
         public Material lavaMaterial;
         public Material occluderMaterial;
@@ -132,6 +131,7 @@
         private MeshFilter depthMaskMeshFilter;
         private float timeInside = 0f;
         private float nextWarningTime = 0f;
+        private float punishInterval = 3f;
         private Vector3 playerVolumeHalfSize = new Vector3(0.15f, 0.15f, 0.15f);
         private List<GameObject> platforms = new List<GameObject>();
         [NonSerialized] public Transform ogPosition;
