@@ -134,6 +134,8 @@
         private float punishInterval = 3f;
         private Vector3 playerVolumeHalfSize = new Vector3(0.15f, 0.15f, 0.15f);
         private List<GameObject> platforms = new List<GameObject>();
+        private readonly List<Collider> _platformColliders = new();
+        private readonly List<Renderer> _platformRenderers = new();
         [NonSerialized] public Transform ogPosition;
 
         void Awake()
@@ -604,38 +606,39 @@
                    point.z >= bounds.min.z && point.z <= bounds.max.z;
         }
 
-        public Bounds GetCombinedBoundsXZ(Transform t, bool includeChildren = true)
+        public Bounds GetCombinedBoundsXZ(Transform root, bool includeChildren = true)
         {
-            Bounds? combined = null;
+            // Fetch components once — no new array allocations per call
+            _platformColliders.Clear();
+            _platformRenderers.Clear();
 
-            void EncapsulateBounds(Transform tr)
+            if (includeChildren)
             {
-                if (tr.TryGetComponent<Collider>(out var col))
-                {
-                    if (combined == null)
-                        combined = col.bounds;
-                    else
-                        combined.Value.Encapsulate(col.bounds);
-                }
-                else if (tr.TryGetComponent<Renderer>(out var rend))
-                {
-                    if (combined == null)
-                        combined = rend.bounds;
-                    else
-                        combined.Value.Encapsulate(rend.bounds);
-                }
-
-                if (includeChildren)
-                {
-                    foreach (Transform child in tr)
-                        EncapsulateBounds(child);
-                }
+                root.GetComponentsInChildren(true, _platformColliders);
+                root.GetComponentsInChildren(true, _platformRenderers);
+            }
+            else
+            {
+                root.GetComponents(_platformColliders);
+                root.GetComponents(_platformRenderers);
             }
 
-            EncapsulateBounds(t);
+            if (_platformColliders.Count == 0 && _platformRenderers.Count == 0)
+                return new Bounds(root.position, Vector3.zero);
 
-            return combined ?? new Bounds(t.position, Vector3.zero);
+            Bounds combined = _platformColliders.Count > 0 ? _platformColliders[0].bounds : _platformRenderers[0].bounds;
+
+            // Combine colliders
+            for (int i = 0; i < _platformColliders.Count; i++)
+                combined.Encapsulate(_platformColliders[i].bounds);
+
+            // Combine renderers
+            for (int i = 0; i < _platformRenderers.Count; i++)
+                combined.Encapsulate(_platformRenderers[i].bounds);
+
+            return combined;
         }
+
 
         void CollectChildrenRecursive(Transform parent, int layer, List<GameObject> list)
         {
