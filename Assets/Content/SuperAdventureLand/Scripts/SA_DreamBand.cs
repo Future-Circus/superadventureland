@@ -9,7 +9,7 @@
         public Text sunText;
         public ParticleSystem collectParticle;
         public ParticleSystem punishParticle;
-        public float coinSpawnHeight = 0.5f;
+        public float coinSpawnDistance = 1f;
         private int coinCount = 0;
         private int sunCount = 0;
         public override void ExecuteState()
@@ -26,16 +26,17 @@
                     SetState(DreamBandState.PLAY);
                     break;
                 case DreamBandState.INJURE:
-                    int punishCoinCount = Mathf.Min(3, coinCount);
+                    int punishCoinCount = Mathf.Min(1, coinCount);
                     punishParticle.Play();
                     coinCount -= punishCoinCount;
                     coinText.text = coinCount.ToString();
+                    "sizzle".PlaySFX(transform.position, 1f, 1f);
                     Debug.Log("Injure player, punish " + punishCoinCount + " coins" + " remaining coins: " + coinCount);
                     for (int i = 0; i < punishCoinCount; i++)
                     {
                         "E_COIN".GetAsset<GameObject>(coinPrefab =>
                         {
-                            Vector3 randomPos = transform.position + transform.up * coinSpawnHeight;
+                            Vector3 randomPos = Camera.main.transform.position + Camera.main.transform.forward * coinSpawnDistance;
                             GameObject coin = Instantiate(coinPrefab, randomPos, Quaternion.identity);
                             coin.GetComponent<Coin>().dp_canSplash = true;
                         }, error =>
