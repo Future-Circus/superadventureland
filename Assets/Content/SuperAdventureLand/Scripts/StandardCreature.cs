@@ -225,7 +225,16 @@
                     rb.freezeRotation = true;
                     rb.constraints = RigidbodyConstraints.FreezeAll;
                     var meshRenderers = GetComponentsInChildren<Renderer>();
-                    AssignStoneTexture(meshRenderers);
+                    "StoneMat".GetAsset<Material>(mat =>
+                    {
+                        foreach (var meshRenderer in meshRenderers)
+                        {
+                            meshRenderer.sharedMaterial = mat;
+                        }
+                    }, error =>
+                    {
+                        Debug.LogError($"Failed to load stone material: {error}");
+                    });
                     gameObject.tag = "Stone";
                     gameObject.layer = LayerMask.NameToLayer("Level");
                     break;

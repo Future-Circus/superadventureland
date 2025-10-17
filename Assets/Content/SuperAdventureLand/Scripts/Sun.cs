@@ -257,15 +257,17 @@
             }
         }
 
-        public async void AssignSunTexture()
+        public void AssignSunTexture()
         {
-            string textureName = sunConfig.isUnlocked ? "Assets/Content/SuperAdventureLand/Textures/sun.png" : "Assets/Content/SuperAdventureLand/Textures/sun_empty.png";
-            var tex = await CoreExtensions.GetAsset<Texture2D>(textureName);
-            if (tex != null)
+            string textureName = sunConfig.isUnlocked ? "sun" : "sun_empty";
+            textureName.GetAsset<Texture2D>(tex =>
             {
                 mainRenderer.materials[0].SetTexture("_baseTex", tex);
                 mainRenderer.materials[1].SetTexture("_baseTex", tex);
-            }
+            }, error =>
+            {
+                Debug.LogError($"Failed to load sun texture: {error}");
+            });
         }
 
         public void OnDestroy()
