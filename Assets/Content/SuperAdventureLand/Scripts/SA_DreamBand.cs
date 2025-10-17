@@ -28,10 +28,15 @@
                     coinText.text = coinCount.ToString();
                     for (int i = 0; i < punishCoinCount; i++)
                     {
-                        Vector3 randomPos = Camera.main.transform.position + Random.insideUnitSphere * 0.5f;
-                        randomPos.y = Camera.main.transform.position.y + 0.5f; // keep items spawning from above the player to avoid collecting them on spawn
-                        Item coin = Instantiate(Resources.Load<Item>("E_COIN"), randomPos, Quaternion.identity);
-                        coin.dp_canSplash = true;
+                        "E_COIN".GetAsset<GameObject>(coinPrefab =>
+                        {
+                            Vector3 randomPos = transform.position + Random.insideUnitSphere * 0.1f;
+                            GameObject coin = Instantiate(coinPrefab, randomPos, Quaternion.identity, transform.FindRoot());
+                            coin.GetComponent<Coin>().dp_isStatic = false;
+                        }, error =>
+                        {
+                            Debug.LogError($"Failed to load coin: {error}");
+                        });
                     }
                     break;
                 case DreamBandState.INJURING:

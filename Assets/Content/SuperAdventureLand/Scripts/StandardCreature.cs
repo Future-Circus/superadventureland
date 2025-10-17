@@ -5,14 +5,15 @@
     using Random = UnityEngine.Random;
     using System;
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.Events;
 
     [CustomEditor(typeof(StandardCreature), true)]
     public class StandardCreatureEditor : AwareCreatureEditor
     {
-        private CollisionWrapper SimulateCollision (string layer, string tag) {
+        private CollisionWrapper SimulateCollision(string layer, string tag)
+        {
             StandardCreature creature = (StandardCreature)target;
             GameObject collisionSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             collisionSphere.transform.localScale = Vector3.one * 0.1f;
@@ -20,8 +21,10 @@
             collisionSphere.tag = tag;
             SphereCollider collider = collisionSphere.AddComponent<SphereCollider>();
 
-            EditorApplication.delayCall += () => {
-                if(collisionSphere != null) {
+            EditorApplication.delayCall += () =>
+            {
+                if (collisionSphere != null)
+                {
                     DestroyImmediate(collisionSphere);
                 }
             };
@@ -31,7 +34,8 @@
         {
             base.OnInspectorGUI();
 
-            if (Application.isPlaying) {
+            if (Application.isPlaying)
+            {
                 StandardCreature creature = (StandardCreature)target;
                 if (GUILayout.Button("Simulate Hit"))
                 {
@@ -46,21 +50,23 @@
         }
     }
 
-    #endif
+#endif
 
     //This is a standard creature for Super Adventure Land
     public class StandardCreature : AwareCreature
     {
         [Serializable]
-        public class HitSettings {
+        public class HitSettings
+        {
             [SerializeField] public float directionForce = 5.0f;
             [SerializeField] public float angularForce = 12.0f;
             [SerializeField] public float upwardForce = 10f;
         }
         [HideInInspector] public HitSettings hitSettings;
 
-        public void SetupInteractionFilters() {
-            #if UNITY_EDITOR
+        public void SetupInteractionFilters()
+        {
+#if UNITY_EDITOR
             interactionFilters = new InteractionFilter[] {
                 new InteractionFilter {
                     layers = new string[] { "Level" },
@@ -111,50 +117,61 @@
             UnityEventTools.AddPersistentListener(interactionFilters[5].onInteractionEnter, MortarHit);
             UnityEventTools.AddPersistentListener(interactionFilters[6].onInteractionEnter, LavaHit);
             UnityEditor.EditorUtility.SetDirty(this);
-            #endif
+#endif
         }
 
-         public void OnValidate()
+        public void OnValidate()
         {
-            #if UNITY_EDITOR
-            if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0)) {
+#if UNITY_EDITOR
+            if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0))
+            {
                 SetupInteractionFilters();
             }
-            #endif
+#endif
         }
 
-        public virtual void BlockHit (CollisionWrapper collision) {
-            if (state == CreatureState.HIT || state == CreatureState.HITTING) {
+        public virtual void BlockHit(CollisionWrapper collision)
+        {
+            if (state == CreatureState.HIT || state == CreatureState.HITTING)
+            {
                 SetState(CreatureState.DIE);
             }
         }
-        public virtual void PlayerHit (CollisionWrapper collision) {
+        public virtual void PlayerHit(CollisionWrapper collision)
+        {
             lastCollision = collision;
             SetState(CreatureState.HIT);
         }
-        public virtual void ProjectileHit (CollisionWrapper collision) {
+        public virtual void ProjectileHit(CollisionWrapper collision)
+        {
             lastCollision = collision;
             SetState(CreatureState.HIT);
         }
-        public virtual void GroundHit (CollisionWrapper collision) {
+        public virtual void GroundHit(CollisionWrapper collision)
+        {
             lastCollision = collision;
-            if (groundHitAfterKick) {
+            if (groundHitAfterKick)
+            {
                 SetState(CreatureState.DIE);
             }
         }
-        public virtual void KickHit (CollisionWrapper collision) {
+        public virtual void KickHit(CollisionWrapper collision)
+        {
             lastCollision = collision;
             SetState(CreatureState.KICK);
         }
-        public virtual void MortarHit (CollisionWrapper collision) {
+        public virtual void MortarHit(CollisionWrapper collision)
+        {
             lastCollision = collision;
             SetState(CreatureState.HIT);
         }
-        public virtual void LavaHit (CollisionWrapper collision) {
+        public virtual void LavaHit(CollisionWrapper collision)
+        {
             lastCollision = collision;
             SetState(CreatureState.STONE);
         }
-        public virtual void BumperHit (CollisionWrapper collision) {
+        public virtual void BumperHit(CollisionWrapper collision)
+        {
             lastCollision = collision;
             SetState(CreatureState.FLY);
             Vector3 popUpForce = Vector3.up * 100f + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
@@ -164,7 +181,8 @@
 
         public override void ExecuteState()
         {
-             switch (state) {
+            switch (state)
+            {
                 case CreatureState.IDLE:
                     animator.Update(Random.Range(0.00f, 10.00f));
                     base.ExecuteState();
@@ -177,18 +195,22 @@
                     SetState(CreatureState.IDLE);
                     break;
                 case CreatureState.DIE:
-                    Vector3 position = rbTransform.position+new Vector3(0,0.5f,0);;
+                    Vector3 position = rbTransform.position + new Vector3(0, 0.5f, 0); ;
                     "FX_SteamPuff".SpawnAsset(position, Quaternion.LookRotation(position - Camera.main.transform.position));
-                    if (lastCollision.layer == LayerMask.NameToLayer("Level")) {
+                    if (lastCollision.layer == LayerMask.NameToLayer("Level"))
+                    {
                         "impact".PlaySFX(lastCollision.collisionPoint, 1f, Random.Range(0.8f, 1.2f));
                     }
 
                     //make sure only the player can get a coin
-                    if (lastCollision != null && (lastCollision.tag == "Player" || lastCollision.tag == "ActiveHit")) {
-                        "E_COIN".GetAsset<GameObject>(coinPrefab => {
+                    if (lastCollision != null && (lastCollision.tag == "Player" || lastCollision.tag == "ActiveHit"))
+                    {
+                        "E_COIN".GetAsset<GameObject>(coinPrefab =>
+                        {
                             GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity, transform.FindRoot());
-                            coin.GetComponent<Coin>().PopUpItem(new Vector3(Random.Range(-0.1f,1f),2,Random.Range(-0.1f,1f)));
-                        }, error => {
+                            coin.GetComponent<Coin>().PopUpItem(new Vector3(Random.Range(-0.1f, 1f), 2, Random.Range(-0.1f, 1f)));
+                        }, error =>
+                        {
                             Debug.LogError($"Failed to load coin: {error}");
                         });
                     }
@@ -196,24 +218,23 @@
                     break;
                 case CreatureState.STONE:
                     //standardizes the effects of lava across all creatures
-                    Material stoneMat = Resources.Load<Material>("Materials/StoneMat");
-                    "FX_SteamPuff".SpawnAsset(transform.position+new Vector3(0,0.5f,0), Quaternion.identity);
+                    "FX_SteamPuff".SpawnAsset(transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
                     animator.enabled = false;
                     rb.isKinematic = true;
                     rb.useGravity = false;
                     rb.freezeRotation = true;
                     rb.constraints = RigidbodyConstraints.FreezeAll;
                     var meshRenderers = GetComponentsInChildren<Renderer>();
-                    foreach (var meshRenderer in meshRenderers) {
-                        meshRenderer.sharedMaterial = stoneMat;
-                    }
+                    AssignStoneTexture(meshRenderers);
                     gameObject.tag = "Stone";
                     gameObject.layer = LayerMask.NameToLayer("Level");
                     break;
                 case CreatureState.FLY:
                     ToggleRagdoll(true);
-                    Extensions.Wait(this, 5f, () => {
-                        if (state == CreatureState.FLY || state == CreatureState.FLYING) {
+                    Extensions.Wait(this, 5f, () =>
+                    {
+                        if (state == CreatureState.FLY || state == CreatureState.FLYING)
+                        {
                             SetState(CreatureState.DIE);
                         }
                     });
@@ -224,8 +245,24 @@
             }
         }
 
-        [HideInInspector] public bool groundHitAfterKick {
-            get {
+        public async void AssignStoneTexture(Renderer[] meshRenderers)
+        {
+            string materialName = "Assets/Content/SuperAdventureLand/Materials/StoneMat.mat";
+            var mat = await CoreExtensions.GetAsset<Material>(materialName);
+            if (mat != null)
+            {
+                foreach (var meshRenderer in meshRenderers)
+                {
+                    meshRenderer.sharedMaterial = mat;
+                }
+            }
+        }
+
+        [HideInInspector]
+        public bool groundHitAfterKick
+        {
+            get
+            {
                 return state == CreatureState.HIT || state == CreatureState.HITTING || state == CreatureState.KICK || state == CreatureState.KICKING;
             }
         }
