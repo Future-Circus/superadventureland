@@ -83,7 +83,7 @@ namespace DreamPark {
         // ---------------------------------------------------------------------
         // Manual run entry point
         // ---------------------------------------------------------------------
-        [MenuItem("DreamPark/Tools/Force Update Game ID")]
+        [MenuItem("DreamPark/Tools/Force Update Game Assets")]
         public static void AssignAllGameIds()
         {
             Debug.Log("🔄 Assigning all game IDs...");
@@ -434,12 +434,36 @@ namespace DreamPark {
                     moved++;
                 }
 
-                if (AssetDatabase.GetMainAssetTypeAtPath(assetPath) == typeof(GameObject) || AssetDatabase.GetMainAssetTypeAtPath(assetPath) == typeof(AudioClip))
-                {
-                    string desiredAddress = $"{gameId}/{Path.GetFileNameWithoutExtension(assetPath)}";
-                    if (entry.address != desiredAddress)
+                var assetType = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
+                string extension = Path.GetExtension(assetPath).ToLowerInvariant();
+                string typeFolder = null;
+
+                // ✅ Handle special cases first
+                if (extension == ".fbx" || extension == ".obj" || extension == ".dae") {
+                    typeFolder = "Models";
+                } else if (extension == ".asset") {
+                    typeFolder = "Assets";
+                } else if (assetType == typeof(AudioClip))
+                    typeFolder = "Audio";
+                else if (assetType == typeof(Texture) || assetType == typeof(Texture2D) || assetType == typeof(RenderTexture))
+                    typeFolder = "Textures";
+                else if (assetType == typeof(Material))
+                    typeFolder = "Materials";
+                else if (assetType == typeof(Shader) || extension == ".shadergraph")
+                    typeFolder = "Shaders";
+                else if (assetType == typeof(AnimationClip))
+                    typeFolder = "Animations";
+
+                string desiredAddress;
+                if (typeFolder == null && assetType == typeof(GameObject))
+                    desiredAddress = $"{gameId}/{Path.GetFileNameWithoutExtension(assetPath)}";
+                else if (!string.IsNullOrEmpty(typeFolder))
+                    desiredAddress = $"{gameId}/{typeFolder}/{Path.GetFileNameWithoutExtension(assetPath)}";
+                else
+                    desiredAddress = assetPath;
+
+                if (entry.address != desiredAddress)
                         entry.address = desiredAddress;
-                }
 
                 if (!entry.labels.Contains(gameId))
                 {
