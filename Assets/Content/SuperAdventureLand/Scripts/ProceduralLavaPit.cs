@@ -154,11 +154,8 @@
                 SetupDepthMask();
             }
 
-            foreach (Transform child in transform)
-            {
-                if (child.localPosition.y <= 0)
-                    platforms.Add(child.gameObject);
-            }
+            int layer = LayerMask.NameToLayer("Level");
+            CollectChildrenRecursive(transform, layer, platforms);
         }
 
         void Update()
@@ -638,6 +635,17 @@
             EncapsulateBounds(t);
 
             return combined ?? new Bounds(t.position, Vector3.zero);
+        }
+
+        void CollectChildrenRecursive(Transform parent, int layer, List<GameObject> list)
+        {
+            foreach (Transform child in parent)
+            {
+                if (child.gameObject.layer == layer)
+                    list.Add(child.gameObject);
+
+                CollectChildrenRecursive(child, layer, list);
+            }
         }
     }
 }
