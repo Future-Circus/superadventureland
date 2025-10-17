@@ -8,6 +8,7 @@
         public Text coinText;
         public Text sunText;
         public ParticleSystem collectParticle;
+        public ParticleSystem punishParticle;
         public float coinSpawnHeight = 0.5f;
         private int coinCount = 0;
         private int sunCount = 0;
@@ -26,6 +27,7 @@
                     break;
                 case DreamBandState.INJURE:
                     int punishCoinCount = Mathf.Min(3, coinCount);
+                    punishParticle.Play();
                     coinCount -= punishCoinCount;
                     coinText.text = coinCount.ToString();
                     Debug.Log("Injure player, punish " + punishCoinCount + " coins" + " remaining coins: " + coinCount);
