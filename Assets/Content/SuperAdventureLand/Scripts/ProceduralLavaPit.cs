@@ -44,7 +44,7 @@
                 }
             }
 
-            EditorGUILayout.HelpBox("Add platforms as children of the lava pit for player detection. Make sure they are on the Level layer.", MessageType.Info);
+            EditorGUILayout.HelpBox("Add platforms as children of the lava pit for player detection. Make sure their local Y-position is 0 or less.", MessageType.Info);
         }
 
         private Vector3 PlayModeConversion(Vector3 v, ProceduralLavaPit p)
@@ -154,10 +154,9 @@
                 SetupDepthMask();
             }
 
-            int layer = LayerMask.NameToLayer("Level");
             foreach (Transform child in transform)
             {
-                if (child.gameObject.layer == layer)
+                if (child.localPosition.y <= 0)
                     platforms.Add(child.gameObject);
             }
         }

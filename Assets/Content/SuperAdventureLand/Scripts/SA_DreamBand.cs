@@ -8,6 +8,7 @@
         public Text coinText;
         public Text sunText;
         public ParticleSystem collectParticle;
+        public float coinSpawnHeight = 0.5f;
         private int coinCount = 0;
         private int sunCount = 0;
         public override void ExecuteState()
@@ -18,6 +19,7 @@
                     collectParticle.Play();
                     coinCount++;
                     coinText.text = coinCount.ToString();
+                    Debug.Log("Collect coin, " + coinCount + " coins");
                     break;
                 case DreamBandState.COLLECTING:
                     SetState(DreamBandState.PLAY);
@@ -26,13 +28,14 @@
                     int punishCoinCount = Mathf.Min(3, coinCount);
                     coinCount -= punishCoinCount;
                     coinText.text = coinCount.ToString();
+                    Debug.Log("Injure player, punish " + punishCoinCount + " coins" + " remaining coins: " + coinCount);
                     for (int i = 0; i < punishCoinCount; i++)
                     {
                         "E_COIN".GetAsset<GameObject>(coinPrefab =>
                         {
-                            Vector3 randomPos = transform.position + Random.insideUnitSphere * 0.1f;
-                            GameObject coin = Instantiate(coinPrefab, randomPos, Quaternion.identity, transform.FindRoot());
-                            coin.GetComponent<Coin>().dp_isStatic = false;
+                            Vector3 randomPos = transform.position + transform.up * coinSpawnHeight;
+                            GameObject coin = Instantiate(coinPrefab, randomPos, Quaternion.identity);
+                            coin.GetComponent<Coin>().dp_canSplash = true;
                         }, error =>
                         {
                             Debug.LogError($"Failed to load coin: {error}");

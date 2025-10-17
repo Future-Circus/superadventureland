@@ -39,8 +39,8 @@
         [HideInInspector] private float currentYRotation = 0.0f; // Track current Y-axis rotation for constant rotation
         [HideInInspector] public string dp_collectFx = "FX_CoinParticle";
         [HideInInspector] public string dp_collectSfx = "coin";
-        [HideInInspector] public float dp_spawnUpwardForce = 8f;
-        [HideInInspector] public float dp_spawnOutwardForce = 1f;
+        [HideInInspector] public float dp_spawnUpwardForce = 4f;
+        [HideInInspector] public float dp_spawnOutwardForce = 0.5f;
         public bool dp_isStatic = true;
         public bool dp_canSplash = false;
 
