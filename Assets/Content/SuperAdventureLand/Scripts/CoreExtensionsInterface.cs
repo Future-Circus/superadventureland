@@ -8,12 +8,34 @@
         public static string gameId = "SuperAdventureLand";
         public static void GetAsset<T>(this string resourceName, Action<T> onSuccess = null, Action<string> onError = null) where T : UnityEngine.Object
         {
-            CoreExtensions.GetAssetAsync<T>($"{gameId}/{resourceName}", onSuccess, onError).Forget();
+            var assetType = typeof(T);
+            string typeFolder = null;
+            if (assetType != typeof(GameObject))
+            {
+                if (assetType == typeof(AudioClip))
+                    typeFolder = "Audio";
+                else if (assetType == typeof(Texture) || assetType == typeof(Texture2D) || assetType == typeof(RenderTexture))
+                    typeFolder = "Textures";
+                else if (assetType == typeof(Material))
+                    typeFolder = "Materials";
+                else if (assetType == typeof(Shader))
+                    typeFolder = "Shaders";
+                else if (assetType == typeof(AnimationClip))
+                    typeFolder = "Animations";
+            }
+
+            string desiredAddress = resourceName;
+            if (assetType == typeof(GameObject))
+                desiredAddress = $"{gameId}/{resourceName}";
+            else if (!string.IsNullOrEmpty(typeFolder))
+                desiredAddress = $"{gameId}/{typeFolder}/{resourceName}";
+
+            CoreExtensions.GetAssetAsync<T>(desiredAddress, onSuccess, onError).Forget();
         }
 
         public static void PlaySFX(this string clipName, Vector3 position, float volume = 1f, float pitch = 1f, Transform parent = null)
         {
-            CoreExtensions.GetAssetAsync<AudioClip>($"{gameId}/{clipName}", (clip) => {
+            CoreExtensions.GetAssetAsync<AudioClip>($"{gameId}/Audio/{clipName}", (clip) => {
                 if (clip)
                 {
                 clip.PlaySFX(position, volume, pitch, parent);
