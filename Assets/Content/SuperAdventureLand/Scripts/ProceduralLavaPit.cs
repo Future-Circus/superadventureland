@@ -164,7 +164,7 @@
         {
             if (punishInterval > 0 && IsPlayerVolumeInsidePit(Camera.main.transform) && !IsAnyPlayerPointInsidePlatform(Camera.main.transform))
             {
-                if (timeInside == 0f || Time.time >= nextWarningTime)
+                if (timeInside >= punishInterval && Time.time >= nextWarningTime)
                 {
                     // First frame entering pit → punish immediately
                     if (DreamBand.Instance != null && DreamBand.Instance is SA_DreamBand saDreamBand)
