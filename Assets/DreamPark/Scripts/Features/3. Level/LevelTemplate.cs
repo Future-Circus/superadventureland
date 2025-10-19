@@ -10,7 +10,8 @@ namespace DreamPark {
         Small,
         Medium,
         Large,
-        Jumbo
+        Jumbo,
+        MallCorridor
     }
     public static class GameLevelDimensions
     {
@@ -28,6 +29,8 @@ namespace DreamPark {
                     return new Vector2(80f, 128f);
                 case GameLevelSize.Jumbo:
                     return new Vector2(120f, 150f);
+                case GameLevelSize.MallCorridor:
+                    return new Vector2(30f, 260f);
                 default:
                     return Vector2.zero;
             }

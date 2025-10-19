@@ -477,6 +477,10 @@ namespace DreamPark {
         }
 
         [MenuItem("DreamPark/Tools/Enforce Content Namespaces")]
+        public static void EnforceContentNamespaces()
+        {
+            EnforceContentNamespaces(null);
+        }
         public static void EnforceContentNamespaces(List<string> specificPaths = null)
         {
             string root = Path.Combine(Application.dataPath, "Content");
@@ -486,8 +490,9 @@ namespace DreamPark {
                 return;
             }
 
-            string[] csFiles = specificPaths != null && specificPaths.Count > 0 ? specificPaths.ToArray() : Directory.GetFiles(root, "*.cs", SearchOption.AllDirectories)
-                .Where(f => !f.Contains("/ThirdParty/") && !f.Contains("\\ThirdParty\\"))
+            string[] csFiles = (specificPaths != null && specificPaths.Count > 0 ? specificPaths.ToArray() : Directory.GetFiles(root, "*.cs", SearchOption.AllDirectories))
+                .Select(f => f.Replace('\\', '/').ToLowerInvariant())
+                .Where(f => !f.Contains("/thirdparty/"))
                 .ToArray();
 
             int modified = 0, skipped = 0;
