@@ -131,7 +131,7 @@
         private MeshFilter depthMaskMeshFilter;
         private float timeInside = 0f;
         private float nextWarningTime = 0f;
-        private float punishInterval = 3f;
+        private float punishInterval = 1f;
         private Vector3 playerVolumeHalfSize = new Vector3(0.15f, 0.15f, 0.15f);
         private List<GameObject> platforms = new List<GameObject>();
         private readonly List<Collider> _platformColliders = new();
@@ -164,9 +164,9 @@
         {
             if (punishInterval > 0 && IsPlayerVolumeInsidePit(Camera.main.transform) && !IsAnyPlayerPointInsidePlatform(Camera.main.transform))
             {
-                timeInside += Time.deltaTime;
                 if (timeInside >= punishInterval && Time.time >= nextWarningTime)
                 {
+                    // First frame entering pit → punish immediately
                     if (DreamBand.Instance != null && DreamBand.Instance is SA_DreamBand saDreamBand)
                     {
                         saDreamBand.InjurePlayer();
@@ -174,6 +174,8 @@
 
                     nextWarningTime = Time.time + punishInterval;
                 }
+
+                timeInside += Time.deltaTime;
             }
             else
             {
