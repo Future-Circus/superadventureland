@@ -166,7 +166,7 @@ namespace Kino
 		{
 			var shader = _shader ? _shader : Shader.Find("Hidden/Kino/Bloom");
 			_material = new Material(shader);
-			_material.hideFlags = HideFlags.DontSave;
+			//_material.hideFlags = HideFlags.DontSave;
 		}
 
 		void OnDisable()

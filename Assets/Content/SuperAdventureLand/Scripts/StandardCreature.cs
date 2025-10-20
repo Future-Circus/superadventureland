@@ -1,11 +1,11 @@
-﻿namespace SuperAdventureLand.Scripts
+﻿namespace SuperAdventureLand
 {
     using UnityEngine;
     using UnityEngine.Events;
     using Random = UnityEngine.Random;
     using System;
 
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.Events;
 
@@ -50,7 +50,7 @@
         }
     }
 
-#endif
+    #endif
 
     //This is a standard creature for Super Adventure Land
     public class StandardCreature : AwareCreature
@@ -66,7 +66,7 @@
 
         public void SetupInteractionFilters()
         {
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
             interactionFilters = new InteractionFilter[] {
                 new InteractionFilter {
                     layers = new string[] { "Level" },
@@ -117,17 +117,17 @@
             UnityEventTools.AddPersistentListener(interactionFilters[5].onInteractionEnter, MortarHit);
             UnityEventTools.AddPersistentListener(interactionFilters[6].onInteractionEnter, LavaHit);
             UnityEditor.EditorUtility.SetDirty(this);
-#endif
+    #endif
         }
 
         public void OnValidate()
         {
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
             if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0))
             {
                 SetupInteractionFilters();
             }
-#endif
+    #endif
         }
 
         public virtual void BlockHit(CollisionWrapper collision)

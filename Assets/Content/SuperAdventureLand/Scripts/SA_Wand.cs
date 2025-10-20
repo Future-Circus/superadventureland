@@ -1,4 +1,4 @@
-﻿namespace SuperAdventureLand.Scripts
+﻿namespace SuperAdventureLand
 {
     using UnityEngine;
     public class SA_Wand : SA_PowerUp

@@ -1,4 +1,4 @@
-﻿namespace SuperAdventureLand.Scripts
+﻿namespace SuperAdventureLand
 {
     using UnityEngine;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
     using System;
     using System.IO;
 
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.SceneManagement;
     using DreamPark;
@@ -109,7 +109,7 @@
             }
         }
     }
-#endif
+    #endif
 
     [ExecuteInEditMode]
     public class ProceduralLavaPit : MonoBehaviour
@@ -469,7 +469,7 @@
 
         public void SaveMeshIfPrefab()
         {
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
             Debug.Log("Save Mesh!");
             Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
 
@@ -518,7 +518,7 @@
             }
 
             Debug.Log($"Saved mesh to {meshPath} and assigned to prefab '{prefabName}'");
-#endif
+    #endif
         }
 
         private void OnDestroy()
@@ -640,7 +640,6 @@
 
             return combined;
         }
-
 
         void CollectChildrenRecursive(Transform parent, int layer, List<GameObject> list)
         {

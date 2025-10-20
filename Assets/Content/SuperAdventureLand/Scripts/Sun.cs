@@ -1,9 +1,9 @@
-﻿namespace SuperAdventureLand.Scripts
+﻿namespace SuperAdventureLand
 {
     using System;
     using UnityEngine;
 
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     using UnityEditor;
     using System.Threading.Tasks;
 
@@ -20,7 +20,7 @@
             }
         }
     }
-#endif
+    #endif
 
     public enum SunState
     {

@@ -1,4 +1,4 @@
-﻿namespace SuperAdventureLand.Scripts
+﻿namespace SuperAdventureLand
 {
     using System.Linq;
     using UnityEngine;

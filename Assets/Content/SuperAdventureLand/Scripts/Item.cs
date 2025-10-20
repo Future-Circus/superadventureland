@@ -1,12 +1,12 @@
-﻿namespace SuperAdventureLand.Scripts
+﻿namespace SuperAdventureLand
 {
     using UnityEngine;
     using UnityEngine.Events;
     using Random = UnityEngine.Random;
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.Events;
-#endif
+    #endif
     public enum ItemState
     {
         START,
@@ -224,7 +224,7 @@
 
         public void SetupInteractionFilters()
         {
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
             interactionFilters = new InteractionFilter[] {
                 new InteractionFilter {
                     layers = new string[] { "Player" },
@@ -254,17 +254,17 @@
             UnityEventTools.AddPersistentListener(interactionFilters[2].onInteractionEnter, LavaHit);
             UnityEventTools.AddPersistentListener(interactionFilters[3].onInteractionEnter, LevelHit);
             UnityEditor.EditorUtility.SetDirty(this);
-#endif
+    #endif
         }
 
         public void OnValidate()
         {
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
             if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0))
             {
                 SetupInteractionFilters();
             }
-#endif
+    #endif
         }
 
         public bool isSpinning

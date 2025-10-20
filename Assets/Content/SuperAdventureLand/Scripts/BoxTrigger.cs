@@ -1,4 +1,5 @@
-﻿namespace SuperAdventureLand.Scripts {
+﻿namespace SuperAdventureLand
+{
     using DreamPark;
     using UnityEngine;
     using UnityEngine.Events;
@@ -60,7 +61,7 @@
                 Mathf.Abs(y) <= halfExtents.y &&
                 Mathf.Abs(z) <= halfExtents.z;
         }
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
         public void OnDrawGizmos()
         {
             if (!TryGetComponent(out LevelTemplate levelTemplate)) {
@@ -68,6 +69,6 @@
                 Gizmos.DrawWireCube(transform.position, transform.localScale);
             }
         }
-#endif
+    #endif
     }
 }
