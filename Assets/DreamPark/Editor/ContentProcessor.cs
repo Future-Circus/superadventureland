@@ -522,14 +522,24 @@ namespace DreamPark {
                     typeFolder = "Shaders";
                 else if (assetType == typeof(AnimationClip))
                     typeFolder = "Animations";
+                else if (extension == ".json" || assetType == typeof(TextAsset))
+                    typeFolder = "Data";
 
                 string desiredAddress;
-                if (typeFolder == null && assetType == typeof(GameObject))
-                    desiredAddress = $"{gameId}/{Path.GetFileNameWithoutExtension(assetPath)}";
-                else if (!string.IsNullOrEmpty(typeFolder))
+                if (typeFolder == null && assetType == typeof(GameObject)) {
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+                    if (prefab == null) continue;
+                    var levelTemplate = prefab.GetComponent<LevelTemplate>();
+                    if (levelTemplate != null) {
+                        desiredAddress = $"{gameId}/Levels/{levelTemplate.size.ToString()}/{Path.GetFileNameWithoutExtension(assetPath)}";
+                    } else {
+                        desiredAddress = $"{gameId}/{Path.GetFileNameWithoutExtension(assetPath)}";
+                    }
+                } else if (!string.IsNullOrEmpty(typeFolder)) {
                     desiredAddress = $"{gameId}/{typeFolder}/{Path.GetFileNameWithoutExtension(assetPath)}";
-                else
+                } else {
                     desiredAddress = assetPath;
+                }
 
                 if (entry.address != desiredAddress)
                         entry.address = desiredAddress;

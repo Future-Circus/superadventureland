@@ -22,6 +22,8 @@
                     typeFolder = "Shaders";
                 else if (assetType == typeof(AnimationClip))
                     typeFolder = "Animations";
+                else if (assetType == typeof(TextAsset))
+                    typeFolder = "Data";
             }
 
             string desiredAddress = resourceName;
