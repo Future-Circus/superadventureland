@@ -1,7 +1,5 @@
 using DreamPark;
 using UnityEngine;
-
-[RequireComponent(typeof(OptimizedAFIgnore))]
 public class MusicArea : MonoBehaviour
 {
     public static int? _priority;
