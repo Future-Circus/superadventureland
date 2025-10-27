@@ -30,7 +30,7 @@
         public Transform dp_unactivatedBlock;
         public Transform dp_activatedBlock;
         public string dp_hitSfx = "thud";
-        private float dp_activateThreshold = 0.6f;
+        private float dp_activateThreshold = 1.2f;
         private SpringJoint springJoint;
         [HideInInspector] public Vector3 hitVelocity;
 
@@ -67,6 +67,7 @@
                     dp_hitSfx.PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
                     if (!shouldDestroy)
                     {
+                        Debug.Log("dp_activatedBlock!");
                         dp_unactivatedBlock?.gameObject.SetActive(false);
                         dp_activatedBlock?.gameObject.SetActive(true);
                     }

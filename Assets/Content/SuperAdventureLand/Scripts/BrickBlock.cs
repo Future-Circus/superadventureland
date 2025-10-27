@@ -3,6 +3,22 @@
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    #if UNITY_EDITOR
+    using UnityEditor;
+    [CustomEditor(typeof(BrickBlock), true)]
+    public class BrickBlockEditor : BlockEditor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            BrickBlock brickBlock = (BrickBlock)target;
+            if (GUILayout.Button("Break Block"))
+            {
+                brickBlock.SetState(BlockState.ACTIVATE);
+            }
+        }
+    }
+    #endif  
 
     public class BrickBlock : Block
     {

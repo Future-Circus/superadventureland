@@ -5,7 +5,6 @@
     public class BreakableItemBlock : ItemBlock
     {
         public override void ExecuteState() {
-            base.ExecuteState();
             switch (state) {
                 case BlockState.ACTIVATE:
                     mainCollider.enabled = false;
