@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4807159665268891649, guid: e43d7b7533d1c44c0bb43ad7b4653b0b, type: 3}
+      propertyPath: ignoreAboveEvent
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5453046896827762624, guid: e43d7b7533d1c44c0bb43ad7b4653b0b, type: 3}
       propertyPath: m_Name
       value: E_Coconut (1)
@@ -193,6 +197,10 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4807159665268891649, guid: e43d7b7533d1c44c0bb43ad7b4653b0b, type: 3}
+      propertyPath: ignoreAboveEvent
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5453046896827762624, guid: e43d7b7533d1c44c0bb43ad7b4653b0b, type: 3}
       propertyPath: m_Name
       value: E_Coconut
@@ -236,6 +244,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   layers: []
   tags: []
@@ -451,6 +460,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   intensity: 1
   speed: 1
@@ -627,8 +637,9 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
-  velocityThreshold: 10
+  velocityThreshold: 6
   debugger: 1
 --- !u!114 &5082644129920687423
 MonoBehaviour:
@@ -645,12 +656,13 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   routes:
   - {fileID: 148153416840169795}
   - {fileID: 7048543908635140854}
   - {fileID: 4334060330614364297}
-  ignoreIncomingEvent: 0
+  ignoreAboveEvent: 0
 --- !u!4 &2025614529128443156 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8879528566716807029, guid: 92ebc84c6d2974a13acab16f6b97ee2a, type: 3}
@@ -831,6 +843,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   intensity: 1
   speed: 1
@@ -910,6 +923,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   intensity: 1
   speed: 1
@@ -1275,6 +1289,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   intensity: 1
   speed: 1
@@ -1502,6 +1517,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4175209639230678818, guid: e43d7b7533d1c44c0bb43ad7b4653b0b, type: 3}
       propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4807159665268891649, guid: e43d7b7533d1c44c0bb43ad7b4653b0b, type: 3}
+      propertyPath: ignoreAboveEvent
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5453046896827762624, guid: e43d7b7533d1c44c0bb43ad7b4653b0b, type: 3}

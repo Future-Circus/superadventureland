@@ -3,11 +3,11 @@ using UnityEngine;
 public class EasyRouter : EasyEvent
 {
     public EasyRouter[] routes;
-    public bool ignoreIncomingEvent = false;
+    public bool ignoreAboveEvent = false;
 
     public override void Awake()
     {
-        if (!ignoreIncomingEvent) {
+        if (!ignoreAboveEvent) {
             base.Awake();
         }
     }

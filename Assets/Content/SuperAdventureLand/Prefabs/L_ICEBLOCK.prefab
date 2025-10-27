@@ -13,11 +13,14 @@ GameObject:
   - component: {fileID: 6716107638965978407}
   - component: {fileID: 2650900254267445559}
   - component: {fileID: 8717995011094641514}
-  - component: {fileID: 6826275756317228278}
+  - component: {fileID: 4804355222312383675}
   - component: {fileID: 3555321121871759940}
   - component: {fileID: 3695774450443111515}
   - component: {fileID: 1239497287511466623}
   - component: {fileID: 2395173060050489309}
+  - component: {fileID: 6063106432680870586}
+  - component: {fileID: 1560972264689228704}
+  - component: {fileID: 7675037836514682951}
   m_Layer: 7
   m_Name: Cube.038_cell.005
   m_TagString: Untagged
@@ -142,7 +145,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -8893309209174163255, guid: 8edff66a9a671482791f2fe834b20e11, type: 3}
---- !u!114 &6826275756317228278
+--- !u!114 &4804355222312383675
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,18 +154,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 2798794645097162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Script: {fileID: 11500000, guid: 925b5c47538214059b34d8f55cb7b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
-  layers:
-  - Level
-  tags:
-  - Ground
-  collisionEvent: 0
+  interactionFilters:
+  - layers:
+    - Level
+    tags:
+    - Ground
+    collisionEvent: 0
+    onEvent: {fileID: 3555321121871759940}
+  - layers: []
+    tags:
+    - Lava
+    collisionEvent: 0
+    onEvent: {fileID: 6063106432680870586}
 --- !u!114 &3555321121871759940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +189,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   randomDelay: 0
   delay: 0.5
@@ -197,6 +209,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   targetScale: {x: 0, y: 0, z: 0}
   duration: 0.4
@@ -216,6 +229,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
 --- !u!114 &2395173060050489309
 MonoBehaviour:
@@ -230,6 +244,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
+--- !u!114 &6063106432680870586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798794645097162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308db504c270740d79da359842066e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  routes: []
+  ignoreAboveEvent: 1
+--- !u!114 &1560972264689228704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798794645097162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18bcdc43859e147059f89a9bb6e7eb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}
+  delayNextEvent: 0
+--- !u!114 &7675037836514682951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798794645097162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7c906da6f464316b597e917607438c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
 --- !u!1 &627172395405423510
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,11 +312,14 @@ GameObject:
   - component: {fileID: 7436745564766741744}
   - component: {fileID: 2227804394520403806}
   - component: {fileID: 7714292950158097317}
-  - component: {fileID: 1189086716909519172}
+  - component: {fileID: 512085373372587510}
   - component: {fileID: 1132459504850469854}
   - component: {fileID: 9102648546046163248}
   - component: {fileID: 6603236960443318238}
   - component: {fileID: 6094862323708196966}
+  - component: {fileID: 4051387223144237358}
+  - component: {fileID: 30685157900548476}
+  - component: {fileID: 7177119875550539044}
   m_Layer: 7
   m_Name: Cube.038_cell.002
   m_TagString: Untagged
@@ -372,7 +444,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4673222546316218912, guid: 8edff66a9a671482791f2fe834b20e11, type: 3}
---- !u!114 &1189086716909519172
+--- !u!114 &512085373372587510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -381,18 +453,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 627172395405423510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Script: {fileID: 11500000, guid: 925b5c47538214059b34d8f55cb7b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
-  layers:
-  - Level
-  tags:
-  - Ground
-  collisionEvent: 0
+  interactionFilters:
+  - layers:
+    - Level
+    tags:
+    - Ground
+    collisionEvent: 0
+    onEvent: {fileID: 1132459504850469854}
+  - layers: []
+    tags:
+    - Lava
+    collisionEvent: 0
+    onEvent: {fileID: 4051387223144237358}
 --- !u!114 &1132459504850469854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +488,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   randomDelay: 0
   delay: 0.5
@@ -427,6 +508,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   targetScale: {x: 0, y: 0, z: 0}
   duration: 0.4
@@ -446,6 +528,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
 --- !u!114 &6094862323708196966
 MonoBehaviour:
@@ -460,6 +543,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
+--- !u!114 &4051387223144237358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627172395405423510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308db504c270740d79da359842066e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  routes: []
+  ignoreAboveEvent: 1
+--- !u!114 &30685157900548476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627172395405423510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18bcdc43859e147059f89a9bb6e7eb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}
+  delayNextEvent: 0
+--- !u!114 &7177119875550539044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627172395405423510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7c906da6f464316b597e917607438c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
 --- !u!1 &1768221386663745316
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,11 +611,14 @@ GameObject:
   - component: {fileID: 4271628305088689403}
   - component: {fileID: 9180766786347564381}
   - component: {fileID: 927541963855406393}
-  - component: {fileID: 5369531876530818564}
+  - component: {fileID: 2014086950280128124}
   - component: {fileID: 2196384202879629619}
   - component: {fileID: 4846038796364648798}
   - component: {fileID: 7444546872724916424}
   - component: {fileID: 5886214550270044923}
+  - component: {fileID: 4343014020559974826}
+  - component: {fileID: 4775709209765129405}
+  - component: {fileID: 2427328904920164025}
   m_Layer: 7
   m_Name: Cube.038_cell
   m_TagString: Untagged
@@ -602,7 +743,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5922804579442390057, guid: 8edff66a9a671482791f2fe834b20e11, type: 3}
---- !u!114 &5369531876530818564
+--- !u!114 &2014086950280128124
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -611,18 +752,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768221386663745316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Script: {fileID: 11500000, guid: 925b5c47538214059b34d8f55cb7b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
-  layers:
-  - Level
-  tags:
-  - Ground
-  collisionEvent: 0
+  interactionFilters:
+  - layers:
+    - Level
+    tags:
+    - Ground
+    collisionEvent: 0
+    onEvent: {fileID: 2196384202879629619}
+  - layers: []
+    tags:
+    - Lava
+    collisionEvent: 0
+    onEvent: {fileID: 4343014020559974826}
 --- !u!114 &2196384202879629619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -638,6 +787,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   randomDelay: 0
   delay: 0.5
@@ -657,6 +807,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   targetScale: {x: 0, y: 0, z: 0}
   duration: 0.4
@@ -676,6 +827,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
 --- !u!114 &5886214550270044923
 MonoBehaviour:
@@ -690,6 +842,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
+--- !u!114 &4343014020559974826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768221386663745316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308db504c270740d79da359842066e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  routes: []
+  ignoreAboveEvent: 1
+--- !u!114 &4775709209765129405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768221386663745316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18bcdc43859e147059f89a9bb6e7eb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}
+  delayNextEvent: 0
+--- !u!114 &2427328904920164025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768221386663745316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7c906da6f464316b597e917607438c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
 --- !u!1 &5238440149934110411
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,11 +970,14 @@ GameObject:
   - component: {fileID: 8194981770721350271}
   - component: {fileID: 6072495215044353893}
   - component: {fileID: 7149558652477248507}
-  - component: {fileID: 1126563741764919076}
+  - component: {fileID: 8527936663576198501}
   - component: {fileID: 7113377244478526482}
   - component: {fileID: 9159327476321519031}
   - component: {fileID: 7143527270801993094}
   - component: {fileID: 8595486201173105995}
+  - component: {fileID: 6669675604739236436}
+  - component: {fileID: 3656356537969597272}
+  - component: {fileID: 1074027910109967803}
   m_Layer: 7
   m_Name: Cube.038_cell.003
   m_TagString: Untagged
@@ -892,7 +1102,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4484588389249581923, guid: 8edff66a9a671482791f2fe834b20e11, type: 3}
---- !u!114 &1126563741764919076
+--- !u!114 &8527936663576198501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -901,18 +1111,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 6775905639602994932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Script: {fileID: 11500000, guid: 925b5c47538214059b34d8f55cb7b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
-  layers:
-  - Level
-  tags:
-  - Ground
-  collisionEvent: 0
+  interactionFilters:
+  - layers:
+    - Level
+    tags:
+    - Ground
+    collisionEvent: 0
+    onEvent: {fileID: 7113377244478526482}
+  - layers: []
+    tags:
+    - Lava
+    collisionEvent: 0
+    onEvent: {fileID: 6669675604739236436}
 --- !u!114 &7113377244478526482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,6 +1146,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   randomDelay: 0
   delay: 0.5
@@ -947,6 +1166,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   targetScale: {x: 0, y: 0, z: 0}
   duration: 0.4
@@ -966,6 +1186,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
 --- !u!114 &8595486201173105995
 MonoBehaviour:
@@ -980,6 +1201,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
+--- !u!114 &6669675604739236436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775905639602994932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308db504c270740d79da359842066e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  routes: []
+  ignoreAboveEvent: 1
+--- !u!114 &3656356537969597272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775905639602994932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18bcdc43859e147059f89a9bb6e7eb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}
+  delayNextEvent: 0
+--- !u!114 &1074027910109967803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775905639602994932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7c906da6f464316b597e917607438c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
 --- !u!1 &6858766265944853172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,11 +1522,14 @@ GameObject:
   - component: {fileID: 879638474241090830}
   - component: {fileID: 903128539445729452}
   - component: {fileID: 5772218645811003124}
-  - component: {fileID: 657208121807197037}
+  - component: {fileID: 6816150402810205011}
   - component: {fileID: 5942425480970848250}
   - component: {fileID: 7378056401691861550}
   - component: {fileID: 349098736019564677}
   - component: {fileID: 2387126544476070505}
+  - component: {fileID: 4444220138694615271}
+  - component: {fileID: 3684919017211868833}
+  - component: {fileID: 4887265993878937218}
   m_Layer: 7
   m_Name: Cube.038_cell.001
   m_TagString: Untagged
@@ -1375,7 +1654,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4306716651058442118, guid: 8edff66a9a671482791f2fe834b20e11, type: 3}
---- !u!114 &657208121807197037
+--- !u!114 &6816150402810205011
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1384,18 +1663,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 7453600197728480644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Script: {fileID: 11500000, guid: 925b5c47538214059b34d8f55cb7b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
-  layers:
-  - Level
-  tags:
-  - Ground
-  collisionEvent: 0
+  interactionFilters:
+  - layers:
+    - Level
+    tags:
+    - Ground
+    collisionEvent: 0
+    onEvent: {fileID: 5942425480970848250}
+  - layers: []
+    tags:
+    - Lava
+    collisionEvent: 0
+    onEvent: {fileID: 4444220138694615271}
 --- !u!114 &5942425480970848250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1411,6 +1698,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   randomDelay: 0
   delay: 0.5
@@ -1430,6 +1718,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   targetScale: {x: 0, y: 0, z: 0}
   duration: 0.4
@@ -1449,6 +1738,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
 --- !u!114 &2387126544476070505
 MonoBehaviour:
@@ -1463,6 +1753,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
+--- !u!114 &4444220138694615271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7453600197728480644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308db504c270740d79da359842066e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  routes: []
+  ignoreAboveEvent: 1
+--- !u!114 &3684919017211868833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7453600197728480644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18bcdc43859e147059f89a9bb6e7eb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}
+  delayNextEvent: 0
+--- !u!114 &4887265993878937218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7453600197728480644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7c906da6f464316b597e917607438c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
 --- !u!1 &7475148335569457080
 GameObject:
   m_ObjectHideFlags: 0
@@ -6543,11 +6888,14 @@ GameObject:
   - component: {fileID: 1595226521371301162}
   - component: {fileID: 5249578314473345603}
   - component: {fileID: 8921149210653942079}
-  - component: {fileID: 5199090904084328190}
+  - component: {fileID: 3921596062975934849}
   - component: {fileID: 2410569593704532646}
   - component: {fileID: 7802779433206695716}
   - component: {fileID: 4068305597181735728}
   - component: {fileID: 7059766693486728219}
+  - component: {fileID: 4751913398852989810}
+  - component: {fileID: 967245035706084423}
+  - component: {fileID: 7793287291390552533}
   m_Layer: 7
   m_Name: Cube.038_cell.004
   m_TagString: Untagged
@@ -6672,7 +7020,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6054501680150929335, guid: 8edff66a9a671482791f2fe834b20e11, type: 3}
---- !u!114 &5199090904084328190
+--- !u!114 &3921596062975934849
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6681,18 +7029,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 8649142564938281657}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Script: {fileID: 11500000, guid: 925b5c47538214059b34d8f55cb7b53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
-  layers:
-  - Level
-  tags:
-  - Ground
-  collisionEvent: 0
+  interactionFilters:
+  - layers:
+    - Level
+    tags:
+    - Ground
+    collisionEvent: 0
+    onEvent: {fileID: 2410569593704532646}
+  - layers: []
+    tags:
+    - Lava
+    collisionEvent: 0
+    onEvent: {fileID: 4751913398852989810}
 --- !u!114 &2410569593704532646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6708,6 +7064,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   randomDelay: 0
   delay: 0.5
@@ -6727,6 +7084,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   targetScale: {x: 0, y: 0, z: 0}
   duration: 0.4
@@ -6746,6 +7104,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
 --- !u!114 &7059766693486728219
 MonoBehaviour:
@@ -6760,6 +7119,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
+--- !u!114 &4751913398852989810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8649142564938281657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308db504c270740d79da359842066e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  routes: []
+  ignoreAboveEvent: 1
+--- !u!114 &967245035706084423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8649142564938281657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18bcdc43859e147059f89a9bb6e7eb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
+  particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}
+  delayNextEvent: 0
+--- !u!114 &7793287291390552533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8649142564938281657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7c906da6f464316b597e917607438c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  eventOnStart: 0
 --- !u!1 &8883399834473284886
 GameObject:
   m_ObjectHideFlags: 0

@@ -114,9 +114,10 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   routes: []
-  ignoreIncomingEvent: 0
+  ignoreAboveEvent: 0
 --- !u!114 &8739566792398220951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +133,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
 --- !u!114 &8558167297866821921
 MonoBehaviour:
@@ -148,6 +150,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
+  aboveEvent: {fileID: 0}
   eventOnStart: 0
   isKinematic: 0
   useGravity: 1

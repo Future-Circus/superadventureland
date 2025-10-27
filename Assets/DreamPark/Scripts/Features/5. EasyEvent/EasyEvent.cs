@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class EasyEvent : MonoBehaviour
 {
     [HideInInspector] public UnityEvent<object> onEvent;
+    [HideInInspector] public EasyEvent aboveEvent;
     [HideInInspector] public bool eventOnStart = false;
 
     public virtual void Awake()
@@ -19,8 +20,8 @@ public class EasyEvent : MonoBehaviour
                         eventOnStart = true;
                         break;
                     }
-                    EasyEvent aboveComponent = allComponents[i - 1];
-                    aboveComponent.onEvent.AddListener(OnEvent);
+                    aboveEvent = allComponents[i - 1];
+                    aboveEvent.onEvent.AddListener(OnEvent);
                     break;
                 }
             }

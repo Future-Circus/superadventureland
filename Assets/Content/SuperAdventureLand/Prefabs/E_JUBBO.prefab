@@ -386,6 +386,27 @@ MonoBehaviour:
     onInteractionExit:
       m_PersistentCalls:
         m_Calls: []
+  - layers: []
+    tags:
+    - Lava
+    onInteractionEnter:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6790311624070973829}
+          m_TargetAssemblyTypeName: SuperAdventureLand.StandardCreature, Assembly-CSharp
+          m_MethodName: LavaHit
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    onInteractionExit:
+      m_PersistentCalls:
+        m_Calls: []
   debugger: 0
   queue: 
   stateChangeTime: 0
@@ -501,7 +522,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
