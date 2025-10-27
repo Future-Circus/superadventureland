@@ -27,7 +27,8 @@
                 case CreatureState.KICK:
                     if (lastCollision != null && lastCollision.gameObject != null && lastCollision.gameObject.TryGetComponent(out PlayerInteractor interactor)) {
                         currentTargetPosition = Camera.main.transform.position;
-                        Vector3 hittedForce = interactor.GetDirection().normalized * interactor.GetVelocity() * 10f;
+                        Vector3 hittedForce = interactor.GetDirection().normalized * Mathf.Min(2f,interactor.GetVelocity());
+                        Debug.Log("Kick force: " + hittedForce.magnitude);
                         hittedForce.y = Math.Max(5f,hittedForce.y);
                         Rigidbody rb = GetComponent<Rigidbody>();
                         rb.useGravity = true;
