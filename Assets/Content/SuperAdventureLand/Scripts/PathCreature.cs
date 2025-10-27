@@ -51,6 +51,7 @@
                 agent.enabled = true;
             }
 
+    
             yield return new WaitUntil(()=> agent.isOnNavMesh);
 
             if(waypoints.Length > 0)
