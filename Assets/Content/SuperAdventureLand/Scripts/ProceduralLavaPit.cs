@@ -158,6 +158,8 @@
 
             int layer = LayerMask.NameToLayer("Level");
             CollectChildrenRecursive(transform, layer, platforms);
+
+            GenerateColliders();
         }
 
         void Update()
@@ -650,6 +652,65 @@
 
                 CollectChildrenRecursive(child, layer, list);
             }
+        }
+
+        public void GenerateColliders()
+        {
+            // Ensure we have a MeshFilter with a valid mesh
+            MeshFilter mf = GetComponent<MeshFilter>();
+            if (mf == null || mf.sharedMesh == null)
+            {
+                Debug.LogWarning($"{name}: No mesh found to generate colliders.");
+                return;
+            }
+
+            Mesh mesh = mf.sharedMesh;
+
+            // --- Clean up any previous colliders ---
+            var oldColliders = GetComponentsInChildren<MeshCollider>().ToList();
+            foreach (var c in oldColliders)
+            {
+        #if UNITY_EDITOR
+                if (!Application.isPlaying)
+                    DestroyImmediate(c.gameObject);
+                else
+        #endif
+                    Destroy(c.gameObject);
+            }
+
+            // --- WALL COLLIDER (submesh 0) ---
+            GameObject wallColliderObj = new GameObject("WallCollider");
+            wallColliderObj.transform.SetParent(transform, false);
+            wallColliderObj.layer = LayerMask.NameToLayer("Level");
+            wallColliderObj.tag = "Ground";
+
+            Mesh wallMesh = new Mesh();
+            wallMesh.vertices = mesh.vertices;
+            wallMesh.triangles = mesh.GetTriangles(0); // submesh 0 = wall triangles
+            wallMesh.RecalculateNormals();
+            wallMesh.RecalculateBounds();
+
+            MeshCollider wallCollider = wallColliderObj.AddComponent<MeshCollider>();
+            wallCollider.sharedMesh = wallMesh;
+            wallCollider.convex = false;
+
+            // --- LAVA COLLIDER (submesh 1) ---
+            GameObject lavaColliderObj = new GameObject("LavaCollider");
+            lavaColliderObj.transform.SetParent(transform, false);
+            lavaColliderObj.layer = LayerMask.NameToLayer("Level");
+            lavaColliderObj.tag = "Lava";
+
+            Mesh lavaMesh = new Mesh();
+            lavaMesh.vertices = mesh.vertices;
+            lavaMesh.triangles = mesh.GetTriangles(1); // submesh 1 = bottom/lava
+            lavaMesh.RecalculateNormals();
+            lavaMesh.RecalculateBounds();
+
+            MeshCollider lavaCollider = lavaColliderObj.AddComponent<MeshCollider>();
+            lavaCollider.sharedMesh = lavaMesh;
+            lavaCollider.convex = false;
+
+            Debug.Log($"{name}: Added wall + lava colliders.");
         }
     }
 }
