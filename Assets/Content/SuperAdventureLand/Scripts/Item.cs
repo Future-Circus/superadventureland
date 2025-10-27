@@ -75,6 +75,7 @@
                     rb.isKinematic = false;
                     break;
                 case ItemState.SPIN:
+                    rb.excludeLayers = 0;
                     rb.useGravity = false;
                     rb.constraints = RigidbodyConstraints.FreezeAll;
                     break;
@@ -90,6 +91,7 @@
                     }
                     break;
                 case ItemState.RISE:
+                    rb.excludeLayers = 0;
                     rb.linearVelocity = Vector3.zero;
                     rb.useGravity = false;
                     rb.constraints = RigidbodyConstraints.FreezeAll;
