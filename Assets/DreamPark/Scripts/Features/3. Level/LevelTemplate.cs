@@ -1,5 +1,7 @@
 using Unity.AI.Navigation;
 using UnityEngine;
+using System.Collections.Generic;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -53,7 +55,7 @@ namespace DreamPark {
 
         void Start()
         {
-            if (generateFloor) GenerateFloor();
+            if (generateFloor) GenerateFloorWithHoles();
         } 
 
         private void GenerateFloor() {
@@ -65,6 +67,7 @@ namespace DreamPark {
 
             runtimePlane = new GameObject("LevelFloor");
             runtimePlane.layer = LayerMask.NameToLayer("Level");
+            runtimePlane.tag = "Ground";
             runtimePlane.transform.SetParent(transform, false);
 
             MeshFilter mf = runtimePlane.AddComponent<MeshFilter>();
@@ -105,6 +108,107 @@ namespace DreamPark {
             surface.collectObjects = CollectObjects.Children;
             surface.agentTypeID = UnityEngine.AI.NavMesh.GetSettingsByIndex(1).agentTypeID;
             surface.BuildNavMesh();
+        }
+
+        private void GenerateFloorWithHoles() {
+            if (runtimePlane != null) DestroyImmediate(runtimePlane);
+
+            Vector2 dims = GameLevelDimensions.GetDimensionsInMeters(size);
+            float width = dims.x;
+            float height = dims.y;
+
+            runtimePlane = new GameObject("LevelFloor");
+            runtimePlane.layer = LayerMask.NameToLayer("Level");
+            runtimePlane.tag = "Ground";
+            runtimePlane.transform.SetParent(transform, false);
+
+            MeshFilter mf = runtimePlane.AddComponent<MeshFilter>();
+            MeshRenderer mr = runtimePlane.AddComponent<MeshRenderer>();
+            MeshCollider mc = runtimePlane.AddComponent<MeshCollider>();
+
+            mr.material = Resources.Load<Material>("Materials/Occlusion");
+
+            // Base rectangle outline (clockwise)
+            List<Vector2> outer = new List<Vector2> {
+                new Vector2(-width/2f, -height/2f),
+                new Vector2(-width/2f,  height/2f),
+                new Vector2( width/2f,  height/2f),
+                new Vector2( width/2f, -height/2f)
+            };
+
+            // Collect lava pit holes (counter-clockwise for correct winding)
+            List<List<Vector2>> holes = new List<List<Vector2>>();
+            foreach (var pit in GetComponentsInChildren<SuperAdventureLand.ProceduralLavaPit>()) {
+                List<Vector2> hole = new List<Vector2>();
+                foreach (var p in pit.points) {
+                    Vector3 worldP = pit.transform.TransformPoint(p);
+                    Vector3 localToLevel = transform.InverseTransformPoint(worldP);
+                    hole.Add(new Vector2(localToLevel.x, localToLevel.z));
+                }
+                if (hole.Count >= 3) holes.Add(hole);
+            }
+
+            Debug.Log("holes: " + holes.Count);
+
+            Mesh mesh = TriangulatePolygonWithHoles(outer, holes);
+
+            mf.sharedMesh = mesh;
+            mc.sharedMesh = mesh;
+        }
+
+        private Mesh TriangulatePolygonWithHoles(List<Vector2> outer, List<List<Vector2>> holes)
+        {
+            // Use Clipper-style polygon subtraction via LibTessDotNet (bundled-friendly triangulator)
+            var tess = new LibTessDotNet.Tess();
+
+            // Convert outer
+            LibTessDotNet.ContourVertex[] outerVerts = new LibTessDotNet.ContourVertex[outer.Count];
+            for (int i = 0; i < outer.Count; i++)
+                outerVerts[i].Position = new LibTessDotNet.Vec3(outer[i].x, outer[i].y, 0);
+            tess.AddContour(outerVerts, LibTessDotNet.ContourOrientation.Clockwise);
+
+            // Add holes (counterclockwise)
+            foreach (var hole in holes)
+            {
+                LibTessDotNet.ContourVertex[] holeVerts = new LibTessDotNet.ContourVertex[hole.Count];
+                for (int i = 0; i < hole.Count; i++)
+                    holeVerts[i].Position = new LibTessDotNet.Vec3(hole[i].x, hole[i].y, 0);
+                tess.AddContour(holeVerts, LibTessDotNet.ContourOrientation.CounterClockwise);
+            }
+
+            // Triangulate
+            tess.Tessellate(LibTessDotNet.WindingRule.EvenOdd, LibTessDotNet.ElementType.Polygons, 3);
+
+            // Build mesh
+            var verts = new Vector3[tess.Vertices.Length];
+            for (int i = 0; i < verts.Length; i++)
+                verts[i] = new Vector3(tess.Vertices[i].Position.X, 0, tess.Vertices[i].Position.Y);
+
+            var tris = new int[tess.ElementCount * 3];
+            for (int i = 0; i < tess.ElementCount; i++)
+            {
+                // Flip the order so normals face up (Unity uses a left-handed coordinate system)
+                tris[i * 3 + 0] = tess.Elements[i * 3 + 2];
+                tris[i * 3 + 1] = tess.Elements[i * 3 + 1];
+                tris[i * 3 + 2] = tess.Elements[i * 3 + 0];
+            }
+
+            Mesh mesh = new Mesh();
+            mesh.vertices = verts;
+            mesh.triangles = tris;
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+            return mesh;
+        }
+
+        private void TriangulateSimplePolygon(List<Vector2> poly, List<Vector3> vertices, List<int> triangles) {
+            int startIndex = vertices.Count;
+            for (int i = 0; i < poly.Count; i++)
+                vertices.Add(new Vector3(poly[i].x, 0, poly[i].y));
+
+            // Simple fan triangulation
+            for (int i = 1; i < poly.Count - 1; i++)
+                triangles.AddRange(new int[] { startIndex, startIndex + i, startIndex + i + 1 });
         }
 
     #if UNITY_EDITOR

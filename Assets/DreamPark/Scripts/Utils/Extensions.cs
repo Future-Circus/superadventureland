@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Defective.JSON;
+using DreamPark;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AI;
@@ -1184,12 +1185,12 @@ public static class Extensions
 	public static Transform FindRoot(this Transform transform) {
 		Transform parent = transform.parent;
 		while (parent != null) {
-			if (parent.name.EndsWith("Root")) {
+			if (parent.name.EndsWith("Root") || parent.GetComponent<LevelTemplate>()) {
 				return parent;
 			}
 			parent = parent.parent;
 		}
-		return transform.parent;
+		return null;
 	}
     public static bool IsDestroyed(this GameObject gameObject)
     {
