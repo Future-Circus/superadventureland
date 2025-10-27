@@ -183,8 +183,11 @@
         {
             switch (state)
             {
-                case CreatureState.IDLE:
+                case CreatureState.START:
+                    base.ExecuteState();
                     animator.Update(Random.Range(0.00f, 10.00f));
+                    break;
+                case CreatureState.IDLE:
                     base.ExecuteState();
                     break;
                 case CreatureState.HIT:
