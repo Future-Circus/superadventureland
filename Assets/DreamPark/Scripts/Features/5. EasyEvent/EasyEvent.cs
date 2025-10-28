@@ -8,7 +8,7 @@ public class EasyEvent : MonoBehaviour
     [HideInInspector] public EasyEvent aboveEvent;
     [HideInInspector] public EasyEvent belowEvent;
     [HideInInspector] public bool eventOnStart = false;
-
+    [HideInInspector] public bool isEnabled = false;
     public virtual void Awake()
     {
         EasyEvent[] allComponents = GetComponents<EasyEvent>();

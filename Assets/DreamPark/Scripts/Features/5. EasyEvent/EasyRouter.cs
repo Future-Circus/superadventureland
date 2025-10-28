@@ -19,6 +19,10 @@ public class EasyRouter : EasyEvent
 
     public override void OnEvent(object arg0 = null)
     {
+        EasyEvent[] easyEvents = GetComponents<EasyEvent>();
+        foreach (var easyEvent in easyEvents) {
+            easyEvent.isEnabled = false;
+        }
         if (routes.Length > 0) {
             foreach (var route in routes) {
                 route.OnEvent(arg0);

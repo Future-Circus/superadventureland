@@ -8,11 +8,12 @@ public class EasyNoise : EasyEvent
     public float speed = 1f;
     public Vector3 positionFactor = Vector3.zero;
     public Vector3 rotationFactor = Vector3.zero;
+    public Vector3 scaleFactor = Vector3.zero;
     public float velocityFactor = 0f;
 
     private Vector3 startPosition;
     private Quaternion startRotation;
-    private bool isEnabled = false;
+    private Vector3 startScale;
     private Rigidbody rb;
 
     public override void Awake()
@@ -26,6 +27,7 @@ public class EasyNoise : EasyEvent
         base.Start();
         startPosition = transform.localPosition;
         startRotation = transform.localRotation;
+        startScale = transform.localScale;
     }
 
     public override void OnEvent(object arg0 = null)
@@ -51,6 +53,9 @@ public class EasyNoise : EasyEvent
             }
             if (rotationFactor != Vector3.zero) {
                 transform.localRotation = startRotation * Quaternion.Euler(noiseX * _intensity * rotationFactor.x, noiseY * _intensity * rotationFactor.y, noiseZ * _intensity * rotationFactor.z);
+            }
+            if (scaleFactor != Vector3.one) {
+                transform.localScale = startScale + new Vector3(noiseX * _intensity * scaleFactor.x, noiseY * _intensity * scaleFactor.y, noiseZ * _intensity * scaleFactor.z);
             }
         }
     }

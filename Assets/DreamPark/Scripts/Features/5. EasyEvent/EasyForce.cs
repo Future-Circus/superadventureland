@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 
 public class EasyForce : EasyEvent
 {
     public Vector3 force;
     public Vector3 forceVariation;
+    public Vector3 torque;
+    public Vector3 torqueVariation;
     public Transform forceOrigin;
     public ForceMode forceMode = ForceMode.Impulse;
     private Rigidbody rb;
@@ -14,16 +17,32 @@ public class EasyForce : EasyEvent
     public override void OnEvent(object arg0 = null)
     {
         if (rb) {            
-            if (forceOrigin) {
-                Vector3 forceDirection = (forceOrigin.position - transform.position).normalized;
-                Vector3 randomForce = new Vector3(Random.Range(-forceVariation.x, forceVariation.x), Random.Range(-forceVariation.y, forceVariation.y), Random.Range(-forceVariation.z, forceVariation.z));
-                Vector3 finalForce = force + new Vector3(forceDirection.x * randomForce.x, forceDirection.y * randomForce.y, forceDirection.z * randomForce.z);
-                rb.AddForce(finalForce*rb.mass, forceMode);
+            if (forceMode == ForceMode.Acceleration) {
+                isEnabled = true;
             } else {
-                Vector3 randomForce = force + new Vector3(Random.Range(-forceVariation.x, forceVariation.x), Random.Range(-forceVariation.y, forceVariation.y), Random.Range(-forceVariation.z, forceVariation.z));
-                rb.AddForce(randomForce*rb.mass, forceMode);
-            }
+                Apply();
+            } 
         }
         onEvent?.Invoke(null);
+    }
+
+    private void Apply() {
+        if (forceOrigin) {
+            Vector3 forceDirection = (forceOrigin.position - transform.position).normalized;
+            Vector3 randomForce = new Vector3(Random.Range(-forceVariation.x, forceVariation.x), Random.Range(-forceVariation.y, forceVariation.y), Random.Range(-forceVariation.z, forceVariation.z));
+            Vector3 finalForce = force + new Vector3(forceDirection.x * randomForce.x, forceDirection.y * randomForce.y, forceDirection.z * randomForce.z);
+            rb.AddForce(finalForce*rb.mass, forceMode);
+            rb.AddTorque(torque + new Vector3(Random.Range(-torqueVariation.x, torqueVariation.x), Random.Range(-torqueVariation.y, torqueVariation.y), Random.Range(-torqueVariation.z, torqueVariation.z)), ForceMode.Impulse);
+        } else {
+            Vector3 randomForce = force + new Vector3(Random.Range(-forceVariation.x, forceVariation.x), Random.Range(-forceVariation.y, forceVariation.y), Random.Range(-forceVariation.z, forceVariation.z));
+            rb.AddForce(randomForce*rb.mass, forceMode);
+            rb.AddTorque(torque + new Vector3(Random.Range(-torqueVariation.x, torqueVariation.x), Random.Range(-torqueVariation.y, torqueVariation.y), Random.Range(-torqueVariation.z, torqueVariation.z)), ForceMode.Impulse);
+        }
+    }
+
+    void Update() {
+        if (isEnabled) {
+            Apply();
+        }
     }
 }
