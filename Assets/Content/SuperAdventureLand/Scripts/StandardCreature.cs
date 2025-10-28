@@ -145,7 +145,11 @@
         public virtual void ProjectileHit(CollisionWrapper collision)
         {
             lastCollision = collision;
-            SetState(CreatureState.HIT);
+            if (state == CreatureState.STONE || state == CreatureState.STONING) {
+                SetState(CreatureState.HIT);
+            } else {
+                SetState(CreatureState.FLY);
+            }
         }
         public virtual void GroundHit(CollisionWrapper collision)
         {
@@ -212,12 +216,13 @@
                         {
                             GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity, transform.FindRoot());
                             coin.GetComponent<Coin>().PopUpItem(new Vector3(Random.Range(-0.1f, 1f), 2, Random.Range(-0.1f, 1f)));
+                            Destroy(gameObject);
                         }, error =>
                         {
                             Debug.LogError($"Failed to load coin: {error}");
+                            Destroy(gameObject);
                         });
                     }
-                    Destroy(gameObject);
                     break;
                 case CreatureState.STONE:
                     //standardizes the effects of lava across all creatures
@@ -243,6 +248,14 @@
                     break;
                 case CreatureState.FLY:
                     ToggleRagdoll(true);
+                    gameObject.layer = LayerMask.NameToLayer("Default");
+
+                    if (TryGetComponent<EyeController>(out var eyeController)) {
+                        eyeController.enabled = false;
+                    }
+                    Vector3 popUpForce = Vector3.up * 100f + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+                    Rigidbody ragdollRoot = ragdollJoints[1].rb;
+                    ragdollRoot.AddForce(popUpForce, ForceMode.Impulse);
                     Extensions.Wait(this, 5f, () =>
                     {
                         if (state == CreatureState.FLY || state == CreatureState.FLYING)
