@@ -578,6 +578,8 @@
         {
             foreach (GameObject platform in platforms)
             {
+                if (platform.IsDestroyed())
+                    continue;
                 Bounds bounds = GetCombinedBoundsXZ(platform.transform, true);
                 if (IsPointInBounds(playerTransform.position, bounds))
                 {
