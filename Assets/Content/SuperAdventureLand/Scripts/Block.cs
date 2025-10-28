@@ -175,7 +175,8 @@
         }
         public virtual void ProjectileHit(CollisionWrapper collision)
         {
-            TryHit(collision);
+            //TryHit(collision);
+            SetState(BlockState.ACTIVATE);
         }
         public virtual void KickHit(CollisionWrapper collision)
         {
