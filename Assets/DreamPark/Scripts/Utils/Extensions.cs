@@ -580,14 +580,14 @@ public static class Extensions
         onComplete?.Invoke();
     }
 
-    private static GameObject EvaluateColliders(GameObject gameobject, Collider[] colliders, ref float highestScore, bool isEntityLayer, GameObject currentBestTarget = null)
+    private static GameObject EvaluateColliders(GameObject gameobject, Collider[] colliders, ref float highestScore, GameObject currentBestTarget = null)
     {
         GameObject bestTarget = currentBestTarget;
         Transform player = Camera.main.transform;
 
         foreach (Collider collider in colliders)
         {
-            string[] filteredTags = { gameobject.tag, "ActiveHit", "Ground", "Stone", "", "Item" };
+            string[] filteredTags = { "", gameobject.tag, "ActiveHit", "Ground", "Item", "Lava" };
 
             // Dont target objects if it has one of these tags
             if (filteredTags.Contains(collider.gameObject.tag))
@@ -612,11 +612,8 @@ public static class Extensions
             float distance = Vector3.Distance(gameobject.transform.position, collider.transform.position);
             float distanceScore = 1 / distance;
 
-            // Add layer bonus if it's on the "Entity" layer
-            float layerBonus = (isEntityLayer && collider.gameObject.tag != "Fence") ? 2f : 0f;
-
             // Combine distance score and layer bonus
-            float totalScore = distanceScore + layerBonus;
+            float totalScore = distanceScore;
 
             // Prioritize objects with the highest total score
             if (totalScore > highestScore)
@@ -674,6 +671,11 @@ public static class Extensions
         }
         gameObject.angularDamping = 0.2f;
         gameObject.tag = tag;
+        if (tag == "ActiveHit") {
+            gameObject.excludeLayers = LayerMask.NameToLayer("Player");
+        } else {
+            gameObject.excludeLayers = 0;
+        }
         gameObject.constraints = RigidbodyConstraints.None;
 
         Vector3 velocity = CalculateLobVelocity(transform.position, targetPosition, launchHeight);
@@ -708,18 +710,27 @@ public static class Extensions
 
     public static bool LaunchAtLayer(this Rigidbody gameObject, LayerMask priorityLayer, float priorityDist = 20f, LayerMask fallbackLayer = default, float fallbackDist = 10f)
     {
-
+        try {
         float highestScore = Mathf.NegativeInfinity;
         GameObject bestTarget;
 
-        Collider[] levelColliders = Physics.OverlapSphere(gameObject.transform.position, fallbackDist, 1 << (fallbackLayer == default ? LayerMask.NameToLayer("Level") : fallbackLayer));
-        Collider[] entityColliders = Physics.OverlapSphere(gameObject.transform.position, priorityDist, 1 << priorityLayer);
+        Collider[] priorityColliders = Physics.OverlapSphere(gameObject.transform.position, priorityDist, priorityLayer);
+        Collider[] fallbackColliders = Physics.OverlapSphere(gameObject.transform.position, fallbackDist, fallbackLayer);
 
-        // Debug.Log("found " + entityColliders.Length + " " + LayerMask.LayerToName(priorityLayer));
-        // Debug.Log("found " + levelColliders.Length + " " + LayerMask.LayerToName(fallbackLayer) + " (as backup)");
+        Debug.Log("found " + priorityColliders.Length + " priority");
+        Debug.Log("found " + fallbackColliders.Length + " fallback");
 
-        bestTarget = EvaluateColliders(gameObject.gameObject, levelColliders, ref highestScore, false);
-        bestTarget = EvaluateColliders(gameObject.gameObject, entityColliders, ref highestScore, true, bestTarget);
+        
+        for (int i = 0; i < priorityColliders.Length; i++) {
+            Debug.Log("priority collider " + priorityColliders[i].gameObject.name);
+        }
+        for (int i = 0; i < fallbackColliders.Length; i++) {
+            Debug.Log("fallback collider " + fallbackColliders[i].gameObject.name);
+        }
+
+        bestTarget = EvaluateColliders(gameObject.gameObject, priorityColliders, ref highestScore);
+        highestScore *= 2f;
+        bestTarget = EvaluateColliders(gameObject.gameObject, fallbackColliders, ref highestScore, bestTarget);
 
         if (bestTarget)
         {
@@ -731,6 +742,10 @@ public static class Extensions
             Debug.Log("LaunchAtLayer - No target found");
         }
         return false;
+        } catch (System.Exception ex) {
+            Debug.LogError("LaunchAtLayer - Error: " + ex.Message);
+            return false;
+        }
     }
 
     public static bool LaunchAtLayer(this Rigidbody gameObject, LayerMask priorityLayer, float priorityDist = 20f)
@@ -745,7 +760,7 @@ public static class Extensions
 
         Collider[] entityColliders = Physics.OverlapSphere(gameObject.transform.position, priorityDist, 1 << priorityLayer);
         entityColliders = entityColliders.Where(c => tagFilter.Contains(c.gameObject.tag)).ToArray();
-        bestTarget = EvaluateColliders(gameObject.gameObject, entityColliders, ref highestScore, true, bestTarget);
+        bestTarget = EvaluateColliders(gameObject.gameObject, entityColliders, ref highestScore, bestTarget);
 
         if (bestTarget)
         {
