@@ -247,6 +247,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   layers: []
   tags: []
   collisionEvent: 0
@@ -464,10 +465,12 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   intensity: 1
   speed: 1
   positionFactor: {x: 0, y: 0, z: 0}
   rotationFactor: {x: 4, y: 12, z: 4}
+  scaleFactor: {x: 0, y: 0, z: 0}
   velocityFactor: 1
 --- !u!1 &1749101306756995546 stripped
 GameObject:
@@ -642,6 +645,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   velocityThreshold: 6
   debugger: 1
 --- !u!114 &5082644129920687423
@@ -662,6 +666,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   routes:
   - {fileID: 148153416840169795}
   - {fileID: 7048543908635140854}
@@ -850,10 +855,12 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   intensity: 1
   speed: 1
   positionFactor: {x: 0, y: 0, z: 0}
   rotationFactor: {x: 4, y: 12, z: 4}
+  scaleFactor: {x: 0, y: 0, z: 0}
   velocityFactor: 1
 --- !u!1 &4103806299226462148 stripped
 GameObject:
@@ -931,10 +938,12 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   intensity: 1
   speed: 1
   positionFactor: {x: 0, y: 0, z: 0}
   rotationFactor: {x: 4, y: 12, z: 4}
+  scaleFactor: {x: 0, y: 0, z: 0}
   velocityFactor: 1
 --- !u!1 &4781902593277340570 stripped
 GameObject:
@@ -1298,10 +1307,12 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   intensity: 1
   speed: 1
   positionFactor: {x: 0, y: 0, z: 0}
   rotationFactor: {x: 4, y: 12, z: 4}
+  scaleFactor: {x: 0, y: 0, z: 0}
   velocityFactor: 1
 --- !u!1 &9222812734453416507 stripped
 GameObject:

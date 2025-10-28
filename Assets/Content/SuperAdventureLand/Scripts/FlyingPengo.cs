@@ -5,13 +5,12 @@
 
     public class FlyingPengo : PengoBehaviour
     {
-        public Animator propellarAnimator;
         [Header("Flying Settings")]
         public float dp_bobHeight = 0.3f;
         public float dp_bobSpeed = 1.5f;
         public float dp_hoverOffset = 0f;
-        public float propellarMoveSpeed = 2f;
         private float offset = 0f;
+        public EasyEvent jetpackRouter;
         public override void ExecuteState()
         {
             switch (state) {
@@ -40,6 +39,10 @@
                     base.ExecuteState();
                     Bob();
                     break;
+                case CreatureState.FLY:
+                    jetpackRouter.OnEvent();
+                    base.ExecuteState();
+                    break;
                 default:
                     base.ExecuteState();
                     break;
@@ -63,7 +66,7 @@
             }
             newPosition.y = smoothedY;
             transform.localPosition = newPosition;
-            propellarAnimator.speed = propellarMoveSpeed/2+velocity*propellarMoveSpeed/2;
+            
         }
         void TrySnapToNavMeshWithFloatOffset()
         {
@@ -87,6 +90,16 @@
                     Debug.LogWarning("No NavMesh found below or nearby this object!");
                 }
             }
+        }
+
+        public override void Animator_ShowGrenade () {
+            base.Animator_ShowGrenade();
+        }
+        public override void Animator_SpawnGrenade () {
+            base.Animator_SpawnGrenade();
+        }
+        public override void Animator_EndThrow () {
+            base.Animator_EndThrow();
         }
     }
 }

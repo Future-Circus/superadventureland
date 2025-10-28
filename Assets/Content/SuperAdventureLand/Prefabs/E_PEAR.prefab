@@ -109,6 +109,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   interactionFilters:
   - layers:
     - Player
@@ -144,6 +145,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   targetLayerOrder:
   - Enemy
   - Entity
@@ -169,6 +171,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
   volume: 1
   pitch: 1
@@ -193,6 +196,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   layers:
   - Level
   tags:
@@ -216,6 +220,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   particleEffect: {fileID: 5189605913638902629, guid: 07bfffd94d30f4bb7bdaee2f0eb7dbd2, type: 3}
   copyRotation: 0
   parent: 0
@@ -238,6 +243,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
 --- !u!114 &2073895623992990237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +262,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   routes: []
   ignoreAboveEvent: 1
 --- !u!114 &1832419880898647461
@@ -276,6 +283,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}
   copyRotation: 0
   parent: 0
@@ -298,6 +306,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
 --- !u!1 &6391674122431377200
 GameObject:
   m_ObjectHideFlags: 0
