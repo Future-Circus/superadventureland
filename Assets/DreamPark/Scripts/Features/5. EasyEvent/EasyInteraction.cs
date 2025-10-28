@@ -89,7 +89,9 @@ public class EasyInteraction : EasyEvent
             if (layerMatch && tagMatch && (filter.collisionEvent == CollisionEvent.ENTER && isEnter || filter.collisionEvent == CollisionEvent.EXIT && !isEnter)) {
                 lastCollision = collision;
                 if (filter.onEvent == null) {
-                    filter.onEvent = aboveEvent;
+                    Debug.Log("No onEvent found, using belowEvent");
+                    Debug.Log("belowEvent: " + belowEvent.name);
+                    filter.onEvent = belowEvent;
                 }
                 filter.onEvent?.OnEvent(lastCollision);
                 break;

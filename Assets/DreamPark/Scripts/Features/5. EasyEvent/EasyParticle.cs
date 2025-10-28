@@ -8,11 +8,20 @@ namespace DreamPark.Easy {
     public class EasyParticle : EasyEvent
     {
         public GameObject particleEffect;
+        public bool copyRotation = false;
+        public bool parent = false;
         public bool delayNextEvent = false;
         public override void OnEvent(object arg0 = null)
         {
             if (particleEffect != null) {
-                GameObject particle = Instantiate(particleEffect, transform.position, transform.rotation);
+                GameObject particle = Instantiate(particleEffect);
+                particle.transform.position = transform.position;
+                if (copyRotation) {
+                    particle.transform.rotation = transform.rotation;
+                }
+                if (parent) {
+                    particle.transform.SetParent(transform,true);
+                }
                 if (delayNextEvent) {
                     Delay(particle);
                 } else {

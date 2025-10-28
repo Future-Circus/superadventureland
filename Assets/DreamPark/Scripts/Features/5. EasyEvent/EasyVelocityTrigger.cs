@@ -30,7 +30,7 @@ public class EasyVelocityTrigger : EasyEvent
         if (rb.linearVelocity.magnitude > velocityThreshold || rb.angularVelocity.magnitude > velocityThreshold) {
             Debug.Log("VelocityTrigger: Triggering event");
             triggered = true;
-            onEvent?.Invoke(null);
+            onEvent?.Invoke(rb.linearVelocity.magnitude > rb.angularVelocity.magnitude ? rb.linearVelocity : rb.angularVelocity);
         }
     }
 

@@ -6,6 +6,7 @@ public class EasyEvent : MonoBehaviour
 {
     [HideInInspector] public UnityEvent<object> onEvent;
     [HideInInspector] public EasyEvent aboveEvent;
+    [HideInInspector] public EasyEvent belowEvent;
     [HideInInspector] public bool eventOnStart = false;
 
     public virtual void Awake()
@@ -16,6 +17,9 @@ public class EasyEvent : MonoBehaviour
             {
                 if (allComponents[i] == this)
                 {
+                    if (i + 1 < allComponents.Length) {
+                        belowEvent = allComponents[i + 1];
+                    }
                     if (i == 0) {
                         eventOnStart = true;
                         break;
