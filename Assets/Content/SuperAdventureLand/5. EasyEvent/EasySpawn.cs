@@ -15,16 +15,26 @@
             }
         }
     #endif
-        public override void OnEvent(object arg0 = null) {
-            if (spawnPrefab.layer == LayerMask.NameToLayer("Item")) {
-                GameObject item = Spawn(spawnPrefab, spawnPoint);
-                if (item.TryGetComponent(out Item itemScript)) {
+        public override GameObject Spawn(GameObject prefab, Transform point, int index = 0) {
+            GameObject spawnedObject = base.Spawn(prefab, point);
+            if (spawnedObject.layer == LayerMask.NameToLayer("Item") && spawnedObject.TryGetComponent(out Item itemScript)) {
+                if (amount == 1) {
                     itemScript.PopUpItem(new Vector3(Random.Range(-0.1f, 1f), 2, Random.Range(-0.1f, 1f)));
+                } else {
+                    Vector3 direction;
+                    float angle = (360f / amount) * index;
+                    direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+                    direction += new Vector3(
+                        Random.Range(-0.1f, 0.1f),
+                        0,
+                        Random.Range(-0.1f, 0.1f)
+                    );
+                    direction.Normalize();
+                    direction *= 2f;
+                    itemScript.PopUpItem(direction + Vector3.up * 2f);
                 }
-                onEvent?.Invoke(null);
-            } else {
-                base.OnEvent(arg0);
             }
+            return spawnedObject;
         }
     }
 }
