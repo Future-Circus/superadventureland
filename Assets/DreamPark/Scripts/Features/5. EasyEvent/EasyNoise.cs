@@ -33,6 +33,7 @@ public class EasyNoise : EasyEvent
     public override void OnEvent(object arg0 = null)
     {
         isEnabled = true;
+        onEvent?.Invoke(null);
     }
 
     // Update is called once per frame
