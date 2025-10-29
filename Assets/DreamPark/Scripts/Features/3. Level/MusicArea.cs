@@ -1,5 +1,6 @@
 using DreamPark;
 using UnityEngine;
+using UnityEngine.Events;
 public class MusicArea : MonoBehaviour
 {
     public static int? _priority;
@@ -7,12 +8,16 @@ public class MusicArea : MonoBehaviour
     public AudioClip musicTrack;
     public float volume = 0.6f;
     public int priority = 0;
+    [HideInInspector] public UnityEvent onEnter;
+    [HideInInspector] public UnityEvent onExit;
     private bool isPlaying = false;
     private AudioSource audioSource;
     private Vector3 halfExtents = Vector3.zero;
     private LevelTemplate levelTemplate;
-    public virtual void Awake() {
-        if (!musicTrack) {
+    public virtual void Awake()
+    {
+        if (!musicTrack)
+        {
             enabled = false;
             return;
         }
@@ -35,24 +40,35 @@ public class MusicArea : MonoBehaviour
         bodyTracker.yOffset = 2f;
 
         levelTemplate = GetComponent<LevelTemplate>();
-        if (levelTemplate) {
+        if (levelTemplate)
+        {
             var bounds2D = GameLevelDimensions.GetDimensionsInMeters(levelTemplate.size);
-            halfExtents = new Vector3(bounds2D.x/2f, 50f, bounds2D.y/2f);
-        } else {
+            halfExtents = new Vector3(bounds2D.x / 2f, 50f, bounds2D.y / 2f);
+        }
+        else
+        {
             halfExtents = transform.localScale * 0.5f;
         }
     }
-    void Update () {
-        if (!levelTemplate) {
+    void Update()
+    {
+        if (!levelTemplate)
+        {
             halfExtents = transform.localScale * 0.5f;
         }
-        if (Camera.main) {
-            if (IsPointWithinBounds(Camera.main.transform.position, transform, halfExtents)) {
-                if (!isPlaying) {
+        if (Camera.main)
+        {
+            if (IsPointWithinBounds(Camera.main.transform.position, transform, halfExtents))
+            {
+                if (!isPlaying)
+                {
                     Enter();
                 }
-            } else {
-                if (isPlaying) {
+            }
+            else
+            {
+                if (isPlaying)
+                {
                     Exit();
                 }
             }
@@ -60,10 +76,14 @@ public class MusicArea : MonoBehaviour
     }
     public virtual void Enter()
     {
-        if (currentMusicArea) {
-            if (priority > currentMusicArea.priority) {
+        if (currentMusicArea)
+        {
+            if (priority > currentMusicArea.priority)
+            {
                 currentMusicArea.Exit();
-            } else {
+            }
+            else
+            {
                 return;
             }
         }
@@ -73,23 +93,29 @@ public class MusicArea : MonoBehaviour
             currentMusicArea = this;
             isPlaying = true;
         }
+        onEnter?.Invoke();
     }
     public virtual void Exit()
     {
         if (audioSource != null)
         {
             audioSource.PauseWithFadeOut(1f, this, volume);
-            if (currentMusicArea == this) {
+            if (currentMusicArea == this)
+            {
                 currentMusicArea = null;
             }
             isPlaying = false;
         }
+        onExit?.Invoke();
     }
-    public void SwapAudioClip(AudioClip newClip, float time = 0.5f) {
+    public void SwapAudioClip(AudioClip newClip, float time = 0.5f)
+    {
         audioSource.PauseWithFadeOut(time, this, volume);
-        this.Wait(time, () => {
+        this.Wait(time, () =>
+        {
             audioSource.clip = newClip;
-            if (isPlaying) {
+            if (isPlaying)
+            {
                 audioSource.PlayWithFadeIn(time, this, volume);
             }
         });
@@ -109,15 +135,18 @@ public class MusicArea : MonoBehaviour
             Mathf.Abs(y) <= halfExtents.y &&
             Mathf.Abs(z) <= halfExtents.z;
     }
-    void OnDestroy() {
-        if (currentMusicArea == this) {
+    void OnDestroy()
+    {
+        if (currentMusicArea == this)
+        {
             currentMusicArea = null;
         }
     }
 #if UNITY_EDITOR
     public void OnDrawGizmos()
     {
-        if (!TryGetComponent(out LevelTemplate levelTemplate)) {
+        if (!TryGetComponent(out LevelTemplate levelTemplate))
+        {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.position, transform.localScale);
         }
