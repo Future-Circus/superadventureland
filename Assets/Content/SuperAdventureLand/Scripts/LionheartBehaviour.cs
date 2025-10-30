@@ -5,6 +5,7 @@
 
 #if UNITY_EDITOR
     using UnityEditor;
+    using System.Collections.Generic;
 
     [CustomEditor(typeof(LionheartBehaviour))]
     public class LionheartBehaviourEditor : CreatureEditor
@@ -34,6 +35,7 @@
         public float detectionRadius = 4f;
         public float detectionAngle = 120f;
         public float detectionTime = 2f;
+        public float turnSpeed = 30f;
         public float runSpeed = 10f;
         public float forwardDistance = 1f;
         public float jumpDelay = 3f;
@@ -42,13 +44,16 @@
         public float dizzyTime = 2.5f;
         public float crashDelay = 0.5f;
         public MusicArea battleArena;
+        public List<GameObject> dizzyStars;
+        public List<ParticleSystem> dustParticles;
         private Vector3 runTarget;
         private int pounceCount = 0;
         private Coroutine jumpCoroutine;
         private Coroutine crashCoroutine;
-        private float lastInSightTime = 0f;
+        private float lastInSightTime = Mathf.Infinity;
         private bool playerInSight = false;
         private CreatureState lastState;
+        private Quaternion targetRotation;
         public override void Start()
         {
             base.Start();
@@ -81,23 +86,29 @@
                         StopCoroutine(crashCoroutine);
                         crashCoroutine = null;
                     }
+
                     animator.ResetTrigger("pounce");
                     animator.SetBool("isRunning", false);
                     animator.SetBool("isDizzy", false);
                     playerInSight = false;
+
+                    if (Vector3.Dot(transform.forward, Camera.main.transform.position - transform.position) < 0.1f)
+                    {
+                        SetState(CreatureState.TURN);
+                    }
                     break;
                 case CreatureState.IDLING:
                     if (InSight(transform, Camera.main.transform))
                     {
+                        if (Time.time - lastInSightTime >= detectionTime)
+                        {
+                            SetState(CreatureState.TARGET);
+                        }
+
                         if (!playerInSight)
                         {
                             lastInSightTime = Time.time;
                             playerInSight = true;
-                        }
-                        else if (Time.time - lastInSightTime > detectionTime)
-                        {
-                            playerInSight = false;
-                            SetState(CreatureState.TARGET);
                         }
                     }
                     else
@@ -107,12 +118,15 @@
                     break;
                 case CreatureState.TARGET:
                     animator.SetTrigger("pounce");
-                    LookAtPlayer();
+                    LookAtTarget(Camera.main.transform.position);
                     runTarget = Camera.main.transform.position + Camera.main.transform.forward * forwardDistance; // Run to right in front of player
                     runTarget.y = 0;
                     pounceCount++;
+                    SetDustParticles(true);
+
                     Extensions.Wait(this, 2.5f, () =>
                     {
+                        SetDustParticles(false);
                         if (pounceCount % 2 == 0)
                         {
                             SetState(CreatureState.RUN);
@@ -122,6 +136,8 @@
                             SetState(CreatureState.LAUNCH);
                         }
                     });
+                    break;
+                case CreatureState.TARGETING:
                     break;
                 case CreatureState.RUN:
                     animator.SetBool("isRunning", true);
@@ -133,13 +149,27 @@
                         SetState(CreatureState.IDLE);
                     }
                     break;
+                case CreatureState.TURN:
+                    break;
+                case CreatureState.TURNING:
+                    targetRotation = TurnToTarget(Camera.main.transform.position);
+                    if (Quaternion.Angle(transform.rotation, targetRotation) < 1f)
+                    {
+                        SetState(CreatureState.IDLE);
+                    }
+                    break;
+                case CreatureState.MOVE:
+                    break;
                 case CreatureState.ATTACK:
-                    SetState(CreatureState.IDLE); // TODO Change to attack logic
+                    // TODO Add attack logic
+                    SetState(CreatureState.IDLE);
                     break;
                 case CreatureState.HIT:
+                    // TODO Add hit logic
+                    SetDizzyStars(true);
                     Extensions.Wait(this, 2f, () =>
                     {
-                        SetState(CreatureState.IDLE); // TODO Change to hit logic
+                        SetState(CreatureState.IDLE);
                     });
                     break;
                 case CreatureState.LAUNCH:
@@ -148,6 +178,7 @@
                     break;
                 case CreatureState.CRASH:
                     animator.SetTrigger("crash");
+                    SetDizzyStars(false);
                     if (jumpCoroutine != null)
                     {
                         StopCoroutine(jumpCoroutine);
@@ -161,10 +192,42 @@
             }
         }
 
-        private void LookAtPlayer()
+        private Quaternion TurnToTarget(Vector3 target)
         {
-            transform.LookAt(Camera.main.transform.position);
+            Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
+            targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+            return targetRotation;
+        }
+
+        private void LookAtTarget(Vector3 target)
+        {
+            transform.LookAt(target);
             transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+        }
+
+        private void SetDizzyStars(bool active)
+        {
+            foreach (GameObject star in dizzyStars)
+            {
+                star.SetActive(active);
+            }
+        }
+
+        private void SetDustParticles(bool active)
+        {
+            foreach (ParticleSystem dustParticle in dustParticles)
+            {
+                dustParticle.gameObject.SetActive(active);
+                if (active)
+                {
+                    dustParticle.Play();
+                }
+                else
+                {
+                    dustParticle.Stop();
+                }
+            }
         }
 
         private IEnumerator JumpCoroutine()
