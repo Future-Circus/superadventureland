@@ -32,6 +32,7 @@
 
     public class LionheartBehaviour : Creature
     {
+        public float detectionRadius = 4f;
         public float runSpeed = 10f;
         public float forwardDistance = 1f;
         public float jumpDelay = 3f;
@@ -39,21 +40,23 @@
         public float jumpDistance = 3f;
         public MusicArea battleArena;
         private Vector3 runTarget;
+        private int pounceCount = 0;
+        private Coroutine jumpCoroutine;
         public override void Start()
         {
             base.Start();
-            battleArena.onEnter.AddListener(() =>
-            {
-                Debug.Log("Battle Arena Entered");
-                if (isIdling)
-                {
-                    SetState(CreatureState.TARGET);
-                }
-            });
-            battleArena.onExit.AddListener(() =>
-            {
-                SetState(CreatureState.IDLE);
-            });
+            // battleArena.onEnter.AddListener(() =>
+            // {
+            //     Debug.Log("Battle Arena Entered");
+            //     if (isIdling)
+            //     {
+            //         SetState(CreatureState.TARGET);
+            //     }
+            // });
+            // battleArena.onExit.AddListener(() =>
+            // {
+            //     SetState(CreatureState.IDLE);
+            // });
         }
         public override void ExecuteState()
         {
@@ -63,41 +66,62 @@
                     SetState(CreatureState.IDLE);
                     break;
                 case CreatureState.IDLE:
+                    animator.SetBool("isRunning", false);
+                    break;
+                case CreatureState.IDLING:
+                    if(Physics.OverlapSphere(transform.position, detectionRadius, LayerMask.GetMask("Player")).Length > 0)
+                    {
+                        SetState(CreatureState.TARGET);
+                    }
                     break;
                 case CreatureState.TARGET:
-                    transform.LookAt(Camera.main.transform.position);
-                    transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+                    LookAtPlayer();
                     animator.SetTrigger("pounce");
+                    pounceCount++;
                     Extensions.Wait(this, 2.5f, () =>
                     {
                         // Shuffle between run and launch
-                        // if (Random.value < 0.5f)
+                        // if (pounceCount % 2 == 0)
                         // {
-                        SetState(CreatureState.RUN);
+                        //     SetState(CreatureState.RUN);
                         // }
                         // else
                         // {
-                        // SetState(CreatureState.LAUNCH);
+                            SetState(CreatureState.LAUNCH);
                         // }
                     });
                     break;
                 case CreatureState.RUN:
-                    animator.SetTrigger("run");
+                    animator.SetBool("isRunning", true);
                     runTarget = Camera.main.transform.position + Camera.main.transform.forward * forwardDistance;
                     runTarget.y = 0;
+                    LookAtPlayer();
                     break;
                 case CreatureState.RUNNING:
                     transform.position = Vector3.MoveTowards(transform.position, runTarget, runSpeed * Time.deltaTime);
+                    if(Vector3.Distance(transform.position, runTarget) < 0.1f)
+                    {
+                        SetState(CreatureState.IDLE);
+                    }
                     break;
                 case CreatureState.ATTACK:
+                    SetState(CreatureState.IDLE); // Change to attack logic
+                    break;
+                case CreatureState.HIT:
+                    SetState(CreatureState.IDLE); // Change to hit logic
                     break;
                 case CreatureState.LAUNCH:
                     animator.SetTrigger("jump");
-                    StartCoroutine(JumpCoroutine());
+                    jumpCoroutine = StartCoroutine(JumpCoroutine());
                     break;
                 case CreatureState.CRASH:
                     animator.SetTrigger("crash");
-                    Extensions.Wait(this, 3f, () =>
+                    if(jumpCoroutine != null)
+                    {
+                        StopCoroutine(jumpCoroutine);
+                        jumpCoroutine = null;
+                    }
+                    Extensions.Wait(this, 2.5f, () =>
                     {
                         if (isCrashing)
                         {
@@ -110,92 +134,12 @@
                     break;
             }
         }
-        // public override void ExecuteState()
-        // {
-        //     switch (state)
-        //     {
-        //         case CreatureState.START:
-        //             SetState(CreatureState.IDLE);
-        //             break;
-        //         case CreatureState.IDLE:
-        //             animator.SetBool("isRunning", false);
-        //             break;
-        //         case CreatureState.TARGET:
-        //             transform.LookAt(Camera.main.transform.position);
-        //             transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
-        //             Extensions.Wait(this, 1f, () =>
-        //             {
-        //                 runTarget = Camera.main.transform.position + Camera.main.transform.forward * forwardDistance;
-        //                 runTarget.y = 0;
-        //                 SetState(CreatureState.RUN);
-        //             });
-        //             break;
-        //         case CreatureState.RUN:
-        //             animator.SetBool("isRunning", true);
-        //             break;
-        //         case CreatureState.RUNNING:
-        //             transform.position = Vector3.MoveTowards(transform.position, runTarget, runSpeed * Time.deltaTime);
-        //             break;
-        //         case CreatureState.ATTACK:
-        //             animator.SetTrigger("pounce");
-        //             StartCoroutine(PounceCoroutine());
-        //             break;
-        //         case CreatureState.HIT:
-        //             animator.SetTrigger("hit");
-        //             Extensions.Wait(this, 1f, () =>
-        //             {
-        //                 SetState(CreatureState.IDLE);
-        //             });
-        //             break;
-        //         case CreatureState.HITTING:
-        //             Vector3 escapeDir = Camera.main.transform.forward;
-        //             escapeDir.y = 0;
-        //             escapeDir = escapeDir.normalized;
-        //             transform.rotation = Quaternion.LookRotation(escapeDir);
-        //             transform.position += escapeDir * runSpeed * Time.deltaTime;
-        //             break;
-        //         case CreatureState.CRASH:
-        //             animator.SetTrigger("crash");
-        //             Extensions.Wait(this, 3f, () =>
-        //             {
-        //                 if (isCrashing)
-        //                 {
-        //                     SetState(CreatureState.IDLE);
-        //                 }
-        //             });
-        //             break;
-        //         default:
-        //             base.ExecuteState();
-        //             break;
-        //     }
-        // }
 
-        // private IEnumerator PounceCoroutine()
-        // {
-        //     Vector3 startPos = transform.position;
-        //     Vector3 endPos = transform.position + transform.forward * jumpDistance;
-        //     endPos.y = 0;
-        //     yield return new WaitForSeconds(jumpDelay);
-        //     float t = 0f;
-        //     float duration = jumpDuration;
-        //     while (t < duration)
-        //     {
-        //         t += Time.deltaTime;
-        //         float normalized = Mathf.Clamp01(t / duration);
-
-        //         // Quadratic ease-out
-        //         float quadT = 1f - (1f - normalized) * (1f - normalized);
-
-        //         // Horizontal lerp
-        //         Vector3 pos = Vector3.Lerp(startPos, endPos, quadT);
-
-        //         transform.position = pos;
-        //         yield return null;
-        //     }
-
-        //     transform.position = endPos;
-        //     SetState(CreatureState.IDLE);
-        // }
+        private void LookAtPlayer()
+        {
+            transform.LookAt(Camera.main.transform.position);
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+        }
 
         private IEnumerator JumpCoroutine()
         {
@@ -208,6 +152,8 @@
             float duration = jumpDuration;
             while (t < duration)
             {
+                if(isCrashing) yield break;
+
                 t += Time.deltaTime;
                 float normalized = Mathf.Clamp01(t / duration);
 
