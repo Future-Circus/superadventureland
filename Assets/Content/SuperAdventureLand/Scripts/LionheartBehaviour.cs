@@ -1,11 +1,10 @@
 ﻿namespace SuperAdventureLand
 {
     using UnityEngine;
+    using System.Collections;
 
 #if UNITY_EDITOR
     using UnityEditor;
-    using UnityEngine.AI;
-    using System.Collections;
 
     [CustomEditor(typeof(LionheartBehaviour))]
     public class LionheartBehaviourEditor : CreatureEditor
@@ -33,82 +32,115 @@
     public class LionheartBehaviour : Creature
     {
         public float detectionRadius = 4f;
+        public float detectionAngle = 120f;
+        public float detectionTime = 2f;
         public float runSpeed = 10f;
         public float forwardDistance = 1f;
         public float jumpDelay = 3f;
         public float jumpDuration = 1f;
         public float jumpDistance = 3f;
+        public float dizzyTime = 2.5f;
+        public float crashDelay = 0.5f;
         public MusicArea battleArena;
         private Vector3 runTarget;
         private int pounceCount = 0;
         private Coroutine jumpCoroutine;
+        private Coroutine crashCoroutine;
+        private float lastInSightTime = 0f;
+        private bool playerInSight = false;
+        private CreatureState lastState;
         public override void Start()
         {
             base.Start();
-            // battleArena.onEnter.AddListener(() =>
-            // {
-            //     Debug.Log("Battle Arena Entered");
-            //     if (isIdling)
-            //     {
-            //         SetState(CreatureState.TARGET);
-            //     }
-            // });
-            // battleArena.onExit.AddListener(() =>
-            // {
-            //     SetState(CreatureState.IDLE);
-            // });
+            battleArena.onEnter.AddListener(() =>
+            {
+                animator.SetBool("playerInArena", true);
+            });
+            battleArena.onExit.AddListener(() =>
+            {
+                animator.SetBool("playerInArena", false);
+            });
         }
         public override void ExecuteState()
         {
+            if (lastState != state)
+            {
+                lastState = state;
+                Debug.Log("Current State: " + state);
+            }
+
             switch (state)
             {
                 case CreatureState.START:
+                    animator.ResetTrigger("pounce");
                     SetState(CreatureState.IDLE);
                     break;
                 case CreatureState.IDLE:
+                    if (crashCoroutine != null)
+                    {
+                        StopCoroutine(crashCoroutine);
+                        crashCoroutine = null;
+                    }
+                    animator.ResetTrigger("pounce");
                     animator.SetBool("isRunning", false);
+                    animator.SetBool("isDizzy", false);
+                    playerInSight = false;
                     break;
                 case CreatureState.IDLING:
-                    if(Physics.OverlapSphere(transform.position, detectionRadius, LayerMask.GetMask("Player")).Length > 0)
+                    if (InSight(transform, Camera.main.transform))
                     {
-                        SetState(CreatureState.TARGET);
+                        if (!playerInSight)
+                        {
+                            lastInSightTime = Time.time;
+                            playerInSight = true;
+                        }
+                        else if (Time.time - lastInSightTime > detectionTime)
+                        {
+                            playerInSight = false;
+                            SetState(CreatureState.TARGET);
+                        }
+                    }
+                    else
+                    {
+                        playerInSight = false;
                     }
                     break;
                 case CreatureState.TARGET:
-                    LookAtPlayer();
                     animator.SetTrigger("pounce");
+                    LookAtPlayer();
+                    runTarget = Camera.main.transform.position + Camera.main.transform.forward * forwardDistance; // Run to right in front of player
+                    runTarget.y = 0;
                     pounceCount++;
                     Extensions.Wait(this, 2.5f, () =>
                     {
-                        // Shuffle between run and launch
-                        // if (pounceCount % 2 == 0)
-                        // {
-                        //     SetState(CreatureState.RUN);
-                        // }
-                        // else
-                        // {
+                        if (pounceCount % 2 == 0)
+                        {
+                            SetState(CreatureState.RUN);
+                        }
+                        else
+                        {
                             SetState(CreatureState.LAUNCH);
-                        // }
+                        }
                     });
                     break;
                 case CreatureState.RUN:
                     animator.SetBool("isRunning", true);
-                    runTarget = Camera.main.transform.position + Camera.main.transform.forward * forwardDistance;
-                    runTarget.y = 0;
-                    LookAtPlayer();
                     break;
                 case CreatureState.RUNNING:
                     transform.position = Vector3.MoveTowards(transform.position, runTarget, runSpeed * Time.deltaTime);
-                    if(Vector3.Distance(transform.position, runTarget) < 0.1f)
+                    if (Vector3.Distance(transform.position, runTarget) < 0.5f)
                     {
                         SetState(CreatureState.IDLE);
                     }
                     break;
                 case CreatureState.ATTACK:
-                    SetState(CreatureState.IDLE); // Change to attack logic
+                    SetState(CreatureState.IDLE); // TODO Change to attack logic
                     break;
                 case CreatureState.HIT:
-                    SetState(CreatureState.IDLE); // Change to hit logic
+                    Extensions.Wait(this, 2f, () =>
+                    {
+                        SetState(CreatureState.IDLE); // TODO Change to hit logic
+                    });
                     break;
                 case CreatureState.LAUNCH:
                     animator.SetTrigger("jump");
@@ -116,18 +148,12 @@
                     break;
                 case CreatureState.CRASH:
                     animator.SetTrigger("crash");
-                    if(jumpCoroutine != null)
+                    if (jumpCoroutine != null)
                     {
                         StopCoroutine(jumpCoroutine);
                         jumpCoroutine = null;
                     }
-                    Extensions.Wait(this, 2.5f, () =>
-                    {
-                        if (isCrashing)
-                        {
-                            SetState(CreatureState.IDLE);
-                        }
-                    });
+                    crashCoroutine = StartCoroutine(CrashCoroutine());
                     break;
                 default:
                     base.ExecuteState();
@@ -144,7 +170,8 @@
         private IEnumerator JumpCoroutine()
         {
             Vector3 startPos = transform.position;
-            Vector3 endPos = transform.position + transform.forward * jumpDistance;
+            float dist = Mathf.Min(jumpDistance, Vector3.Distance(transform.position, Camera.main.transform.position));
+            Vector3 endPos = transform.position + transform.forward * dist;
             endPos.y = 0;
 
             yield return new WaitForSeconds(jumpDelay);
@@ -152,7 +179,7 @@
             float duration = jumpDuration;
             while (t < duration)
             {
-                if(isCrashing) yield break;
+                if (isCrashing) yield break;
 
                 t += Time.deltaTime;
                 float normalized = Mathf.Clamp01(t / duration);
@@ -171,6 +198,26 @@
             SetState(CreatureState.IDLE);
         }
 
+        private IEnumerator CrashCoroutine()
+        {
+            yield return new WaitForSeconds(crashDelay);
+            animator.SetBool("isDizzy", true);
+            yield return new WaitForSeconds(dizzyTime);
+            animator.SetBool("isDizzy", false);
+            SetState(CreatureState.IDLE);
+        }
+
+        private bool InSight(Transform origin, Transform target)
+        {
+            Vector3 toTarget = target.position - origin.position;
+            if (toTarget.sqrMagnitude > detectionRadius * detectionRadius)
+                return false;
+
+            // angle check
+            float angle = Vector3.Angle(origin.forward, toTarget);
+            return angle < detectionAngle * 0.5f;
+        }
+
         public void PlayerHit(CollisionWrapper collision)
         {
             if (isCrashing)
@@ -185,7 +232,16 @@
 
         public void EntityHit(CollisionWrapper collision)
         {
-            SetState(CreatureState.CRASH);
+            if (isRunning || isJumping)
+            {
+                SetState(CreatureState.CRASH);
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(runTarget, 1f);
         }
 
         [HideInInspector]
@@ -203,6 +259,15 @@
             get
             {
                 return state == CreatureState.RUN || state == CreatureState.RUNNING;
+            }
+        }
+
+        [HideInInspector]
+        public bool isJumping
+        {
+            get
+            {
+                return state == CreatureState.LAUNCH || state == CreatureState.LAUNCHING;
             }
         }
 
