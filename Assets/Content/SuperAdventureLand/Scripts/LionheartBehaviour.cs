@@ -37,6 +37,8 @@
         public float detectionTime = 2f;
         public float turnSpeed = 30f;
         public float runSpeed = 10f;
+        public float headRotationMaxAngle = 30f;
+        public float headRotationSpeed = 30f;
         public float forwardDistance = 1f;
         public float jumpDelay = 3f;
         public float jumpDuration = 1f;
@@ -46,6 +48,7 @@
         public MusicArea battleArena;
         public List<GameObject> dizzyStars;
         public List<ParticleSystem> dustParticles;
+        public Transform headBoneTransform;
         private Vector3 runTarget;
         private int pounceCount = 0;
         private Coroutine jumpCoroutine;
@@ -92,7 +95,8 @@
                     animator.SetBool("isDizzy", false);
                     playerInSight = false;
 
-                    if (Vector3.Dot(transform.forward, Camera.main.transform.position - transform.position) < 0.1f)
+                    float dotThreshold = Mathf.Cos(detectionAngle * Mathf.Deg2Rad);
+                    if (Vector3.Dot(transform.forward, Camera.main.transform.position - transform.position) < dotThreshold)
                     {
                         SetState(CreatureState.TURN);
                     }
@@ -189,6 +193,35 @@
                 default:
                     base.ExecuteState();
                     break;
+            }
+        }
+
+        new private void LateUpdate()
+        {
+            Vector3 dir = (Camera.main.transform.position - headBoneTransform.position).normalized;
+
+            // Desired rotation
+            Quaternion targetRot = Quaternion.LookRotation(dir);
+
+            // Measure angle between current forward and desired direction
+            float angle = Vector3.Angle(headBoneTransform.forward, dir);
+
+            if (angle < headRotationMaxAngle)
+            {
+                // Within allowed range, rotate normally
+                headBoneTransform.rotation = targetRot;
+            }
+            else
+            {
+                // Outside limit: clamp direction
+                Vector3 clampedDir = Vector3.Slerp(
+                    headBoneTransform.forward,
+                    dir,
+                    headRotationMaxAngle / angle
+                );
+
+                Quaternion clampedRot = Quaternion.LookRotation(clampedDir);
+                headBoneTransform.rotation = clampedRot;
             }
         }
 
@@ -305,6 +338,41 @@
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(runTarget, 1f);
+
+            // Vision cone edges
+            Vector3 forward = transform.forward;
+            Vector3 pos = transform.position;
+
+            // Half the cone angle
+            float halfAngle = detectionAngle * 0.5f;
+
+            // Compute directions for boundary rays
+            Quaternion leftRot = Quaternion.Euler(0, -halfAngle, 0);
+            Quaternion rightRot = Quaternion.Euler(0, halfAngle, 0);
+
+            Vector3 leftDir = leftRot * forward;
+            Vector3 rightDir = rightRot * forward;
+
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(pos, pos + leftDir * detectionRadius);
+            Gizmos.DrawLine(pos, pos + rightDir * detectionRadius);
+
+            // Optional: Fill the arc (debug cone arc)
+            const int arcSegments = 20;
+            Gizmos.color = Color.cyan;
+            Vector3 prevPoint = pos + leftDir * detectionRadius;
+
+            for (int i = 1; i <= arcSegments; i++)
+            {
+                float t = (float)i / arcSegments;
+                float angleStep = Mathf.Lerp(-halfAngle, halfAngle, t);
+                Quaternion rot = Quaternion.Euler(0, angleStep, 0);
+                Vector3 point = pos + (rot * forward) * detectionRadius;
+
+                Gizmos.DrawLine(prevPoint, point);
+                prevPoint = point;
+            }
+
         }
 
         [HideInInspector]
