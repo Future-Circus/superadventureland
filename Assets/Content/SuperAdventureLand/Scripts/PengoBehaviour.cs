@@ -20,6 +20,8 @@
             //for pengos a kick throws them but doesn't kill them
             if (groundHitAfterKick) {
                 SetState(CreatureState.IDLE);
+            } else if (groundHitAfterFly) {
+                SetState(CreatureState.DIE);
             }
         }
         public override void ExecuteState() {
@@ -90,11 +92,11 @@
                     return base.StateCondition();
             }
         }
-        public void Animator_ShowGrenade () {
+        public virtual void Animator_ShowGrenade () {
             decoyGrenade?.SetActive(true);
             "pengo_throw".PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
         }
-        public void Animator_SpawnGrenade () {
+        public virtual void Animator_SpawnGrenade () {
             decoyGrenade?.SetActive(false);
             if (grenadePrefab != null && launchPoint != null) {
                 "egg_throw".PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.9f, 1.1f));
@@ -108,7 +110,7 @@
                 }
             }
         }
-        public void Animator_EndThrow () {
+        public virtual void Animator_EndThrow () {
             SetState(CreatureState.IDLE);
         }
     }

@@ -85,7 +85,7 @@
                 Explode();
             } else if (state == ProjectileState.RETURNED) {
                 //on a return volley, we want to explode on level geometry and entities only
-                if (collision.gameObject.layer == LayerMask.NameToLayer("Entity") || collision.gameObject.layer == LayerMask.NameToLayer("Level")) {
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Entity") || collision.gameObject.layer == LayerMask.NameToLayer("Level") || collision.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
                     Explode();
                 }
             }
@@ -95,8 +95,8 @@
         {
 
             // Get layer masks for "Level" and "Entity"
-            int levelLayerMask = LayerMask.GetMask("Level");
-            int entityLayerMask = LayerMask.GetMask("Entity");
+            int levelLayerMask = LayerMask.GetMask("Entity") |LayerMask.GetMask("Level");
+            int entityLayerMask = LayerMask.GetMask("Enemy");
 
             GameObject bestTarget = null;
             float highestScore = Mathf.NegativeInfinity;

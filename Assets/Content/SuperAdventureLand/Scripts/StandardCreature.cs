@@ -154,7 +154,7 @@
         public virtual void GroundHit(CollisionWrapper collision)
         {
             lastCollision = collision;
-            if (groundHitAfterKick)
+            if (groundHitAfterKick || groundHitAfterFly)
             {
                 SetState(CreatureState.DIE);
             }
@@ -183,6 +183,8 @@
             ragdollRoot.AddForce(popUpForce, ForceMode.Impulse);
         }
 
+        private bool requireCoin = false;
+
         public override void ExecuteState()
         {
             switch (state)
@@ -210,7 +212,7 @@
                     }
 
                     //make sure only the player can get a coin
-                    if (lastCollision != null && (lastCollision.tag == "Player" || lastCollision.tag == "ActiveHit"))
+                    if (requireCoin || (lastCollision != null && (lastCollision.tag == "Player" || lastCollision.tag == "ActiveHit")))
                     {
                         "E_COIN".GetAsset<GameObject>(coinPrefab =>
                         {
@@ -222,6 +224,8 @@
                             Debug.LogError($"Failed to load coin: {error}");
                             Destroy(gameObject);
                         });
+                    } else {
+                        Destroy(gameObject);
                     }
                     break;
                 case CreatureState.STONE:
@@ -247,6 +251,7 @@
                     gameObject.layer = LayerMask.NameToLayer("Level");
                     break;
                 case CreatureState.FLY:
+                    requireCoin = true;
                     ToggleRagdoll(true);
                     gameObject.layer = LayerMask.NameToLayer("Default");
 
@@ -289,6 +294,14 @@
             get
             {
                 return state == CreatureState.HIT || state == CreatureState.HITTING || state == CreatureState.KICK || state == CreatureState.KICKING;
+            }
+        }
+
+        public bool groundHitAfterFly
+        {
+            get
+            {
+                return state == CreatureState.FLY || state == CreatureState.FLYING;
             }
         }
     }

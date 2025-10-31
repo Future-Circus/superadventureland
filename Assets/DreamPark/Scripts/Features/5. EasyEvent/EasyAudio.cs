@@ -9,6 +9,7 @@ public class EasyAudio : EasyEvent
     public float pitchVariation = 0.1f;
     public bool loop = false;
     public bool delayNextEvent = false;
+    private AudioSource audioSource;
 
     public override void Start()
     {
@@ -17,14 +18,25 @@ public class EasyAudio : EasyEvent
     }
     public override void OnEvent(object arg0 = null)
     {
-        AudioSource audioSource = audioClip.PlaySFX(transform.position, volume, pitch+Random.Range(-pitchVariation, pitchVariation));
-
+        isEnabled = true;
+        Debug.Log("[EasyAudio] OnEvent: " + audioClip.name);
+        audioSource = audioClip.PlaySFX(transform.position, volume, pitch+Random.Range(-pitchVariation, pitchVariation), loop ? transform : null);
         if (!delayNextEvent) {
             onEvent?.Invoke(null);
         } else {
             StartCoroutine(DelayNextEvent(audioSource));
         }
     }
+    public void Update()
+    {
+        if (!isEnabled && audioSource != null) {
+            audioSource.Stop();
+            if (audioSource.gameObject != null) {
+                Destroy(audioSource.gameObject);
+            }
+            audioSource = null;
+        }
+    } 
     private IEnumerator DelayNextEvent(AudioSource audioSource)
     {
         if (delayNextEvent) {

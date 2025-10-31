@@ -104,16 +104,16 @@ public static class CoreExtensions
         tempGO.transform.position = position;
         AudioSource audioSource = tempGO.AddComponent<AudioSource>();
         audioSource.clip = clip;
-        audioSource.volume = volume;
+        audioSource.volume = Mathf.Clamp01(volume);
         audioSource.spatialBlend = 1;
-        audioSource.maxDistance = 10;
+        audioSource.maxDistance = 10 + ((volume-1f) * 10f);
         audioSource.pitch = pitch;
         tempGO.AddComponent<RealisticRolloff>();
         audioSource.Play();
 
         if (parent != null)
         {
-            tempGO.transform.SetParent(parent);
+            tempGO.transform.SetParent(parent,true);
             tempGO.transform.localPosition = Vector3.zero;
             tempGO.transform.localRotation = Quaternion.identity;
             audioSource.loop = true;

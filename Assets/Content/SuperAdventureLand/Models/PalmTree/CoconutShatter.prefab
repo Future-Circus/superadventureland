@@ -154,8 +154,11 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   force: {x: 0, y: 5, z: 0}
   forceVariation: {x: 5, y: 0, z: 5}
+  torque: {x: 0, y: 0, z: 0}
+  torqueVariation: {x: 0, y: 0, z: 0}
   forceOrigin: {fileID: 0}
   forceMode: 1
 --- !u!114 &2187863201276891187
@@ -176,6 +179,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   layers:
   - Level
   tags: []
@@ -198,6 +202,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   randomDelay: 0
   delay: 1
   maxDelay: 0.5
@@ -219,6 +224,7 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
   duration: 0.4
   delayNextEvent: 1
@@ -240,3 +246,4 @@ MonoBehaviour:
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
+  isEnabled: 0

@@ -539,6 +539,8 @@ GameObject:
   - component: {fileID: 2681174176603523338}
   - component: {fileID: 1503284384336971038}
   - component: {fileID: 1682319201160847832}
+  - component: {fileID: 253015142656734299}
+  - component: {fileID: 4732176561536249409}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -656,6 +658,52 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.002
   m_Center: {x: 0, y: 0.0013, z: 0}
+--- !u!114 &253015142656734299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983350082155035374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  belowEvent: {fileID: 0}
+  eventOnStart: 0
+  isEnabled: 0
+  layers:
+  - Level
+  tags:
+  - Ground
+  - Lava
+  collisionEvent: 0
+--- !u!114 &4732176561536249409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983350082155035374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb63d15cbf5846d6bcedc6bb68a900e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  belowEvent: {fileID: 0}
+  eventOnStart: 0
+  isEnabled: 0
+  target: {fileID: 6790311624070973829}
+  methodName: GroundHit
 --- !u!1 &2025463437315485945
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,6 +1004,8 @@ GameObject:
   - component: {fileID: 3434574819262860113}
   - component: {fileID: 1270071562857703807}
   - component: {fileID: 602487081593476118}
+  - component: {fileID: 1360831759404063077}
+  - component: {fileID: 4190774726508347275}
   m_Layer: 0
   m_Name: Foot.R
   m_TagString: Untagged
@@ -1075,6 +1125,52 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &1360831759404063077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4312878542868878847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  belowEvent: {fileID: 0}
+  eventOnStart: 0
+  isEnabled: 0
+  layers:
+  - Level
+  tags:
+  - Ground
+  - Lava
+  collisionEvent: 0
+--- !u!114 &4190774726508347275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4312878542868878847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb63d15cbf5846d6bcedc6bb68a900e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  belowEvent: {fileID: 0}
+  eventOnStart: 0
+  isEnabled: 0
+  target: {fileID: 6790311624070973829}
+  methodName: GroundHit
 --- !u!1 &5125828439514646913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,6 +1183,8 @@ GameObject:
   - component: {fileID: 3431790621708659557}
   - component: {fileID: 7951063330152423630}
   - component: {fileID: 5371514614871835426}
+  - component: {fileID: 2325324868921455962}
+  - component: {fileID: 5688267570039969934}
   m_Layer: 0
   m_Name: Foot.L
   m_TagString: Untagged
@@ -1206,6 +1304,52 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &2325324868921455962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125828439514646913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  belowEvent: {fileID: 0}
+  eventOnStart: 0
+  isEnabled: 0
+  layers:
+  - Level
+  tags:
+  - Ground
+  - Lava
+  collisionEvent: 0
+--- !u!114 &5688267570039969934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125828439514646913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb63d15cbf5846d6bcedc6bb68a900e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  belowEvent: {fileID: 0}
+  eventOnStart: 0
+  isEnabled: 0
+  target: {fileID: 6790311624070973829}
+  methodName: GroundHit
 --- !u!1 &5829633853197245562
 GameObject:
   m_ObjectHideFlags: 0
