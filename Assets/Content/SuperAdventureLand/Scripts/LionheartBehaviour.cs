@@ -2,10 +2,10 @@
 {
     using UnityEngine;
     using System.Collections;
+    using System.Collections.Generic;
 
 #if UNITY_EDITOR
     using UnityEditor;
-    using System.Collections.Generic;
 
     [CustomEditor(typeof(LionheartBehaviour))]
     public class LionheartBehaviourEditor : CreatureEditor
@@ -32,23 +32,31 @@
 
     public class LionheartBehaviour : Creature
     {
+        public MusicArea battleArena;
+
+        [Header("Player Detection")]
         public float detectionRadius = 4f;
         public float detectionAngle = 120f;
         public float detectionTime = 2f;
-        public float turnSpeed = 30f;
-        public float runSpeed = 10f;
+
+        [Header("Head Follow Player")]
+        public Transform headBoneTransform;
         public float headRotationMaxAngle = 30f;
         public float headRotationSpeed = 30f;
+
+        [Header("Lionheart Movement")]
         public float forwardDistance = 1f;
+        public float turnSpeed = 30f;
+        public float runSpeed = 10f;
         public float jumpDelay = 3f;
         public float jumpDuration = 1f;
         public float jumpDistance = 3f;
+        public float backflipDuration = 0.5f;
+        public float backflipJumpHeight = 3f;
+        public float backflipBackDistance = 2f;
         public float dizzyTime = 2.5f;
         public float crashDelay = 0.5f;
-        public MusicArea battleArena;
-        public List<GameObject> dizzyStars;
         public List<ParticleSystem> dustParticles;
-        public Transform headBoneTransform;
         private Vector3 runTarget;
         private int pounceCount = 0;
         private Coroutine jumpCoroutine;
@@ -96,8 +104,9 @@
                     playerInSight = false;
 
                     float dotThreshold = Mathf.Cos(detectionAngle * Mathf.Deg2Rad);
-                    if (Vector3.Dot(transform.forward, Camera.main.transform.position - transform.position) < dotThreshold)
+                    if (Vector3.Dot(transform.forward, (Camera.main.transform.position - transform.position).normalized) < 0.5f)
                     {
+                        Debug.Log("Force turn: " + Vector3.Dot(transform.forward, (Camera.main.transform.position - transform.position).normalized));
                         SetState(CreatureState.TURN);
                     }
                     break;
@@ -122,9 +131,9 @@
                     break;
                 case CreatureState.TARGET:
                     animator.SetTrigger("pounce");
-                    LookAtTarget(Camera.main.transform.position);
                     runTarget = Camera.main.transform.position + Camera.main.transform.forward * forwardDistance; // Run to right in front of player
                     runTarget.y = 0;
+                    LookAtTarget(runTarget);
                     pounceCount++;
                     SetDustParticles(true);
 
@@ -145,6 +154,9 @@
                     break;
                 case CreatureState.RUN:
                     animator.SetBool("isRunning", true);
+                    // runTarget = Camera.main.transform.position + Camera.main.transform.forward * forwardDistance; // Run to right in front of player
+                    // runTarget.y = 0;
+                    // LookAtTarget(runTarget);
                     break;
                 case CreatureState.RUNNING:
                     transform.position = Vector3.MoveTowards(transform.position, runTarget, runSpeed * Time.deltaTime);
@@ -152,6 +164,10 @@
                     {
                         SetState(CreatureState.IDLE);
                     }
+                    break;
+                case CreatureState.LAUNCH:
+                    animator.SetTrigger("jump");
+                    jumpCoroutine = StartCoroutine(JumpCoroutine());
                     break;
                 case CreatureState.TURN:
                     break;
@@ -169,20 +185,14 @@
                     SetState(CreatureState.IDLE);
                     break;
                 case CreatureState.HIT:
-                    // TODO Add hit logic
-                    SetDizzyStars(true);
-                    Extensions.Wait(this, 2f, () =>
+                    StartCoroutine(Backflip(transform, Camera.main.transform, backflipDuration, backflipJumpHeight, backflipBackDistance));
+                    Extensions.Wait(this, backflipDuration, () =>
                     {
                         SetState(CreatureState.IDLE);
                     });
                     break;
-                case CreatureState.LAUNCH:
-                    animator.SetTrigger("jump");
-                    jumpCoroutine = StartCoroutine(JumpCoroutine());
-                    break;
                 case CreatureState.CRASH:
                     animator.SetTrigger("crash");
-                    SetDizzyStars(false);
                     if (jumpCoroutine != null)
                     {
                         StopCoroutine(jumpCoroutine);
@@ -239,14 +249,6 @@
             transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
         }
 
-        private void SetDizzyStars(bool active)
-        {
-            foreach (GameObject star in dizzyStars)
-            {
-                star.SetActive(active);
-            }
-        }
-
         private void SetDustParticles(bool active)
         {
             foreach (ParticleSystem dustParticle in dustParticles)
@@ -261,6 +263,54 @@
                     dustParticle.Stop();
                 }
             }
+        }
+
+        IEnumerator Backflip(Transform target, Transform player, float duration, float jumpHeight, float backDistance)
+        {
+            LookAtTarget(player.position);
+
+            float elapsed = 0f;
+            Vector3 startPos = target.position;
+            Vector3 startEuler = target.localEulerAngles; // store full rotation
+            float startRotX = startEuler.x;
+            float endRotX = startRotX + 360f;
+
+            // Direction away from player
+            Vector3 awayDir = (target.position - player.position).normalized;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+
+                // Rotation ease-in-out (smoothstep) around X only
+                float rotT = t * t * (3f - 2f * t);
+                float angleX = Mathf.Lerp(startRotX, endRotX, rotT);
+
+                // Vertical parabola (0 at start, peak at t=0.5, back to 0 at end)
+                float heightOffset = 4f * jumpHeight * t * (1 - t);
+
+                // Backward offset
+                float backwardOffset = backDistance * t;
+
+                // Apply rotation (X changes, Y and Z stay same)
+                Vector3 euler = new Vector3(angleX, startEuler.y, startEuler.z);
+                target.localEulerAngles = euler;
+
+                // Apply position
+                Vector3 newPos = startPos + awayDir * backwardOffset + Vector3.up * heightOffset;
+                newPos.y = Mathf.Max(newPos.y, 0f); // ensure it doesn’t go below floor
+
+                target.position = newPos;
+
+                yield return null;
+            }
+
+            // Snap final rotation and position
+            target.localEulerAngles = new Vector3(endRotX % 360f, startEuler.y, startEuler.z);
+            target.position = new Vector3(startPos.x + awayDir.x * backDistance,
+                                          0f,
+                                          startPos.z + awayDir.z * backDistance);
         }
 
         private IEnumerator JumpCoroutine()

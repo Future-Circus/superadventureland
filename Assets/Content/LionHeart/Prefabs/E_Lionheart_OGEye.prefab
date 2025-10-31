@@ -1040,11 +1040,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5298461659491221527}
   m_SourcePrefab: {fileID: 100100000, guid: 07a5de5b327864a0a917f6c960b6f64b, type: 3}
---- !u!1 &1367543662842005372 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -1003734649438379450, guid: 07a5de5b327864a0a917f6c960b6f64b, type: 3}
-  m_PrefabInstance: {fileID: 6982964335051121978}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2220142173452460786 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -132857720120358968, guid: 07a5de5b327864a0a917f6c960b6f64b, type: 3}
@@ -1081,11 +1076,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.4
   m_Center: {x: 0, y: 0.2, z: 0}
---- !u!1 &5737991341178824678 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -5816106820123852068, guid: 07a5de5b327864a0a917f6c960b6f64b, type: 3}
-  m_PrefabInstance: {fileID: 6982964335051121978}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6075083679331856317 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5429246048605795705, guid: 07a5de5b327864a0a917f6c960b6f64b, type: 3}
@@ -1112,16 +1102,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.7
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &6942409247546842122 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 49572019156236592, guid: 07a5de5b327864a0a917f6c960b6f64b, type: 3}
-  m_PrefabInstance: {fileID: 6982964335051121978}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7239867164543940038 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -8894233491490320132, guid: 07a5de5b327864a0a917f6c960b6f64b, type: 3}
-  m_PrefabInstance: {fileID: 6982964335051121978}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7793779052765812843 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 07a5de5b327864a0a917f6c960b6f64b, type: 3}
@@ -1221,29 +1201,27 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  battleArena: {fileID: 0}
   detectionRadius: 6
   detectionAngle: 180
   detectionTime: 1.5
-  turnSpeed: 30
-  runSpeed: 5
+  headBoneTransform: {fileID: 3840186755229860318}
   headRotationMaxAngle: 30
   headRotationSpeed: 30
   forwardDistance: 0.5
+  turnSpeed: 30
+  runSpeed: 5
   jumpDelay: 0.8
   jumpDuration: 0.8
   jumpDistance: 3.5
+  backflipDuration: 0.5
+  backflipJumpHeight: 3
+  backflipBackDistance: 2
   dizzyTime: 5
   crashDelay: 0.833
-  battleArena: {fileID: 0}
-  dizzyStars:
-  - {fileID: 6942409247546842122}
-  - {fileID: 1367543662842005372}
-  - {fileID: 7239867164543940038}
-  - {fileID: 5737991341178824678}
   dustParticles:
   - {fileID: 1118088745009553155}
   - {fileID: 3978401389486501829}
-  headBoneTransform: {fileID: 3840186755229860318}
 --- !u!54 &5012267031297327095
 Rigidbody:
   m_ObjectHideFlags: 0
