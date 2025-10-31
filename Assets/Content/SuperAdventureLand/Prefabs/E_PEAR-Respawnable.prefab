@@ -85,6 +85,26 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6444913444607852097, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: aboveEvent
+      value: 
+      objectReference: {fileID: 7320067832964516345}
+    - target: {fileID: 8295610618324342699, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8295610618324342699, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8295610618324342699, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8295610618324342699, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EasyAudio, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8351610833139512038, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -135,3 +155,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8351610833139512038, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
   m_PrefabInstance: {fileID: 1624100784032669266}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7320067832964516345 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8295610618324342699, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+  m_PrefabInstance: {fileID: 1624100784032669266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7c906da6f464316b597e917607438c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

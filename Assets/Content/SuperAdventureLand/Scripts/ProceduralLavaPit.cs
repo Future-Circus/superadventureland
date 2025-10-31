@@ -6,11 +6,11 @@
     using Meta.XR.EnvironmentDepth;
     using System;
     using System.IO;
+    using DreamPark;
 
     #if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.SceneManagement;
-    using DreamPark;
 
     [CustomEditor(typeof(ProceduralLavaPit), true)]
     public class ProceduralLavaPitEditor : UnityEditor.Editor
@@ -111,7 +111,7 @@
     }
     #endif
 
-    [ExecuteInEditMode]
+    [ExecuteInEditMode][RequireComponent(typeof(FloorCutout))]
     public class ProceduralLavaPit : MonoBehaviour
     {
         [SerializeField, HideInInspector]
@@ -466,6 +466,7 @@
         }
         public virtual void PreProcessGenerateLavaPit()
         {
+            GetComponent<FloorCutout>().points = points;
             GenerateLavaPit(new List<Vector3>(points));
         }
 

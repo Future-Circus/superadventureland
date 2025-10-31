@@ -11,6 +11,7 @@
         public float spring = 5000000f;
         public float maxForce = 500f;
         public bool archway = false;
+        public string delimiter = "";
         public int clipEnd = 0;
 
         public void GenerateColliders()
@@ -19,7 +20,7 @@
                 return;
 
             Transform[] bones = rootBone.GetComponentsInChildren<Transform>();
-            bones = bones.Where(b => !b.name.EndsWith("_end")).ToArray();
+            bones = bones.Where(b => !b.name.EndsWith("_end") && (delimiter == null || delimiter == "" || !b.name.Contains(delimiter))).ToArray();
             bones = bones.Where(b => b != rootBone).ToArray();
 
             if (archway)

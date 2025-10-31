@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace DreamPark.Easy {
     public class EasyThrow : EasyEvent
@@ -12,10 +13,13 @@ namespace DreamPark.Easy {
         private LayerMask priorityLayerMask;
         private LayerMask fallbackLayerMask;
         private string targetTagMask;
+        private NavMeshAgent agent;
+        public float forceMultiplier = 2.0f;
         public override void Awake()
         {
             base.Awake();
             rb = GetComponent<Rigidbody>();
+            agent = GetComponent<NavMeshAgent>();
         }
         public override void Start() {
             base.Start();
@@ -32,7 +36,8 @@ namespace DreamPark.Easy {
                             fallbackLayerMask |= (1 << layer);
                     }
                 }
-
+            } else {
+                priorityLayerMask = ~0;
             }
             if (targetTagOrder != null && targetTagOrder.Length > 0) {
                 targetTagMask = targetTagOrder.Aggregate((a, b) => a + "," + b);
@@ -40,9 +45,24 @@ namespace DreamPark.Easy {
         }
         public override void OnEvent(object arg0 = null)
         {
-            CollisionWrapper lastCollision = arg0 as CollisionWrapper;
+            CollisionWrapper lastCollision = GetLastCollision(arg0);
+            if (lastCollision == null) {
+                Debug.Log("[EasyThrow] No collision data found!");
+                Throw(transform.forward, 1f);
+                onEvent?.Invoke(null);
+                return;
+            }
             Throw(transform.position - lastCollision.contactPoint, lastCollision.relativeVelocity.magnitude);
             onEvent?.Invoke(null);
+        }
+
+        public CollisionWrapper GetLastCollision(object arg0 = null) {
+            if (arg0 is CollisionWrapper _lastCollision) {
+                return _lastCollision;
+            } else if (Componentizer.DoComponent<EasyVars>(gameObject, true).lastCollision != null) {
+                return Componentizer.DoComponent<EasyVars>(gameObject, true).lastCollision;
+            }
+            return null;
         }
 
         public void Throw(Vector3 impactDirection, float impactForce = 1f)
@@ -53,6 +73,10 @@ namespace DreamPark.Easy {
             rb.useGravity = true;
             rb.WakeUp();
 
+            if (agent != null) {
+                agent.enabled = false;
+            }
+
             if (target != null)
             {
                 if (rb.LaunchAtTarget(target)) {
@@ -60,19 +84,17 @@ namespace DreamPark.Easy {
                 }
             } else if (targetTagOrder != null && targetTagOrder.Length > 0)
             {
-                if (rb.LaunchAtLayerWithTag(priorityLayerMask, targetTagMask, 20f)) {
+                if (rb.LaunchAtLayerWithTag(priorityLayerMask, targetTagMask, 20f, upwardMin)) {
                     return;
                 }
             } else if (targetLayerOrder != null && targetLayerOrder.Length > 0)
             {
-                if (rb.LaunchAtLayer(priorityLayerMask, 20f, fallbackLayerMask, 20f)) {
+                if (rb.LaunchAtLayer(priorityLayerMask, 20f, fallbackLayerMask, 20f, upwardMin)) {
                     return;
                 }
             }
 
             Debug.Log(gameObject.name + "- no target found, launching with direction force");
-
-            float forceMultiplier = 5.0f;
 
             gameObject.tag = "ActiveHit";
 
@@ -87,7 +109,7 @@ namespace DreamPark.Easy {
                 Random.Range(-1f, 1f),
                 Random.Range(-1f, 1f),
                 Random.Range(-1f, 1f)
-            );
+            ) * forceMultiplier;
             rb.AddTorque(randomTorque, ForceMode.Impulse);
         }
     }

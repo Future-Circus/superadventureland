@@ -17,6 +17,8 @@ public class EasyInteraction : EasyEvent
         [SerializeField] public EasyEvent onEvent;
     }
     [SerializeField] public InteractionFilter[] interactionFilters;
+    [SerializeField] public bool onlyDetectOnce = false;
+    [SerializeField] public bool continueToNextEvent = false;
     [HideInInspector] private CollisionWrapper _lastCollision;
     [HideInInspector] public CollisionWrapper lastCollision {
         get {
@@ -29,10 +31,14 @@ public class EasyInteraction : EasyEvent
             _lastCollision = value;
         }
     }
-    private bool detecting = false;
+    [HideInInspector] public bool detecting = false;
     public override void OnEvent(object arg0 = null)
     {
+        Debug.Log(gameObject.name + " [EasyInteraction] OnEvent called");
         detecting = true;
+        if (continueToNextEvent) {
+            onEvent?.Invoke(null);
+        }
     }
     private void OnCollisionEnter(Collision collision) {
         if (detecting) {
@@ -87,13 +93,18 @@ public class EasyInteraction : EasyEvent
 
             // If both conditions are met, invoke appropriate event
             if (layerMatch && tagMatch && (filter.collisionEvent == CollisionEvent.ENTER && isEnter || filter.collisionEvent == CollisionEvent.EXIT && !isEnter)) {
+                Debug.Log(gameObject.name + " [EasyInteraction] CheckInteraction - layerMatch: " + layerMatch + " tagMatch: " + tagMatch + " isEnter: " + isEnter + " filter.collisionEvent: " + filter.collisionEvent);
                 lastCollision = collision;
                 if (filter.onEvent == null) {
                     Debug.Log("No onEvent found, using belowEvent");
                     Debug.Log("belowEvent: " + belowEvent.name);
                     filter.onEvent = belowEvent;
                 }
+                Componentizer.DoComponent<EasyVars>(gameObject, true).lastCollision = lastCollision;
                 filter.onEvent?.OnEvent(lastCollision);
+                if (onlyDetectOnce) {
+                    detecting = false;
+                }
                 break;
             }
         }

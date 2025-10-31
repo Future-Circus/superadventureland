@@ -14,28 +14,40 @@ public class EasyCollision : EasyEvent
     private bool detecting = false;
     public override void OnEvent(object arg0 = null)
     {
+        isEnabled = true;
         detecting = true;
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if (detecting && collisionEvent == CollisionEvent.ENTER) {
+        if (isEnabled && detecting && collisionEvent == CollisionEvent.ENTER) {
+            GameObject other = collision.gameObject;
+            CheckInteraction(other, new CollisionWrapper(collision));
+        }
+    }
+    public void OnCollisionStay(Collision collision) {
+        if (isEnabled && detecting && collisionEvent == CollisionEvent.ENTER) {
             GameObject other = collision.gameObject;
             CheckInteraction(other, new CollisionWrapper(collision));
         }
     }
     private void OnCollisionExit(Collision collision) {
-        if (detecting && collisionEvent == CollisionEvent.EXIT) {
+        if (isEnabled && detecting && collisionEvent == CollisionEvent.EXIT) {
         GameObject other = collision.gameObject;
             CheckInteraction(other, new CollisionWrapper(collision)); 
         }
     }
     private void OnTriggerEnter(Collider other) {
-        if (detecting && collisionEvent == CollisionEvent.ENTER) {
+        if (isEnabled && detecting && collisionEvent == CollisionEvent.ENTER) {
+            CheckInteraction(other.gameObject, new CollisionWrapper(other));
+        }
+    }
+    public void OnTriggerStay(Collider other) {
+        if (isEnabled && detecting && collisionEvent == CollisionEvent.ENTER) {
             CheckInteraction(other.gameObject, new CollisionWrapper(other));
         }
     }
     private void OnTriggerExit(Collider other) {
-        if (detecting && collisionEvent == CollisionEvent.EXIT) {
+        if (isEnabled && detecting && collisionEvent == CollisionEvent.EXIT) {
             CheckInteraction(other.gameObject, new CollisionWrapper(other));
         }
     }
@@ -65,6 +77,8 @@ public class EasyCollision : EasyEvent
             tagMatch = true;
         }
         if (layerMatch && tagMatch) {
+            isEnabled = false;
+            detecting = false;
             onEvent?.Invoke(collision);
         }
      }

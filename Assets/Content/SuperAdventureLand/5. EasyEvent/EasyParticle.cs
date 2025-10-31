@@ -6,12 +6,13 @@ using UnityEditor;
     public class EasyParticle : DreamPark.Easy.EasyParticle
     {
         #if UNITY_EDITOR
-        public void OnValidate()
+        public override void OnValidate()
         {
             if (particleEffect == null)
             {
                 particleEffect = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/VFX/FX_SteamCloud.prefab");
             }
+            base.OnValidate();
         }
         #endif
     }

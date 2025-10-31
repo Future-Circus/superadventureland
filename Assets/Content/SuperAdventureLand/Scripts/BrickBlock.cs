@@ -22,6 +22,7 @@
 
     public class BrickBlock : Block
     {
+        public EasyEvent onBreak;
         public override void Start()
         {
             base.Start();
@@ -51,6 +52,10 @@
                     {
                         piece.isKinematic = false;
                         piece.AddForce(hitVelocity);
+                    }
+                    if (onBreak != null) {
+                        onBreak?.OnEvent(null);
+                        onBreak = null;
                     }
                     Destroy(dp_activatedBlock.gameObject, 4f);
                     SetState(BlockState.DESTROY);

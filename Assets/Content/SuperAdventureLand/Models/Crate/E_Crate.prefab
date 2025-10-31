@@ -291,10 +291,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3116953575506920135}
+        m_TargetAssemblyTypeName: EasyInteraction, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 3116953575506920135}
+  eventOnStart: 1
   isEnabled: 0
   variants:
   - {fileID: 8113650873019864780}
@@ -315,9 +327,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6441196797897947484}
+        m_TargetAssemblyTypeName: EasyForceFilter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5436856453652284001}
+  belowEvent: {fileID: 6441196797897947484}
   eventOnStart: 0
   isEnabled: 0
   interactionFilters:
@@ -332,6 +356,9 @@ MonoBehaviour:
     - ActiveHit
     collisionEvent: 0
     onEvent: {fileID: 7934347809688244195}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &6441196797897947484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,9 +373,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 7934347809688244195}
+        m_TargetAssemblyTypeName: DreamPark.Easy.EasySpawn, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3116953575506920135}
+  belowEvent: {fileID: 7934347809688244195}
   eventOnStart: 0
   isEnabled: 0
   minimumForce: 0.5
@@ -366,9 +405,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 2782103649101284841}
+        m_TargetAssemblyTypeName: DreamPark.Easy.EasySpawn, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 6441196797897947484}
+  belowEvent: {fileID: 2782103649101284841}
   eventOnStart: 0
   isEnabled: 0
   spawnPrefab: {fileID: 4174991755830457146, guid: 9af0e3435f3fe4632b00997b5bb8b3d8, type: 3}
@@ -389,13 +440,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6389348025099614220}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 7934347809688244195}
+  belowEvent: {fileID: 6389348025099614220}
   eventOnStart: 0
   isEnabled: 0
   spawnPrefab: {fileID: 7200948106535748897, guid: 33204854d9dd6473f8b8b6ce0e5b5323, type: 3}
-  spawnPoint: {fileID: 0}
+  spawnPoint: {fileID: 2255427059289988175}
   amount: 1
   copyRotation: 0
 --- !u!114 &6389348025099614220
@@ -413,7 +476,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 2782103649101284841}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0

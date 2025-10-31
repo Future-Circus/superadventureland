@@ -171,10 +171,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5106610153623086061}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 5106610153623086061}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -188,6 +200,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 6891269496705863583}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &5106610153623086061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,9 +217,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 1981379771029503126}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2233070143766178395}
+  belowEvent: {fileID: 1981379771029503126}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -224,9 +251,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6748268077148585565}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5106610153623086061}
+  belowEvent: {fileID: 6748268077148585565}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -246,9 +285,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6891269496705863583}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1981379771029503126}
+  belowEvent: {fileID: 6891269496705863583}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &6891269496705863583
@@ -266,8 +317,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 6748268077148585565}
+  belowEvent: {fileID: 7923009506008844988}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -286,7 +337,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 333753997271098887}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -310,7 +373,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 7923009506008844988}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -485,10 +548,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5666201239656571472}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 5666201239656571472}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -502,6 +577,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 3042873368108252591}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &5666201239656571472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,9 +594,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 5637778124699318860}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 6059603123463284098}
+  belowEvent: {fileID: 5637778124699318860}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -538,9 +628,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 5797335054620550392}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5666201239656571472}
+  belowEvent: {fileID: 5797335054620550392}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -560,9 +662,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3042873368108252591}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5637778124699318860}
+  belowEvent: {fileID: 3042873368108252591}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &3042873368108252591
@@ -580,8 +694,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 5797335054620550392}
+  belowEvent: {fileID: 5646820565149235550}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -600,7 +714,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3566119443466149624}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -624,7 +750,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 5646820565149235550}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -799,10 +925,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2099356372189730257}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 2099356372189730257}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -816,6 +954,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 5146797266895764622}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &2099356372189730257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -830,9 +971,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 1731386403842020674}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 4790005574625248750}
+  belowEvent: {fileID: 1731386403842020674}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -852,9 +1005,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6851724986116021628}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2099356372189730257}
+  belowEvent: {fileID: 6851724986116021628}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -874,9 +1039,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 5146797266895764622}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1731386403842020674}
+  belowEvent: {fileID: 5146797266895764622}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &5146797266895764622
@@ -894,8 +1071,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 6851724986116021628}
+  belowEvent: {fileID: 7356525791174236834}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -914,7 +1091,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3239471167032185152}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -938,7 +1127,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 7356525791174236834}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -1113,10 +1302,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6753059714559510448}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 6753059714559510448}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -1130,6 +1331,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 8976684555224596678}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &6753059714559510448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1144,9 +1348,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 8194176659539926791}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 7113441787337607090}
+  belowEvent: {fileID: 8194176659539926791}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -1166,9 +1382,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 4250056497284629685}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 6753059714559510448}
+  belowEvent: {fileID: 4250056497284629685}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -1188,9 +1416,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 8976684555224596678}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 8194176659539926791}
+  belowEvent: {fileID: 8976684555224596678}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &8976684555224596678
@@ -1208,8 +1448,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 4250056497284629685}
+  belowEvent: {fileID: 8958682661537135173}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -1228,7 +1468,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 41898554616699303}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -1252,7 +1504,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 8958682661537135173}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -1579,10 +1831,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7205354704889089451}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 7205354704889089451}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -1596,6 +1860,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 8817780480169072718}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &7205354704889089451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1610,9 +1877,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 8154207352108990562}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2801670853561635286}
+  belowEvent: {fileID: 8154207352108990562}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -1632,9 +1911,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 5783658222893242100}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 7205354704889089451}
+  belowEvent: {fileID: 5783658222893242100}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -1654,9 +1945,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 8817780480169072718}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 8154207352108990562}
+  belowEvent: {fileID: 8817780480169072718}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &8817780480169072718
@@ -1674,8 +1977,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 5783658222893242100}
+  belowEvent: {fileID: 2091872854237340417}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -1694,7 +1997,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6735346641355129008}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -1718,7 +2033,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 2091872854237340417}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -1893,10 +2208,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5468677254467572457}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 5468677254467572457}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -1910,6 +2237,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 3374439788287415687}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &5468677254467572457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1924,9 +2254,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 2298686361166417804}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1271815199610042444}
+  belowEvent: {fileID: 2298686361166417804}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -1946,9 +2288,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 7597995705585622027}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5468677254467572457}
+  belowEvent: {fileID: 7597995705585622027}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -1968,9 +2322,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3374439788287415687}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2298686361166417804}
+  belowEvent: {fileID: 3374439788287415687}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &3374439788287415687
@@ -1988,8 +2354,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 7597995705585622027}
+  belowEvent: {fileID: 4791086389478468404}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -2008,7 +2374,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5806141844123878470}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -2032,7 +2410,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 4791086389478468404}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -2207,10 +2585,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2229560759746807036}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 2229560759746807036}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -2224,6 +2614,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 7606640636041182138}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &2229560759746807036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2238,9 +2631,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 1845985859268928700}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3211515716355373713}
+  belowEvent: {fileID: 1845985859268928700}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -2260,9 +2665,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 5988113089071533979}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2229560759746807036}
+  belowEvent: {fileID: 5988113089071533979}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -2282,9 +2699,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 7606640636041182138}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1845985859268928700}
+  belowEvent: {fileID: 7606640636041182138}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &7606640636041182138
@@ -2302,8 +2731,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 5988113089071533979}
+  belowEvent: {fileID: 8483871526538202784}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -2322,7 +2751,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6565840884554201421}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -2346,7 +2787,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 8483871526538202784}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -2521,10 +2962,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 409015701886979710}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 409015701886979710}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -2538,6 +2991,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 6935840917548700835}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &409015701886979710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2552,9 +3008,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 1091211321150775007}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 82652020273269245}
+  belowEvent: {fileID: 1091211321150775007}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -2574,9 +3042,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3008160690177834306}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 409015701886979710}
+  belowEvent: {fileID: 3008160690177834306}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -2596,9 +3076,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6935840917548700835}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1091211321150775007}
+  belowEvent: {fileID: 6935840917548700835}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &6935840917548700835
@@ -2616,8 +3108,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 3008160690177834306}
+  belowEvent: {fileID: 3569407993102710469}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -2636,7 +3128,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1697305346991369574}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -2660,7 +3164,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 3569407993102710469}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -2835,10 +3339,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5076299131617604980}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 5076299131617604980}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -2852,6 +3368,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 3102527926237997582}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &5076299131617604980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2866,9 +3385,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6914665052826060600}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5617137057693254092}
+  belowEvent: {fileID: 6914665052826060600}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -2888,9 +3419,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3871339969974148007}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5076299131617604980}
+  belowEvent: {fileID: 3871339969974148007}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -2910,9 +3453,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3102527926237997582}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 6914665052826060600}
+  belowEvent: {fileID: 3102527926237997582}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &3102527926237997582
@@ -2930,8 +3485,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 3871339969974148007}
+  belowEvent: {fileID: 8707689481992330556}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -2950,7 +3505,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5065439959999587493}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -2974,7 +3541,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 8707689481992330556}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -3149,10 +3716,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2565308956049551526}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 2565308956049551526}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -3166,6 +3745,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 7447917589302667887}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &2565308956049551526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3180,9 +3762,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 7792778964166553062}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5639773692387419435}
+  belowEvent: {fileID: 7792778964166553062}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -3202,9 +3796,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 8740281254179593201}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2565308956049551526}
+  belowEvent: {fileID: 8740281254179593201}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -3224,9 +3830,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 7447917589302667887}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 7792778964166553062}
+  belowEvent: {fileID: 7447917589302667887}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &7447917589302667887
@@ -3244,8 +3862,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 8740281254179593201}
+  belowEvent: {fileID: 6406505354582441382}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -3264,7 +3882,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4779168170823977366}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -3288,7 +3918,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 6406505354582441382}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -3463,10 +4093,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9131157833530047872}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 9131157833530047872}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -3480,6 +4122,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 5522717756584044300}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &9131157833530047872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3494,9 +4139,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 1284746644546234165}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5762607666738863263}
+  belowEvent: {fileID: 1284746644546234165}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -3516,9 +4173,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 1411100529712966395}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 9131157833530047872}
+  belowEvent: {fileID: 1411100529712966395}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -3538,9 +4207,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 5522717756584044300}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1284746644546234165}
+  belowEvent: {fileID: 5522717756584044300}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &5522717756584044300
@@ -3558,8 +4239,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 1411100529712966395}
+  belowEvent: {fileID: 9008628508176452622}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -3578,7 +4259,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4413789150200909262}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -3602,7 +4295,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 9008628508176452622}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -3830,10 +4523,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5242521600363774651}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 5242521600363774651}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -3847,6 +4552,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 8957185999868576574}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &5242521600363774651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3861,9 +4569,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3406013935703156604}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 7382701828798448845}
+  belowEvent: {fileID: 3406013935703156604}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -3883,9 +4603,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3490721874360954531}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5242521600363774651}
+  belowEvent: {fileID: 3490721874360954531}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -3905,9 +4637,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 8957185999868576574}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3406013935703156604}
+  belowEvent: {fileID: 8957185999868576574}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &8957185999868576574
@@ -3925,8 +4669,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 3490721874360954531}
+  belowEvent: {fileID: 1208461574001601907}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -3945,7 +4689,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7027853707015726153}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -3969,7 +4725,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 1208461574001601907}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -4144,10 +4900,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1595666982139161043}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 1595666982139161043}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -4161,6 +4929,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 4378808810364598624}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &1595666982139161043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4175,9 +4946,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6381720597983542586}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3519470065696440914}
+  belowEvent: {fileID: 6381720597983542586}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -4197,9 +4980,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 4871241550264581680}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1595666982139161043}
+  belowEvent: {fileID: 4871241550264581680}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -4219,9 +5014,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 4378808810364598624}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 6381720597983542586}
+  belowEvent: {fileID: 4378808810364598624}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &4378808810364598624
@@ -4239,8 +5046,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 4871241550264581680}
+  belowEvent: {fileID: 5485602665018178251}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -4259,7 +5066,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5349748755012397816}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -4283,7 +5102,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 5485602665018178251}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -4458,10 +5277,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3836695054497401295}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 3836695054497401295}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -4475,6 +5306,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 1919744439047274819}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &3836695054497401295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4489,9 +5323,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 4770546638864218618}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2162168844855198436}
+  belowEvent: {fileID: 4770546638864218618}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -4511,9 +5357,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 4755533068707380064}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3836695054497401295}
+  belowEvent: {fileID: 4755533068707380064}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -4533,9 +5391,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 1919744439047274819}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 4770546638864218618}
+  belowEvent: {fileID: 1919744439047274819}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &1919744439047274819
@@ -4553,8 +5423,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 4755533068707380064}
+  belowEvent: {fileID: 8568676149767431252}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -4573,7 +5443,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1029152312735136704}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -4597,7 +5479,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 8568676149767431252}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -4772,10 +5654,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8034127440472504731}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 8034127440472504731}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -4789,6 +5683,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 4913917227410704940}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &8034127440472504731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4803,9 +5700,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3902572515573484754}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 4758757275085565087}
+  belowEvent: {fileID: 3902572515573484754}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -4825,9 +5734,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3184408149635835499}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 8034127440472504731}
+  belowEvent: {fileID: 3184408149635835499}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -4847,9 +5768,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 4913917227410704940}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3902572515573484754}
+  belowEvent: {fileID: 4913917227410704940}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &4913917227410704940
@@ -4867,8 +5800,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 3184408149635835499}
+  belowEvent: {fileID: 9035453940226967899}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -4887,7 +5820,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5959611735799514780}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -4911,7 +5856,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 9035453940226967899}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -5146,10 +6091,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 696540794468739641}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 696540794468739641}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -5163,6 +6120,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 6333053244791393349}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &696540794468739641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5177,9 +6137,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3028609144757629446}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 8997447473738895810}
+  belowEvent: {fileID: 3028609144757629446}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -5199,9 +6171,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 5859671727153636626}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 696540794468739641}
+  belowEvent: {fileID: 5859671727153636626}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -5221,9 +6205,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6333053244791393349}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3028609144757629446}
+  belowEvent: {fileID: 6333053244791393349}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &6333053244791393349
@@ -5241,8 +6237,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 5859671727153636626}
+  belowEvent: {fileID: 5868231324263289313}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -5261,7 +6257,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2094794025141935314}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -5285,7 +6293,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 5868231324263289313}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -5460,10 +6468,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2950480743086403359}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 2950480743086403359}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -5477,6 +6497,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 6199437783104850912}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &2950480743086403359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5491,9 +6514,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3546985011531847974}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2209474930917758977}
+  belowEvent: {fileID: 3546985011531847974}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -5513,9 +6548,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 8791643458233977389}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2950480743086403359}
+  belowEvent: {fileID: 8791643458233977389}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -5535,9 +6582,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6199437783104850912}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3546985011531847974}
+  belowEvent: {fileID: 6199437783104850912}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &6199437783104850912
@@ -5555,8 +6614,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 8791643458233977389}
+  belowEvent: {fileID: 414542901635124545}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -5575,7 +6634,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7575548779223283809}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -5599,7 +6670,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 414542901635124545}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -10535,10 +11606,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3727840900735978053}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 3727840900735978053}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -10552,6 +11635,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 6936170793080455857}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &3727840900735978053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10566,9 +11652,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 3631646842324482218}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5545950751868208102}
+  belowEvent: {fileID: 3631646842324482218}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -10588,9 +11686,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 4512843188195650315}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3727840900735978053}
+  belowEvent: {fileID: 4512843188195650315}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -10610,9 +11720,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 6936170793080455857}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3631646842324482218}
+  belowEvent: {fileID: 6936170793080455857}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &6936170793080455857
@@ -10630,8 +11752,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 4512843188195650315}
+  belowEvent: {fileID: 5360444875512332271}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -10650,7 +11772,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6025455302654304996}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -10674,7 +11808,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 5360444875512332271}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -10931,6 +12065,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 6034021007671806585}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &8147557977555762231
 GameObject:
   m_ObjectHideFlags: 0
@@ -11102,10 +12237,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7518465126390892226}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 7518465126390892226}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -11119,6 +12266,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 1596705475829075221}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &7518465126390892226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11133,9 +12283,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 5325743483093749429}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1375798844235757819}
+  belowEvent: {fileID: 5325743483093749429}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -11155,9 +12317,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 4976229886334764994}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 7518465126390892226}
+  belowEvent: {fileID: 4976229886334764994}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -11177,9 +12351,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 1596705475829075221}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5325743483093749429}
+  belowEvent: {fileID: 1596705475829075221}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &1596705475829075221
@@ -11197,8 +12383,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 4976229886334764994}
+  belowEvent: {fileID: 289004571657856827}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -11217,7 +12403,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2577083661866257575}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -11241,7 +12439,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 289004571657856827}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -11416,10 +12614,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5408535314711409065}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 5408535314711409065}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers:
@@ -11433,6 +12643,9 @@ MonoBehaviour:
     - Lava
     collisionEvent: 0
     onEvent: {fileID: 5680976927078763094}
+  onlyDetectOnce: 0
+  continueToNextEvent: 0
+  detecting: 0
 --- !u!114 &5408535314711409065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11447,9 +12660,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 852219722804161153}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 520969314880391963}
+  belowEvent: {fileID: 852219722804161153}
   eventOnStart: 0
   isEnabled: 0
   randomDelay: 0
@@ -11469,9 +12694,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 2644014264675486705}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5408535314711409065}
+  belowEvent: {fileID: 2644014264675486705}
   eventOnStart: 0
   isEnabled: 0
   targetScale: {x: 0, y: 0, z: 0}
@@ -11491,9 +12728,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 5680976927078763094}
+        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 852219722804161153}
+  belowEvent: {fileID: 5680976927078763094}
   eventOnStart: 0
   isEnabled: 0
 --- !u!114 &5680976927078763094
@@ -11511,8 +12760,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 2644014264675486705}
+  belowEvent: {fileID: 5910355003272203783}
   eventOnStart: 0
   isEnabled: 0
   routes: []
@@ -11531,7 +12780,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6575938871608571476}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -11555,7 +12816,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 5910355003272203783}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0

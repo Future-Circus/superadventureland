@@ -1252,6 +1252,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 78033187603182728}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &122059672207729720
 GameObject:
   m_ObjectHideFlags: 0
@@ -20626,6 +20627,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 8107551669390250480}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &1232610314668524870
 GameObject:
   m_ObjectHideFlags: 0
@@ -31565,6 +31567,7 @@ GameObject:
   - component: {fileID: 2711977190875966136}
   - component: {fileID: 8650200072543180872}
   - component: {fileID: 3308420202566515658}
+  - component: {fileID: 1740667728035417170}
   m_Layer: 6
   m_Name: L_LAVAPIT_3
   m_TagString: Untagged
@@ -31678,6 +31681,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1740667728035417170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097515638589195077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e7c39844f364408badb5333720955f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points: []
 --- !u!1 &2131283458964089647
 GameObject:
   m_ObjectHideFlags: 0
@@ -32018,6 +32034,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 8000716338306485333}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &2153582199735106356
 GameObject:
   m_ObjectHideFlags: 0
@@ -37830,6 +37847,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 8212712607836078780}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &2324914319980028978
 GameObject:
   m_ObjectHideFlags: 0
@@ -40011,6 +40029,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 4218661712051778576}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &2606093362590447708
 GameObject:
   m_ObjectHideFlags: 0
@@ -41245,6 +41264,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 3612235442242330219}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &2697184970455965327
 GameObject:
   m_ObjectHideFlags: 0
@@ -46789,6 +46809,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 7187958448020099138}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &3386894064729025220
 GameObject:
   m_ObjectHideFlags: 0
@@ -47786,6 +47807,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 1269597786263000395}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &3477559738633968746
 GameObject:
   m_ObjectHideFlags: 0
@@ -51531,6 +51553,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 3330141097992067944}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &3819194259623378286
 GameObject:
   m_ObjectHideFlags: 0
@@ -53042,6 +53065,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 2562299771139871726}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &3953002642299246790
 GameObject:
   m_ObjectHideFlags: 0
@@ -58006,6 +58030,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 6829491427742400942}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &4592390140425732915
 GameObject:
   m_ObjectHideFlags: 0
@@ -60084,6 +60109,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 6883844798812391469}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &4906264168451320850
 GameObject:
   m_ObjectHideFlags: 0
@@ -62982,6 +63008,7 @@ GameObject:
   - component: {fileID: 3558100095889185128}
   - component: {fileID: 7899015559220014808}
   - component: {fileID: 6091129715648839828}
+  - component: {fileID: 4420878372933021879}
   m_Layer: 6
   m_Name: L_LAVAPIT_2
   m_TagString: Untagged
@@ -63095,6 +63122,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4420878372933021879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5265729693615490956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e7c39844f364408badb5333720955f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points: []
 --- !u!1 &5269454809405659638
 GameObject:
   m_ObjectHideFlags: 0
@@ -77590,6 +77630,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 4934428574249554523}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &6090099841092173651
 GameObject:
   m_ObjectHideFlags: 0
@@ -83873,6 +83914,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 7465095558299399525}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &6790205979369219423
 GameObject:
   m_ObjectHideFlags: 0
@@ -90094,6 +90136,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 8833304108973845478}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &7651012305319936685
 GameObject:
   m_ObjectHideFlags: 0
@@ -92078,6 +92121,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 3619894705020832683}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &7848824185095694212
 GameObject:
   m_ObjectHideFlags: 0
@@ -97384,6 +97428,7 @@ MonoBehaviour:
   dp_activatedBlock: {fileID: 2620469435082141567}
   dp_hitSfx: thud
   hitVelocity: {x: 0, y: 0, z: 0}
+  onBreak: {fileID: 0}
 --- !u!1 &8371717940461997750
 GameObject:
   m_ObjectHideFlags: 0
@@ -102211,6 +102256,7 @@ GameObject:
   - component: {fileID: 7736718214303550224}
   - component: {fileID: 1421504423609661484}
   - component: {fileID: 9142425411939331262}
+  - component: {fileID: 3648325764218493855}
   m_Layer: 6
   m_Name: L_LAVAPIT_TINY
   m_TagString: Untagged
@@ -102318,6 +102364,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3648325764218493855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8881179261799754472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e7c39844f364408badb5333720955f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points: []
 --- !u!1 &8887162003202941141
 GameObject:
   m_ObjectHideFlags: 0
