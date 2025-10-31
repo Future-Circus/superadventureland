@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6612434882434105322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4808203549488312519}
+  - component: {fileID: 8963786062501359267}
+  - component: {fileID: 3091148719994661301}
+  - component: {fileID: 8172659789861944955}
+  m_Layer: 6
+  m_Name: L_ICEBERG_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4808203549488312519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612434882434105322}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9999632, z: -0, w: 0.0085796425}
+  m_LocalPosition: {x: 1.640029, y: 0, z: 2.3499832}
+  m_LocalScale: {x: 1, y: 1, z: 0.73177093}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8963786062501359267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612434882434105322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c05048e0be9bb49c2917c05113a8a12c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLevelMapPin: 0
+  points:
+  - {x: 1.2045135, y: 0, z: 8.344124}
+  - {x: 0.34414977, y: 0, z: 8.5029545}
+  - {x: -1.5223438, y: 0, z: 8.346567}
+  - {x: -1.794619, y: 0, z: 7.2342353}
+  - {x: -1.4936352, y: 0, z: 5.7770085}
+  - {x: -1.4393908, y: 0, z: 4.7163157}
+  - {x: -2.0176742, y: 0, z: 1.8129281}
+  - {x: -1.667795, y: 0, z: 0.026119791}
+  - {x: -1.6369479, y: 0, z: -1.6669611}
+  - {x: -0.7530416, y: 0, z: -2.7905722}
+  - {x: 0.9766361, y: 0, z: -2.8248067}
+  - {x: 2.3878543, y: 0, z: -2.399041}
+  - {x: 4.156939, y: 0, z: -2.7070444}
+  - {x: 4.9740887, y: 0, z: -2.0923011}
+  - {x: 5.413984, y: 0, z: 0.35148758}
+  - {x: 4.5557475, y: 0, z: 3.4086254}
+  - {x: 4.739754, y: 0, z: 7.258105}
+  - {x: 4.2511144, y: 0, z: 8.368004}
+  - {x: 2.2025447, y: 0, z: 8.324864}
+  depth: 0.6
+  taperAmount: 0
+  subdivisions: 10
+  textureScale: 40
+  stoneMaterial: {fileID: 2100000, guid: 97794474e069e410f8771e0a8f4f85ea, type: 2}
+  lavaMaterial: {fileID: 2100000, guid: 4184a72247a2742e4a71d603e4392ab4, type: 2}
+  occluderMaterial: {fileID: 2100000, guid: feb6ac38a02094e31b0320ffeefb5b8d, type: 2}
+--- !u!33 &3091148719994661301
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612434882434105322}
+  m_Mesh: {fileID: 4300000, guid: 838871cba49aa4e7b9075273777ac1f3, type: 2}
+--- !u!23 &8172659789861944955
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612434882434105322}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 97794474e069e410f8771e0a8f4f85ea, type: 2}
+  - {fileID: 2100000, guid: 4184a72247a2742e4a71d603e4392ab4, type: 2}
+  - {fileID: 2100000, guid: feb6ac38a02094e31b0320ffeefb5b8d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
