@@ -30,6 +30,33 @@ public class ShowIfDrawer : PropertyDrawer
         return 0;
     }
 }
+
+[CustomPropertyDrawer(typeof(HideIfAttribute))]
+public class HideIfDrawer : PropertyDrawer
+{
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        HideIfAttribute hideIf = (HideIfAttribute)attribute;
+        SerializedProperty conditionProp = property.serializedObject.FindProperty(hideIf.conditionFieldName);
+
+        if (conditionProp != null && conditionProp.propertyType == SerializedPropertyType.Boolean && !conditionProp.boolValue)
+        {
+            EditorGUI.PropertyField(position, property, label, true);
+        }
+    }
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        HideIfAttribute hideIf = (HideIfAttribute)attribute;
+        SerializedProperty conditionProp = property.serializedObject.FindProperty(hideIf.conditionFieldName);
+
+        if (conditionProp != null && conditionProp.propertyType == SerializedPropertyType.Boolean && !conditionProp.boolValue)
+        {
+            return EditorGUI.GetPropertyHeight(property, label, true);
+        }
+        return 0;
+    }
+}
 #endif
 
 // This part is visible to both runtime and editor
@@ -38,6 +65,16 @@ public class ShowIfAttribute : PropertyAttribute
     public string conditionFieldName;
 
     public ShowIfAttribute(string conditionFieldName)
+    {
+        this.conditionFieldName = conditionFieldName;
+    }
+}
+
+public class HideIfAttribute : PropertyAttribute
+{
+    public string conditionFieldName;
+
+    public HideIfAttribute(string conditionFieldName)
     {
         this.conditionFieldName = conditionFieldName;
     }

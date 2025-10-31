@@ -708,7 +708,7 @@ public static class Extensions
         return false;
     }
 
-    public static bool LaunchAtLayer(this Rigidbody gameObject, LayerMask priorityLayer, float priorityDist = 20f, LayerMask fallbackLayer = default, float fallbackDist = 10f)
+    public static bool LaunchAtLayer(this Rigidbody gameObject, LayerMask priorityLayer, float priorityDist = 20f, LayerMask fallbackLayer = default, float fallbackDist = 10f, float upwardMin = 1f)
     {
         try {
         float highestScore = Mathf.NegativeInfinity;
@@ -735,7 +735,7 @@ public static class Extensions
         if (bestTarget)
         {
             Debug.Log("LaunchAtLayer - Launching at " + bestTarget.name);
-            return LaunchAtTarget(gameObject, bestTarget);
+            return LaunchAtTarget(gameObject, bestTarget, upwardMin);
         }
         else
         {
@@ -753,18 +753,18 @@ public static class Extensions
         return LaunchAtLayer(gameObject, priorityLayer, priorityDist, LayerMask.NameToLayer("Level"), 10f);
     }
 
-    public static bool LaunchAtLayerWithTag(this Rigidbody gameObject, LayerMask priorityLayer, string tagFilter, float priorityDist = 20f)
+    public static bool LaunchAtLayerWithTag(this Rigidbody gameObject, LayerMask priorityLayer, string tagFilter, float priorityDist = 20f, float upwardMin = 1f)
     {
         float highestScore = Mathf.NegativeInfinity;
         GameObject bestTarget = null;
 
-        Collider[] entityColliders = Physics.OverlapSphere(gameObject.transform.position, priorityDist, 1 << priorityLayer);
+        Collider[] entityColliders = Physics.OverlapSphere(gameObject.transform.position, priorityDist, priorityLayer);
         entityColliders = entityColliders.Where(c => tagFilter.Contains(c.gameObject.tag)).ToArray();
         bestTarget = EvaluateColliders(gameObject.gameObject, entityColliders, ref highestScore, bestTarget);
 
         if (bestTarget)
         {
-            return LaunchAtTarget(gameObject, bestTarget);
+            return LaunchAtTarget(gameObject, bestTarget, upwardMin);
         }
         return false;
     }
@@ -964,6 +964,14 @@ public static class Extensions
     public static bool IsOnNavMeshWhileDisabled(this NavMeshAgent agent)
     {
         NavMeshHit hit;
+        // Cast slightly above the agent's position to ensure we don't miss due to floating point precision
+        Vector3 sourcePoint = agent.transform.position + Vector3.up * 0.1f;
+        // Check if a point on NavMesh is found below the agent within reasonable distance
+        return NavMesh.SamplePosition(sourcePoint, out hit, 1.0f, NavMesh.AllAreas);
+    }
+
+    public static bool IsOnNavMesh(this NavMeshAgent agent, out NavMeshHit hit)
+    {
         // Cast slightly above the agent's position to ensure we don't miss due to floating point precision
         Vector3 sourcePoint = agent.transform.position + Vector3.up * 0.1f;
         // Check if a point on NavMesh is found below the agent within reasonable distance

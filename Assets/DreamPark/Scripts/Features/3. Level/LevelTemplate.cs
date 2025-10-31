@@ -1,6 +1,7 @@
 using Unity.AI.Navigation;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -9,7 +10,9 @@ using UnityEditor;
 namespace DreamPark {
     public enum GameLevelSize {
         Micro,
+        Boutique,
         Small,
+        Square,
         Medium,
         Large,
         Jumbo,
@@ -22,9 +25,13 @@ namespace DreamPark {
             switch (size)
             {
                 case GameLevelSize.Micro:
-                    return new Vector2(16f, 24f);
+                    return new Vector2(14f, 16f);
+                case GameLevelSize.Boutique:
+                    return new Vector2(16f, 30f);
                 case GameLevelSize.Small:
                     return new Vector2(30f, 64f);
+                case GameLevelSize.Square:
+                    return new Vector2(40f, 50f);
                 case GameLevelSize.Medium:
                     return new Vector2(50f, 94f);
                 case GameLevelSize.Large:
@@ -138,7 +145,7 @@ namespace DreamPark {
 
             // Collect lava pit holes (counter-clockwise for correct winding)
             List<List<Vector2>> holes = new List<List<Vector2>>();
-            foreach (var pit in GetComponentsInChildren<SuperAdventureLand.ProceduralLavaPit>()) {
+            foreach (var pit in GetComponentsInChildren<FloorCutout>()) {
                 List<Vector2> hole = new List<Vector2>();
                 foreach (var p in pit.points) {
                     Vector3 worldP = pit.transform.TransformPoint(p);
@@ -154,6 +161,17 @@ namespace DreamPark {
 
             mf.sharedMesh = mesh;
             mc.sharedMesh = mesh;
+
+            var surface = runtimePlane.AddComponent<NavMeshSurface>();
+            surface.collectObjects = CollectObjects.All;
+            surface.layerMask = LayerMask.GetMask("Level");
+            surface.collectObjects = CollectObjects.Children;
+            //search for navmesh agents in children and use the first one's agent type id
+            var navmeshAgents = GetComponentsInChildren<NavMeshAgent>();
+            if (navmeshAgents.Length > 0) {
+                surface.agentTypeID = navmeshAgents[0].agentTypeID;
+            }
+            surface.BuildNavMesh();
         }
 
         private Mesh TriangulatePolygonWithHoles(List<Vector2> outer, List<List<Vector2>> holes)
