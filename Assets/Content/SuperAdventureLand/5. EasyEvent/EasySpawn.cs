@@ -9,10 +9,11 @@
     {
 
     #if UNITY_EDITOR
-        public void OnValidate() {
+        public override void OnValidate() {
             if (spawnPrefab == null) {
                 spawnPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/Prefabs/E_COIN.prefab");
             }
+            base.OnValidate();
         }
     #endif
         public override GameObject Spawn(GameObject prefab, Transform point, int index = 0) {
