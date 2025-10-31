@@ -116,6 +116,10 @@ PrefabInstance:
       propertyPath: amount
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2782103649101284841, guid: 237e6f4a188e14c2585f81dd3d1565db, type: 3}
+      propertyPath: spawnPoint
+      value: 
+      objectReference: {fileID: 5556894968291983986}
     - target: {fileID: 5812550898180618102, guid: 237e6f4a188e14c2585f81dd3d1565db, type: 3}
       propertyPath: m_Name
       value: E_Crate_Large
@@ -157,3 +161,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 237e6f4a188e14c2585f81dd3d1565db, type: 3}
+--- !u!4 &5556894968291983986 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2255427059289988175, guid: 237e6f4a188e14c2585f81dd3d1565db, type: 3}
+  m_PrefabInstance: {fileID: 5932063684086701629}
+  m_PrefabAsset: {fileID: 0}

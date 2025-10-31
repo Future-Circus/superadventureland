@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1897796215323836206}
   - component: {fileID: 4910981249397746355}
   - component: {fileID: 7824629642763269575}
+  - component: {fileID: 6424993474428992472}
   m_Layer: 6
   m_Name: L_LAVAPIT_1
   m_TagString: Ground
@@ -126,6 +127,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5223634036040717661}
   m_Mesh: {fileID: 4300000, guid: 60a31c0bcde294368a71e36da4e9c131, type: 2}
+--- !u!114 &6424993474428992472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5223634036040717661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e7c39844f364408badb5333720955f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points: []
 --- !u!1001 &858588661888255289
 PrefabInstance:
   m_ObjectHideFlags: 0
