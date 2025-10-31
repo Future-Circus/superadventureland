@@ -6,6 +6,7 @@ public class EasyVelocityTrigger : EasyEvent
     public bool debugger = false;
     private Rigidbody rb;
     private bool triggered = false;
+    private Vector3 lastPosition;
 
     public override void Awake()
     {
@@ -16,10 +17,11 @@ public class EasyVelocityTrigger : EasyEvent
     {
         eventOnStart = false;
         base.Start();
-        if (rb == null) {
-            Debug.LogError("Rigidbody not found on " + gameObject.name);
-            onEvent?.Invoke(null);
-        }
+    }
+    public override void OnEvent(object arg0 = null)
+    {
+        lastPosition = transform.position;
+        base.OnEvent(arg0);
     }
 
     public void Update()
@@ -27,10 +29,18 @@ public class EasyVelocityTrigger : EasyEvent
         if (triggered) {
             return;
         }
-        if (rb.linearVelocity.magnitude > velocityThreshold || rb.angularVelocity.magnitude > velocityThreshold) {
-            Debug.Log("VelocityTrigger: Triggering event");
-            triggered = true;
-            onEvent?.Invoke(rb.linearVelocity.magnitude > rb.angularVelocity.magnitude ? rb.linearVelocity : rb.angularVelocity);
+        if (rb != null) {
+            if (rb.linearVelocity.magnitude >= velocityThreshold || rb.angularVelocity.magnitude >= velocityThreshold) {
+                Debug.Log("VelocityTrigger: Triggering event");
+                triggered = true;
+                onEvent?.Invoke(rb.linearVelocity.magnitude > rb.angularVelocity.magnitude ? rb.linearVelocity : rb.angularVelocity);
+            }
+        } else {
+            if ((transform.position - lastPosition).magnitude >= velocityThreshold) {
+                Debug.Log("VelocityTrigger: Triggering event");
+                triggered = true;
+                onEvent?.Invoke((transform.position - lastPosition).normalized);
+            }
         }
     }
 
