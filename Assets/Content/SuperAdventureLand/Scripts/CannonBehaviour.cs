@@ -303,7 +303,7 @@
                 target.position = Camera.main.transform.position+Camera.main.transform.forward;
                 float distance = Vector3.Distance(firePoint.position, target.position);
                 Vector3 fwd = firePoint.forward;
-                float initialSpeedSquared = distance * 1.1f * projectileSpeed;
+                float initialSpeedSquared = distance * projectileSpeed;
                 if (projectile.TryGetComponent(out Creature creature)) {
                     creature.SetState(CreatureState.LAUNCH);
                 }

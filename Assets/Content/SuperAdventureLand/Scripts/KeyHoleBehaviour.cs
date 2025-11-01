@@ -14,7 +14,25 @@
         public Transform coinSpawnPoint;
         public ParticleSystem openEffect;
         public ParticleSystem closeEffect;
-
+        public AudioClip unlockSfx;
+        public AudioClip coinSfx;
+        public GameObject coinPrefab;
+        public void OnValidate()
+        {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (unlockSfx == null) {
+                unlockSfx = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/keyunlock.mp3");
+            }
+            if (coinSfx == null) {
+                coinSfx = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/coin.wav");
+            }
+            if (coinPrefab == null) {
+                coinPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/Prefabs/E_COIN.prefab");
+            }
+            #endif
+        }
         private enum KeyHoleState {
             LOCKED,
             UNLOCKED,
@@ -42,7 +60,7 @@
             if (state == KeyHoleState.UNLOCKED)
             {
                 if (!playunlock) {
-                    "keyunlock".PlaySFX(transform.position);
+                    unlockSfx.PlaySFX(transform.position);
                     playunlock = true;
                 }
                 scaleAnchor.transform.localScale = Vector3.MoveTowards(scaleAnchor.transform.localScale, new Vector3(1, 1, 150), Time.deltaTime*60);
@@ -81,23 +99,19 @@
 
         public void SpawnCoin()
         {
-            "coin".PlaySFX(transform.position);
+            coinSfx.PlaySFX(transform.position);
 
-            "E_COIN".GetAsset<GameObject>(coinPrefab => {
-                GameObject coin = Instantiate(coinPrefab, coinSpawnPoint.position, Quaternion.identity, transform.FindRoot());
-                coin.GetComponent<Coin>().dp_isStatic = false;
+            GameObject coin = Instantiate(coinPrefab, coinSpawnPoint.position, Quaternion.identity, transform.FindRoot());
+            coin.GetComponent<Coin>().dp_isStatic = false;
 
-                float baseForceMultiplier = 2.5f;
-                float minY = 1f;
+            // float baseForceMultiplier = 2.5f;
+            // float minY = 1f;
 
-                Vector3 direction = coinSpawnPoint.forward;
-                Vector3 xzForce = direction * baseForceMultiplier;
-                Vector3 calculatedForce =  xzForce + Vector3.up * minY;
+            // Vector3 direction = coinSpawnPoint.forward;
+            // Vector3 xzForce = direction * baseForceMultiplier;
+            // Vector3 calculatedForce =  xzForce + Vector3.up * minY;
 
-                coin.GetComponent<Coin>().PopUpItem(calculatedForce);
-            }, error => {
-                Debug.LogError($"Failed to load coin: {error}");
-            });
+            // coin.GetComponent<Coin>().PopUpItem(calculatedForce);
         }
 
         public void SpawnReady () {

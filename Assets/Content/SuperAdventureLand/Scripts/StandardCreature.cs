@@ -120,13 +120,16 @@
     #endif
         }
 
-        public void OnValidate()
+        public override void OnValidate()
         {
     #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
             if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0))
             {
                 SetupInteractionFilters();
             }
+            base.OnValidate();
     #endif
         }
 

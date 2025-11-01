@@ -174,6 +174,9 @@ MonoBehaviour:
   coinSpawnPoint: {fileID: 4905243931903562927}
   openEffect: {fileID: 7673592853721407132}
   closeEffect: {fileID: 7673592853721407132}
+  unlockSfx: {fileID: 8300000, guid: c694a73a50e094e8d9d6f749091ed58e, type: 3}
+  coinSfx: {fileID: 8300000, guid: c4ed9a7ad4f9e4df69b8f295bcc0205f, type: 3}
+  coinPrefab: {fileID: 7200948106535748897, guid: 33204854d9dd6473f8b8b6ce0e5b5323, type: 3}
 --- !u!114 &3422878128536441954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5191,13 +5194,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5254994135473424420}
   serializedVersion: 2
-  m_LocalRotation: {x: 9.3132235e-10, y: 1, z: 2.747801e-15, w: 0.0000029504295}
-  m_LocalPosition: {x: -0, y: 0, z: 0.126}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1833948426965500262}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &6119258058440121137
 GameObject:
   m_ObjectHideFlags: 0

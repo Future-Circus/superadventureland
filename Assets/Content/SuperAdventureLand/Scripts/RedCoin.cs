@@ -28,7 +28,7 @@
             switch (state) {
                 case ItemState.COLLECT:
                     SunManager.Instance?.OnEvent("red-coin-hunt");
-                    "redcoin".PlaySFX(transform.position, 1f, 1f+redcoinCount/12f);
+                    dp_collectSfx.PlaySFX(transform.position, 1f, 1f+redcoinCount/12f);
                     if (DreamBand.Instance != null && DreamBand.Instance is SA_DreamBand saDreamBand)
                         saDreamBand.CollectCoin();
 

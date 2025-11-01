@@ -11,6 +11,30 @@
         [HideInInspector] public Vector3 targetPosition;
         public float throwInterval = 4f;
         private float lastThrowTime = 0f;
+        public AudioClip throwSfx;
+        public AudioClip eggSfx;
+        public AudioClip laughSfx;
+        public AudioClip laughAltSfx;
+        public override void OnValidate()
+        {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (throwSfx == null) {
+                throwSfx = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/pengo_throw.mp3");
+            }
+            if (eggSfx == null) {
+                eggSfx = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/egg_throw.mp3");
+            }
+            if (laughSfx == null) {
+                laughSfx = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/pengo_laugh.mp3");
+            }
+            if (laughAltSfx == null) {
+                laughAltSfx = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/pengo_laugh_alt.mp3");
+            }
+            base.OnValidate();
+            #endif
+        }
         public override void Awake() {
             base.Awake();
             decoyGrenade?.SetActive(false);
@@ -30,7 +54,6 @@
                     if (lastCollision != null && lastCollision.gameObject != null && lastCollision.gameObject.TryGetComponent(out PlayerInteractor interactor)) {
                         currentTargetPosition = Camera.main.transform.position;
                         Vector3 hittedForce = interactor.GetDirection().normalized * Mathf.Min(2f,interactor.GetVelocity());
-                        Debug.Log("Kick force: " + hittedForce.magnitude);
                         hittedForce.y = Math.Max(5f,hittedForce.y);
                         Rigidbody rb = GetComponent<Rigidbody>();
                         rb.useGravity = true;
@@ -50,7 +73,7 @@
                     break;
                 case CreatureState.TARGET:
                     base.ExecuteState();
-                    (UnityEngine.Random.Range(0,2) < 1 ? "pengo_laugh" : "pengo_laugh_alt").PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
+                    (UnityEngine.Random.Range(0,2) < 1 ? laughSfx : laughAltSfx).PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
                     break;
                 case CreatureState.TARGETING:
                     base.ExecuteState();
@@ -94,12 +117,12 @@
         }
         public virtual void Animator_ShowGrenade () {
             decoyGrenade?.SetActive(true);
-            "pengo_throw".PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
+            throwSfx.PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
         }
         public virtual void Animator_SpawnGrenade () {
             decoyGrenade?.SetActive(false);
             if (grenadePrefab != null && launchPoint != null) {
-                "egg_throw".PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.9f, 1.1f));
+                eggSfx.PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.9f, 1.1f));
                 GameObject projectile = Instantiate(grenadePrefab, launchPoint.position, Quaternion.identity);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 rb.LaunchAtTarget(targetPosition, 1f, true, projectile.tag);

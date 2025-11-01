@@ -82,6 +82,14 @@
             }
         }
         public string spawnPointName;
+
+        public void ClearEvent() {
+            PlayerPrefs.DeleteKey("sun_event_" + eventId);
+            PlayerPrefs.Save();
+            eventCount = 0;
+            unlockedThisSession = false;
+            isUnlocked = false;
+        }
     }
 
     public class Sun : StandardEntity<SunState>
@@ -92,6 +100,21 @@
         public MusicArea musicArea;
         public ParticleSystem shineParticle;
         public AudioSource shineAudio;
+        public GameObject revealFx;
+        public override void Start() {
+            base.Start();
+            sunConfig?.ClearEvent();
+        }
+        public override void OnValidate() {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (revealFx == null) {
+                revealFx = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/VFX/FX_SunReveal.prefab");
+            }
+            base.OnValidate();
+            #endif
+        }
         public override void ExecuteState()
         {
             switch (state)
@@ -131,8 +154,9 @@
                 case SunState.IDLING:
                     break;
                 case SunState.UNLOCK:
+                    musicArea.transform.localScale = Vector3.one*10f;
                     musicArea.Enter();
-                    "FX_SunReveal".SpawnAsset(transform.position, Quaternion.identity);
+                    revealFx.SpawnAsset(transform.position, Quaternion.identity);
                     if (!String.IsNullOrEmpty(sunConfig.spawnPointName) && GameObject.Find(sunConfig.spawnPointName) != null)
                     {
                         transform.position = GameObject.Find(sunConfig.spawnPointName).transform.position;
@@ -203,6 +227,7 @@
                     transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, Time.deltaTime * 10f);
                     if (timeSinceStateChange > 1f)
                     {
+                        musicArea.transform.localScale = Vector3.one*0.01f;
                         musicArea.Exit();
                         SetState(SunState.REVEAL);
                     }

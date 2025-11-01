@@ -5,6 +5,22 @@
     using Random = UnityEngine.Random; // Required for Random.Range
     public class Jubbo : StandardCreature
     {
+        public AudioClip jubboGruntSfx;
+        public AudioClip slapSfx;
+        public override void OnValidate()
+        {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (jubboGruntSfx == null) {
+                jubboGruntSfx = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/jubbo_grunt.mp3");
+            }
+            if (slapSfx == null) {
+                slapSfx = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/slap.wav");
+            }
+            base.OnValidate();
+            #endif
+        }
         public override void ExecuteState()
         {
              switch (state) {
@@ -12,12 +28,12 @@
                     base.ExecuteState();
                     break;
                 case CreatureState.HIT:
-                    "jubbo_grunt".PlaySFX(transform.position, 1f, Random.Range(0.8f, 1.2f));
+                    jubboGruntSfx.PlaySFX(transform.position, 1f, Random.Range(0.8f, 1.2f));
                     base.ExecuteState();
                     break;
                 case CreatureState.KICK:
-                    "slap".PlaySFX(lastCollision.collisionPoint, 1f, Random.Range(0.9f, 1.1f));
-                    "jubbo_grunt".PlaySFX(transform.position, 1f, Random.Range(0.8f, 1.2f));
+                    slapSfx.PlaySFX(lastCollision.collisionPoint, 1f, Random.Range(0.9f, 1.1f));
+                    jubboGruntSfx.PlaySFX(transform.position, 1f, Random.Range(0.8f, 1.2f));
                     agent.enabled = false;
                     animator.enabled = false;
                     rb.useGravity = true;
@@ -26,7 +42,7 @@
                     rb.constraints = RigidbodyConstraints.None;
                     rb.freezeRotation = false;
                     if (lastCollision != null && lastCollision.tag == "Kicker") {
-                        if (!rb.LaunchAtLayer(LayerMask.NameToLayer("Entity"),20f,LayerMask.NameToLayer("Level"),10f))
+                        if (!rb.LaunchAtLayer(1 << LayerMask.NameToLayer("Enemy"),20f, 1 << LayerMask.NameToLayer("Entity") | 1 << LayerMask.NameToLayer("Level"),10f))
                         {
                             Vector3 hitDirection = (transform.position - lastCollision.collisionPoint).normalized;
                             Vector3 hittedForce = hitDirection * hitSettings.directionForce;
