@@ -2471,6 +2471,7 @@ MonoBehaviour:
   size: 7
   defaultAnchorPosition: {x: 0, y: -39}
   generateFloor: 0
+  generateCeiling: 1
 --- !u!1 &8059144894997644597
 GameObject:
   m_ObjectHideFlags: 0
@@ -6790,6 +6791,22 @@ PrefabInstance:
     - target: {fileID: 8386292358300911049, guid: 87b360b26ce3b48299747eedef7a2eb0, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8441404476701408889, guid: 87b360b26ce3b48299747eedef7a2eb0, type: 3}
+      propertyPath: points.Array.data[0].x
+      value: 1.2033365
+      objectReference: {fileID: 0}
+    - target: {fileID: 8441404476701408889, guid: 87b360b26ce3b48299747eedef7a2eb0, type: 3}
+      propertyPath: points.Array.data[0].z
+      value: 8.351
+      objectReference: {fileID: 0}
+    - target: {fileID: 8441404476701408889, guid: 87b360b26ce3b48299747eedef7a2eb0, type: 3}
+      propertyPath: points.Array.data[18].x
+      value: 2.1910431
+      objectReference: {fileID: 0}
+    - target: {fileID: 8441404476701408889, guid: 87b360b26ce3b48299747eedef7a2eb0, type: 3}
+      propertyPath: points.Array.data[18].z
+      value: 8.326
       objectReference: {fileID: 0}
     - target: {fileID: 8646799053822422663, guid: 87b360b26ce3b48299747eedef7a2eb0, type: 3}
       propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.size
