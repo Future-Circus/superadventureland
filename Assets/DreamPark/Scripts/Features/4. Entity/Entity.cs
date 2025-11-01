@@ -18,6 +18,10 @@ public class Entity<TState> : Interactable where TState : Enum
     [HideInInspector] public Transform ogPosition;
     [HideInInspector] public bool use_late_update = false;
     private bool state_changed_frame = false;
+    public virtual void OnValidate()
+    {
+        
+    }
     public virtual void Start()
     {
         //we only want to set the state if we're not in a queue
@@ -114,7 +118,9 @@ public class Entity<TState> : Interactable where TState : Enum
     }
     #if UNITY_EDITOR
     private void OnDrawGizmos() {
-        UnityEditor.Handles.Label(transform.position - Vector3.up * 0.5f, "State: " + state.ToString());
+        if (debugger) {
+            UnityEditor.Handles.Label(transform.position - Vector3.up * 0.5f, "State: " + state.ToString());
+        }
     }
     #endif
 

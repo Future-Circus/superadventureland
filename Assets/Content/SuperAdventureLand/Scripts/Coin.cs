@@ -1,11 +1,27 @@
-﻿namespace SuperAdventureLand
+﻿using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+namespace SuperAdventureLand
 {
     public class Coin : Item
     {
+        public override void OnValidate()
+        {
+            #if UNITY_EDITOR
+            if (dp_collectFx == null)
+            {
+                dp_collectFx = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/VFX/FX_CoinParticle.prefab");
+            }
+            if (dp_collectSfx == null)
+            {
+                dp_collectSfx = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/coin.wav");
+            }
+            base.OnValidate();
+            #endif
+        }
         public override void Start()
         {
-            dp_collectFx = "FX_CoinParticle";
-            dp_collectSfx = "coin";
             base.Start();
         }
         public override void ExecuteState() {

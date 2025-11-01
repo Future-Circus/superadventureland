@@ -619,9 +619,10 @@ public class StandardEntity<TState> : Entity<TState> where TState : Enum
         }
         return null;
     }
-    public virtual void OnValidate()
+    public override void OnValidate()
     {
         #if UNITY_EDITOR
+        base.OnValidate();
         if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0)) {
             SetupInteractionFilters();
         }

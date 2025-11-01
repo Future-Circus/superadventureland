@@ -37,8 +37,10 @@
         [HideInInspector] public float dp_constantRotationSpeed = 210.0f; // Degrees per second for constant rotation
         [HideInInspector] public Vector3 dp_targetPosition;
         [HideInInspector] private float currentYRotation = 0.0f; // Track current Y-axis rotation for constant rotation
-        [HideInInspector] public string dp_collectFx = "FX_CoinParticle";
-        [HideInInspector] public string dp_collectSfx = "coin";
+        public GameObject dp_collectFx;
+        public GameObject dp_destroyFx;
+        public AudioClip dp_collectSfx;
+
         [HideInInspector] public float dp_spawnUpwardForce = 4f;
         [HideInInspector] public float dp_spawnOutwardForce = 0.5f;
         public bool dp_isStatic = true;
@@ -46,6 +48,28 @@
 
         private Vector3 popUpForce;
         private Vector3 popUpTorque;
+        public override void OnValidate()
+        {
+            #if UNITY_EDITOR
+            if (dp_collectFx == null)
+            {
+                dp_collectFx = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/VFX/FX_CoinParticle.prefab");
+            }
+            if (dp_collectSfx == null)
+            {
+                dp_collectSfx = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/coin.wav");
+            }
+            if (dp_destroyFx == null)
+            {
+                dp_destroyFx = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/VFX/FX_SteamPuff.prefab");
+            }
+            if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0))
+            {
+                SetupInteractionFilters();
+            }
+            base.OnValidate();
+            #endif
+        }
 
         public override void Start()
         {
@@ -114,7 +138,7 @@
                     Destroy(gameObject);
                     break;
                 case ItemState.DESTROY:
-                    "FX_SteamPuff".SpawnAsset(transform.position, Quaternion.identity);
+                    dp_destroyFx.SpawnAsset(transform.position, Quaternion.identity);
                     Destroy(gameObject);
                     break;
                 case ItemState.POP:
@@ -256,16 +280,6 @@
             UnityEventTools.AddPersistentListener(interactionFilters[2].onInteractionEnter, LavaHit);
             UnityEventTools.AddPersistentListener(interactionFilters[3].onInteractionEnter, LevelHit);
             UnityEditor.EditorUtility.SetDirty(this);
-    #endif
-        }
-
-        public void OnValidate()
-        {
-    #if UNITY_EDITOR
-            if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0))
-            {
-                SetupInteractionFilters();
-            }
     #endif
         }
 
