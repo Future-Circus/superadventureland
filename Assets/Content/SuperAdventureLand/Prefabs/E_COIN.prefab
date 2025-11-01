@@ -387,8 +387,9 @@ MonoBehaviour:
   dp_trueHeight: 0
   dp_constantRotationSpeed: 210
   dp_targetPosition: {x: 0, y: 0, z: 0}
-  dp_collectFx: Prefabs/FX_CoinParticle
-  dp_collectSfx: coin
+  dp_collectFx: {fileID: 8433211993221062561, guid: 7d2fcc78db48c4cde881fd62189eef79, type: 3}
+  dp_destroyFx: {fileID: 100000, guid: d1ffd334735bb3741a3e97c39c810029, type: 3}
+  dp_collectSfx: {fileID: 8300000, guid: c4ed9a7ad4f9e4df69b8f295bcc0205f, type: 3}
   dp_spawnUpwardForce: 5
   dp_spawnOutwardForce: 5
   dp_isStatic: 1

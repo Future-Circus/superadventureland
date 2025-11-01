@@ -445,7 +445,39 @@ Transform:
   - {fileID: 5574204227470977210}
   - {fileID: 5527241796050889718}
   - {fileID: 6350110245653950587}
+  - {fileID: 1416925151776197248}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7516509676451609070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1416925151776197248}
+  m_Layer: 0
+  m_Name: ogPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1416925151776197248
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7516509676451609070}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9999632, z: -0, w: 0.0085796425}
+  m_LocalPosition: {x: 1.640028, y: 0, z: 2.3499832}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7151176741514028108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7996218868824224181
 GameObject:
@@ -2415,6 +2447,26 @@ PrefabInstance:
       propertyPath: belowEvent
       value: 
       objectReference: {fileID: 775867245589497527}
+    - target: {fileID: 8364096526691521451, guid: f134850669c5a4b5eb7d10a3646386ed, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364096526691521451, guid: f134850669c5a4b5eb7d10a3646386ed, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8653840613271216954}
+    - target: {fileID: 8364096526691521451, guid: f134850669c5a4b5eb7d10a3646386ed, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364096526691521451, guid: f134850669c5a4b5eb7d10a3646386ed, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364096526691521451, guid: f134850669c5a4b5eb7d10a3646386ed, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EasyUnparent, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8446378232744700904, guid: f134850669c5a4b5eb7d10a3646386ed, type: 3}
       propertyPath: m_Name
       value: E_PENGO_FLY
@@ -2508,6 +2560,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18bcdc43859e147059f89a9bb6e7eb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8653840613271216954 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5390927492398299550, guid: f134850669c5a4b5eb7d10a3646386ed, type: 3}
+  m_PrefabInstance: {fileID: 3659444961858329252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc7e7ca18cc142399f4fe9688330b7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &3802352307297973384

@@ -197,19 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8364096526691521451}
-        m_TargetAssemblyTypeName: EasyRouter, Assembly-CSharp
-        m_MethodName: OnEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 8364096526691521451}
   eventOnStart: 1
@@ -282,21 +270,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5390927492398299550}
-        m_TargetAssemblyTypeName: EasyUnparent, Assembly-CSharp
-        m_MethodName: OnEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  aboveEvent: {fileID: 7137452033787450788}
-  belowEvent: {fileID: 5390927492398299550}
+      m_Calls: []
+  aboveEvent: {fileID: 0}
+  belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
   routes: []
