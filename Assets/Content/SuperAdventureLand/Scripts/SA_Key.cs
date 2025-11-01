@@ -1,9 +1,32 @@
 ﻿namespace SuperAdventureLand
 {
+    #if UNITY_EDITOR
+    using UnityEditor;
+    #endif
     using UnityEngine;
 
     public class SA_Key : SA_PowerUp
     {
+        public AudioClip secretSound;
+        public AudioClip unlockSound;
+        public GameObject steamPrefab;
+        public override void OnValidate()
+        {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (secretSound == null) {
+                secretSound = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/secret.ogg");
+            }
+            if (unlockSound == null) {
+                unlockSound = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/unlock.wav");
+            }
+            if (steamPrefab == null) {
+                steamPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/VFX/FX_SteamPuff.prefab");
+            }
+            base.OnValidate();
+            #endif
+        }
         public override void ExecuteState()
         {
             switch (state)
@@ -14,7 +37,7 @@
                     TrackJunk("ogRotation", transform.localRotation);
                     TrackJunk("KeyHole", lastCollision.collider.gameObject);
                     transform.SetParent(null,true);
-                    "secret".PlaySFX(transform.position);
+                    secretSound.PlaySFX(transform.position);
                     break;
                 case SA_PowerUpState.USING:
                     rb.isKinematic = true;
@@ -58,13 +81,9 @@
                         break;
                     } else if (timeSinceStateChange < 1.2f) {
                         if (!HasJunk("steamVfx")) {
-                            "FX_SteamPuff".GetAsset<GameObject>(steamPrefab => {
-                                GameObject steam = Instantiate(steamPrefab);
-                                steam.transform.position = transform.position + GetJunk<GameObject>("KeyHole").transform.right * 0.3f;
-                                steam.transform.rotation = Quaternion.LookRotation(steam.transform.position - Camera.main.transform.position);
-                            }, error => {
-                                Debug.LogError($"Failed to load steam puff: {error}");
-                            });
+                            GameObject steam = Instantiate(steamPrefab);
+                            steam.transform.position = transform.position + GetJunk<GameObject>("KeyHole").transform.right * 0.3f;
+                            steam.transform.rotation = Quaternion.LookRotation(steam.transform.position - Camera.main.transform.position);
                             gameObject.HideVisual();
                             TrackJunk("steamVfx", true);
                         }

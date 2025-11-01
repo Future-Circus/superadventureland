@@ -9,6 +9,8 @@ namespace SuperAdventureLand
         public override void OnValidate()
         {
             #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
             if (dp_collectFx == null)
             {
                 dp_collectFx = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/VFX/FX_CoinParticle.prefab");

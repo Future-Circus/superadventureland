@@ -1,9 +1,13 @@
 ﻿namespace SuperAdventureLand {
-using System.Linq;
-using UnityEngine;
+    #if UNITY_EDITOR
+    using UnityEditor;
+    #endif
+    using UnityEngine;
     public class EasyThrow : DreamPark.Easy.EasyThrow
     {
         public override void OnValidate() {
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
             if (targetLayerOrder == null || targetLayerOrder.Length == 0) {
                 targetLayerOrder = new string[] { "Entity", "Level" };
             }

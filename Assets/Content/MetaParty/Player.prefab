@@ -581,6 +581,9 @@ MonoBehaviour:
     powerupName: Key
     powerupDuration: 60
     powerupCooldown: 0.4
+  secretSound: {fileID: 0}
+  unlockSound: {fileID: 0}
+  steamPrefab: {fileID: 100000, guid: d1ffd334735bb3741a3e97c39c810029, type: 3}
 --- !u!65 &9054389157917788403
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -830,6 +833,7 @@ MonoBehaviour:
   launchPoint: {fileID: 7270669139824649325}
   projectilePrefab: {fileID: 2869192724059046810, guid: ce80b5c5fc2e3427ebb13e614df9c0f6, type: 3}
   spinForce: 1000
+  throwSound: {fileID: 8300000, guid: 002b1cc32308b4e65b844a333f97c2bc, type: 3}
 --- !u!1 &4451804034338477751
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,6 +906,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2869192724059046810, guid: 65c14ffe0d4414b689326a12eb40a40d, type: 3}
   launchForce: 30
   spinForce: 10
+  shootSound: {fileID: 8300000, guid: 7838d8b25787242f39c5e624a2530100, type: 3}
 --- !u!1 &4454920913628478800
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,12 +42,32 @@
         public Vector3 barrelRotationOffset = Vector3.zero; // Offset for the barrel rotation
         public float minBarrelAngle = 45f; // Minimum pitch angle for the barrel
         public float maxBarrelAngle = 70f; // Maximum pitch angle for the barrel
+        public AudioClip jubboSound;
+        public AudioClip openSound;
+        public AudioClip closeSound;
         private Vector3 lastCameraPos = Vector3.zero;
         private int hp = 3;
         private Coroutine StateCoroutine;
         private List<Creature> projectiles = new List<Creature>();
         private Vector3 groundScale = new Vector3(0,0,0);
         private Coroutine lidCoroutine;
+        public override void OnValidate()
+        {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (jubboSound == null) {
+                jubboSound = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/jubbo_wee.mp3");
+            }
+            if (openSound == null) {
+                openSound = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/hatch_open.mp3");
+            }
+            if (closeSound == null) {
+                closeSound = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/hatch_close.mp3");
+            }
+            base.OnValidate();
+            #endif
+        }
         public override void ExecuteState()
         {
             switch (state)
@@ -222,9 +242,9 @@
         }
         private IEnumerator ToggleLid(bool open) {
             if (!open) {
-                "hatch_close".PlaySFX(cannonLidHinge.position, 1f, 1f);
+                closeSound.PlaySFX(cannonLidHinge.position, 1f, 1f);
             } else {
-                "hatch_open".PlaySFX(cannonLidHinge.position, 1f, 1f);
+                openSound.PlaySFX(cannonLidHinge.position, 1f, 1f);
             }
             float t = 0;
             float duration = 1f;
@@ -264,7 +284,7 @@
             {
                 audioSource.Play();
             }
-            "jubbo_wee".PlaySFX(firePoint.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
+            jubboSound.PlaySFX(firePoint.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
 
             GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation, transform.FindRoot());
             projectile.SetActive(true);

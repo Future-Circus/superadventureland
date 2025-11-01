@@ -8,6 +8,8 @@ using UnityEditor;
         #if UNITY_EDITOR
         public override void OnValidate()
         {
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
             if (particleEffect == null)
             {
                 particleEffect = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/VFX/FX_SteamCloud.prefab");

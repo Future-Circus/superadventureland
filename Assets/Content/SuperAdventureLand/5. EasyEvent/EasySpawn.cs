@@ -10,6 +10,8 @@
 
     #if UNITY_EDITOR
         public override void OnValidate() {
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
             if (spawnPrefab == null) {
                 spawnPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/Prefabs/E_COIN.prefab");
             }

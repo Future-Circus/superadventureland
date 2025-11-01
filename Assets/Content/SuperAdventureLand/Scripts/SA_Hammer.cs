@@ -1,5 +1,8 @@
 ﻿namespace SuperAdventureLand
 {
+    #if UNITY_EDITOR
+    using UnityEditor;
+    #endif
     using UnityEngine;
     public class SA_Hammer : SA_PowerUp
     {
@@ -12,6 +15,20 @@
         private float directionResetAngle = 80f;
         private float minTrackingVelocity = 0.5f;
         private Vector3 lastTriggerDirection = Vector3.zero;
+        public AudioClip throwSound;
+
+        public override void OnValidate()
+        {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (throwSound == null) {
+                throwSound = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/hammer_throw.mp3");
+            }
+            base.OnValidate();
+            #endif
+        }
+
         public override void ExecuteState()
         {
             switch (state)
@@ -31,10 +48,10 @@
                         spawnPosition,
                         spawnRotation);
 
-                    "hammer_throw".PlaySFX(spawnPosition, 0.6f, Random.Range(0.8f, 1.2f));
+                    throwSound.PlaySFX(spawnPosition, 0.6f, Random.Range(0.8f, 1.2f));
 
                     Rigidbody rb = projectile.GetComponent<Rigidbody>();
-                    if (!rb.LaunchAtLayer(LayerMask.NameToLayer("Entity"), 5f, LayerMask.NameToLayer("Level"), 20f))
+                    if (!rb.LaunchAtLayer(1 << LayerMask.NameToLayer("Level"), 5f, 1 << LayerMask.NameToLayer("Entity") | 1 << LayerMask.NameToLayer("Level"), 20f))
                     {
                         Vector3 forwardVelocity = forwardDirection * 0.2f;
                         Vector3 upwardVelocity = Vector3.up * Mathf.Sqrt(2f * Physics.gravity.magnitude * 2f);

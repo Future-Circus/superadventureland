@@ -622,10 +622,10 @@ public class StandardEntity<TState> : Entity<TState> where TState : Enum
     public override void OnValidate()
     {
         #if UNITY_EDITOR
-        base.OnValidate();
         if (!Application.isPlaying && (interactionFilters == null || interactionFilters.Length == 0)) {
             SetupInteractionFilters();
         }
+        base.OnValidate();
         #endif
     }
     public override void Awake () {
