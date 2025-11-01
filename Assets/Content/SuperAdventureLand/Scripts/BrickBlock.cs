@@ -44,29 +44,31 @@
                     mainCollider.enabled = false;
                     base.ExecuteState();
                     // unparent the brick block from the parent
-                    dp_activatedBlock.transform.SetParent(null);
+                    if (dp_activatedBlock != null) {
+                        dp_activatedBlock.transform.SetParent(null);
 
-                    Rigidbody[] childRigidbodies = dp_activatedBlock.GetComponentsInChildren<Rigidbody>();
-                    MeshCollider[] meshColliders = dp_activatedBlock.GetComponentsInChildren<MeshCollider>();
+                        Rigidbody[] childRigidbodies = dp_activatedBlock.GetComponentsInChildren<Rigidbody>();
+                        MeshCollider[] meshColliders = dp_activatedBlock.GetComponentsInChildren<MeshCollider>();
 
-                    foreach (MeshCollider meshCollider in meshColliders)
-                    {
-                        meshCollider.enabled = true;
-                    }
+                        foreach (MeshCollider meshCollider in meshColliders)
+                        {
+                            meshCollider.enabled = true;
+                        }
 
-                    mainCollider.enabled = false;
-                    hitVelocity = Vector3.Max(hitVelocity,hitVelocity.normalized*25f);
+                        mainCollider.enabled = false;
+                        hitVelocity = Vector3.Max(hitVelocity,hitVelocity.normalized*25f);
 
-                    foreach (Rigidbody piece in childRigidbodies)
-                    {
-                        piece.isKinematic = false;
-                        piece.AddForce(hitVelocity);
+                        foreach (Rigidbody piece in childRigidbodies)
+                        {
+                            piece.isKinematic = false;
+                            piece.AddForce(hitVelocity);
+                        }
+                        Destroy(dp_activatedBlock.gameObject, 4f);
                     }
                     if (onBreak != null) {
                         onBreak?.OnEvent(null);
                         onBreak = null;
                     }
-                    Destroy(dp_activatedBlock.gameObject, 4f);
                     SetState(BlockState.DESTROY);
                     break;
             }

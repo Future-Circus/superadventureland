@@ -77,7 +77,7 @@ namespace DreamPark {
 
             runtimeCeiling = new GameObject("LevelCeiling");
             runtimeCeiling.transform.localPosition = new Vector3(0, 2.4f, 0);
-            runtimeCeiling.layer = LayerMask.NameToLayer("Trigger");
+            runtimeCeiling.layer = LayerMask.NameToLayer("Triggers");
             runtimeCeiling.transform.SetParent(transform, false);
             runtimeCeiling.AddComponent<OptimizedAFIgnore>();
 

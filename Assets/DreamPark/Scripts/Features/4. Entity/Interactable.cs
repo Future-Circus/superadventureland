@@ -183,6 +183,7 @@ public class Interactable : MonoBehaviour
         [SerializeField] public string[] layers;
         [SerializeField] public string[] tags;
         public UnityEvent<CollisionWrapper> onInteractionEnter;
+        public UnityEvent<CollisionWrapper> onInteractionStay;
         public UnityEvent<CollisionWrapper> onInteractionExit;
     }
     [SerializeField] public InteractionFilter[] interactionFilters;
@@ -204,6 +205,7 @@ public class Interactable : MonoBehaviour
     [HideInInspector] public Rigidbody rb { get; protected set; }
     [HideInInspector] protected Collider mainCollider;
     [HideInInspector] protected RigidbodySnapshot ogRigidbody;
+    [HideInInspector] protected bool hasCollisionStayListeners;
     public virtual void Awake () {
         if (mainCollider == null) {
             mainCollider = GetComponent<Collider>();
@@ -211,6 +213,14 @@ public class Interactable : MonoBehaviour
         if (rb == null) {
             rb = GetComponent<Rigidbody>();
         }
+
+        interactionFilters.ToList().ForEach(filter =>
+        {
+            if (filter.onInteractionStay.GetPersistentEventCount() > 0)
+            {
+                hasCollisionStayListeners = true;
+            }
+        });
     }
     public virtual void SaveOriginalRigidbody(bool andFreeze = false) {
         ogRigidbody = new RigidbodySnapshot(rb);
@@ -273,6 +283,68 @@ public class Interactable : MonoBehaviour
                 } else {
                     filter.onInteractionExit?.Invoke(lastCollision);
                 }
+                break;
+            }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (!hasCollisionStayListeners) return;
+        GameObject other = collision.gameObject;
+        CheckInteractionStay(other, new CollisionWrapper(collision));
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!hasCollisionStayListeners) return;
+        CheckInteractionStay(other.gameObject, new CollisionWrapper(other));
+    }
+
+    private void CheckInteractionStay(GameObject other, CollisionWrapper collision)
+    {
+        foreach (InteractionFilter filter in interactionFilters)
+        {
+            bool layerMatch = false;
+            bool tagMatch = false;
+
+            // Check layers
+            if (filter.layers != null && filter.layers.Length > 0)
+            {
+                foreach (string layerName in filter.layers)
+                {
+                    if (other.layer == LayerMask.NameToLayer(layerName))
+                    {
+                        layerMatch = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                layerMatch = true;
+            }
+
+            // Check tags
+            if (filter.tags != null && filter.tags.Length > 0)
+            {
+                foreach (string tag in filter.tags)
+                {
+                    if (other.CompareTag(tag))
+                    {
+                        tagMatch = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                tagMatch = true;
+            }
+
+            if (layerMatch && tagMatch)
+            {
+                filter.onInteractionStay?.Invoke(collision);
                 break;
             }
         }
