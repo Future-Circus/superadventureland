@@ -6,14 +6,12 @@ using UnityEditor.SceneManagement;
 #endif
 using UnityEngine;
 using UnityEngine.Events;
-
-[ExecuteAlways]
 public class EasyEvent : MonoBehaviour
 {
     [HideInInspector] public UnityEvent<object> onEvent = new UnityEvent<object>();
     [HideInInspector] public EasyEvent aboveEvent;
     [HideInInspector] public EasyEvent belowEvent;
-    [HideInInspector] public bool eventOnStart = false;
+    public bool eventOnStart = false;
     [HideInInspector] public bool isEnabled = false;
 
     public virtual void Awake() {
@@ -26,8 +24,9 @@ public class EasyEvent : MonoBehaviour
 
     public virtual void Start()
     {
-        if (Application.isPlaying && eventOnStart)
+        if (Application.isPlaying && eventOnStart) {
             OnEvent();
+        }
     }
 
     public virtual void OnEvent(object arg0 = null)
@@ -63,7 +62,7 @@ public class EasyEvent : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private void BuildSelfLink()
+    private void BuildSelfLink(bool relink = true)
     {
         try {
             Debug.Log("🚧 [EasyEvent] Rebuilding" + gameObject.name + " events");
@@ -91,7 +90,10 @@ public class EasyEvent : MonoBehaviour
                         // Remove + re-add persistent listener for above
                         for (int j = aboveEvent.onEvent.GetPersistentEventCount() - 1; j >= 0; j--)
                             UnityEventTools.RemovePersistentListener(aboveEvent.onEvent, j);
-                        UnityEventTools.AddPersistentListener(aboveEvent.onEvent, OnEvent); 
+
+                        if (relink) {
+                            UnityEventTools.AddPersistentListener(aboveEvent.onEvent, OnEvent); 
+                        }
 
                         break; // ✅ preserves original control flow
                     }
@@ -107,6 +109,12 @@ public class EasyEvent : MonoBehaviour
         } catch (Exception e) {
             Debug.LogError("❌ [EasyEvent] Error rebuilding" + gameObject.name + " events: " + e.Message);
         }
+    }
+
+    public void RemoveSelfLink() {
+        BuildSelfLink(false);
+        belowEvent = null;
+        aboveEvent = null;
     }
 #endif
 }

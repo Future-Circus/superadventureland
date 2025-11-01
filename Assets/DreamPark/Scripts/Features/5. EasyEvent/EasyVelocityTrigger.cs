@@ -31,13 +31,11 @@ public class EasyVelocityTrigger : EasyEvent
         }
         if (rb != null) {
             if (rb.linearVelocity.magnitude >= velocityThreshold || rb.angularVelocity.magnitude >= velocityThreshold) {
-                Debug.Log("VelocityTrigger: Triggering event");
                 triggered = true;
                 onEvent?.Invoke(rb.linearVelocity.magnitude > rb.angularVelocity.magnitude ? rb.linearVelocity : rb.angularVelocity);
             }
         } else {
             if ((transform.position - lastPosition).magnitude >= velocityThreshold) {
-                Debug.Log("VelocityTrigger: Triggering event");
                 triggered = true;
                 onEvent?.Invoke((transform.position - lastPosition).normalized);
             }
