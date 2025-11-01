@@ -183,7 +183,7 @@ namespace DreamPark.ParkBuilder {
                 if (component == null || component.IsDestroyed()) {
                     return false;
                 }
-                if (new Type[] { typeof(MusicArea), typeof(GameArea), typeof(PlayerRig), typeof(LevelTemplate) }.Contains(component.GetType())) {
+                if (new Type[] { typeof(MusicArea), typeof(GameArea), typeof(PlayerRig), typeof(LevelTemplate), typeof(DepthMask) }.Contains(component.GetType())) {
                     return false;
                 }
                 if (component is MonoBehaviour mb) {
