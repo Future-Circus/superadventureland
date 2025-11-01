@@ -101,6 +101,18 @@ PrefabInstance:
       propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: DreamPark.Easy.EasyParticle, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 2931645876847216336, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: belowEvent
+      value: 
+      objectReference: {fileID: 4749388401311158939}
+    - target: {fileID: 2931645876847216336, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4749388401311158939}
+    - target: {fileID: 2931645876847216336, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EasyDelay, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3056672537317450816, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -122,6 +134,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5822476465467976828, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: aboveEvent
+      value: 
+      objectReference: {fileID: 4749388401311158939}
+    - target: {fileID: 5822476465467976828, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
       propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -140,6 +156,34 @@ PrefabInstance:
     - target: {fileID: 5822476465467976828, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
       propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: DreamPark.Easy.EasyParticle, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296244040668040393, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: aboveEvent
+      value: 
+      objectReference: {fileID: 4478472946075359362}
+    - target: {fileID: 6296244040668040393, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: belowEvent
+      value: 
+      objectReference: {fileID: 5063277923729486382}
+    - target: {fileID: 6296244040668040393, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296244040668040393, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5063277923729486382}
+    - target: {fileID: 6296244040668040393, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296244040668040393, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296244040668040393, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+      propertyPath: onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EasyCollision, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6444913444607852097, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
       propertyPath: aboveEvent
@@ -287,6 +331,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c856270ba58f24da1bfe8e21e6998f8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4749388401311158939 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6296244040668040393, guid: 08a102f976c5c4b8293b941f0fe3e87d, type: 3}
+  m_PrefabInstance: {fileID: 1624100784032669266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e08f6ba136d247f9a3f177d15043740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5063277923729486382 stripped

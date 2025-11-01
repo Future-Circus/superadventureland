@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9136671223534793505}
   - component: {fileID: 598716456543707186}
   - component: {fileID: 2931645876847216336}
+  - component: {fileID: 6296244040668040393}
   - component: {fileID: 5822476465467976828}
   - component: {fileID: 7889798837513365968}
   - component: {fileID: 2237203422382887609}
@@ -196,6 +197,43 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 6296244040668040393}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 598716456543707186}
+  belowEvent: {fileID: 6296244040668040393}
+  eventOnStart: 0
+  isEnabled: 0
+  audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
+  volume: 1
+  pitch: 1
+  pitchVariation: 0.1
+  loop: 0
+  delayNextEvent: 0
+--- !u!114 &6296244040668040393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5270905063416355294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e08f6ba136d247f9a3f177d15043740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 5822476465467976828}
         m_TargetAssemblyTypeName: EasyCollision, Assembly-CSharp
         m_MethodName: OnEvent
@@ -208,16 +246,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  aboveEvent: {fileID: 598716456543707186}
+  aboveEvent: {fileID: 2931645876847216336}
   belowEvent: {fileID: 5822476465467976828}
   eventOnStart: 0
   isEnabled: 0
-  audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
-  volume: 1
-  pitch: 1
-  pitchVariation: 0.1
-  loop: 0
-  delayNextEvent: 0
+  randomDelay: 0
+  delay: 0.4
+  maxDelay: 0.5
 --- !u!114 &5822476465467976828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +280,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  aboveEvent: {fileID: 2931645876847216336}
+  aboveEvent: {fileID: 6296244040668040393}
   belowEvent: {fileID: 7889798837513365968}
   eventOnStart: 0
   isEnabled: 0
@@ -391,8 +426,8 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: EasyAudio, Assembly-CSharp
+      - m_Target: {fileID: 6296244040668040393}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
         m_MethodName: OnEvent
         m_Mode: 0
         m_Arguments:
