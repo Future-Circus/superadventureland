@@ -58,27 +58,31 @@ namespace DreamPark {
         public GameLevelSize size;
         public Vector2 defaultAnchorPosition;
         public bool generateFloor = true;
+        public bool generateCeiling = true;
         private GameObject runtimePlane;
+        private GameObject runtimeCeiling;
 
         void Start()
         {
             if (generateFloor) GenerateFloorWithHoles();
+            if (generateCeiling) GenerateDepthCeiling();
         } 
 
-        private void GenerateFloor() {
-            if (runtimePlane != null) Destroy(runtimePlane);
+        private void GenerateDepthCeiling() {
+            if (runtimeCeiling != null) Destroy(runtimeCeiling);
 
             Vector2 dims = GameLevelDimensions.GetDimensionsInMeters(size);
             float width = dims.x;
             float height = dims.y;
 
-            runtimePlane = new GameObject("LevelFloor");
-            runtimePlane.layer = LayerMask.NameToLayer("Level");
-            runtimePlane.tag = "Ground";
-            runtimePlane.transform.SetParent(transform, false);
+            runtimeCeiling = new GameObject("LevelCeiling");
+            runtimeCeiling.transform.localPosition = new Vector3(0, 2.4f, 0);
+            runtimeCeiling.layer = LayerMask.NameToLayer("Trigger");
+            runtimeCeiling.transform.SetParent(transform, false);
+            runtimeCeiling.AddComponent<OptimizedAFIgnore>();
 
-            MeshFilter mf = runtimePlane.AddComponent<MeshFilter>();
-            MeshCollider mc = runtimePlane.AddComponent<MeshCollider>();
+            MeshFilter mf = runtimeCeiling.AddComponent<MeshFilter>();
+            runtimeCeiling.AddComponent<MeshRenderer>().enabled = false;
 
             Mesh mesh = new Mesh();
 
@@ -89,9 +93,10 @@ namespace DreamPark {
                 new Vector3( width/2f, 0, -height/2f)
             };
 
+            // Flip normals by reversing the winding order
             int[] triangles = new int[6] {
-                0, 1, 2,
-                0, 2, 3
+                0, 2, 1,
+                0, 3, 2
             };
 
             Vector2[] uv = new Vector2[4] {
@@ -107,14 +112,9 @@ namespace DreamPark {
             mesh.RecalculateNormals();
 
             mf.sharedMesh = mesh;
-            mc.sharedMesh = mesh;
-
-            var surface = runtimePlane.AddComponent<NavMeshSurface>();
-            surface.collectObjects = CollectObjects.All;
-            surface.layerMask = LayerMask.GetMask("Level");
-            surface.collectObjects = CollectObjects.Children;
-            surface.agentTypeID = UnityEngine.AI.NavMesh.GetSettingsByIndex(1).agentTypeID;
-            surface.BuildNavMesh();
+            var depthMask = runtimeCeiling.AddComponent<DepthMask>();
+            depthMask.myMeshFilters.Add(mf);
+            depthMask._someOffsetFloatValue = 0.6f;
         }
 
         private void GenerateFloorWithHoles() {
@@ -128,6 +128,7 @@ namespace DreamPark {
             runtimePlane.layer = LayerMask.NameToLayer("Level");
             runtimePlane.tag = "Ground";
             runtimePlane.transform.SetParent(transform, false);
+            runtimePlane.AddComponent<OptimizedAFIgnore>();
 
             MeshFilter mf = runtimePlane.AddComponent<MeshFilter>();
             MeshRenderer mr = runtimePlane.AddComponent<MeshRenderer>();
