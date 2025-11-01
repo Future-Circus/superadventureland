@@ -6,12 +6,14 @@
     public class EasyThrow : DreamPark.Easy.EasyThrow
     {
         public override void OnValidate() {
+            #if UNITY_EDITOR
             if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
                 return;
             if (targetLayerOrder == null || targetLayerOrder.Length == 0) {
                 targetLayerOrder = new string[] { "Entity", "Level" };
             }
             base.OnValidate();
+            #endif
         }
         public override void OnEvent(object arg0 = null)
         {
