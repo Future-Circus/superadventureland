@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class EasyVelocityTrigger : EasyEvent
 {
+    public enum ForceFilterMode {
+        GREATER_THAN,
+        LESS_THAN
+    }
     public float velocityThreshold = 1f;
+    public ForceFilterMode velocityFilterMode = ForceFilterMode.GREATER_THAN;
     public bool debugger = false;
     private Rigidbody rb;
     private bool triggered = false;
@@ -30,12 +35,12 @@ public class EasyVelocityTrigger : EasyEvent
             return;
         }
         if (rb != null) {
-            if (rb.linearVelocity.magnitude >= velocityThreshold || rb.angularVelocity.magnitude >= velocityThreshold) {
+            if (velocityFilterMode == ForceFilterMode.GREATER_THAN && (rb.linearVelocity.magnitude >= velocityThreshold || rb.angularVelocity.magnitude >= velocityThreshold) || velocityFilterMode == ForceFilterMode.LESS_THAN && rb.linearVelocity.magnitude <= velocityThreshold && rb.angularVelocity.magnitude <= velocityThreshold) {
                 triggered = true;
                 onEvent?.Invoke(rb.linearVelocity.magnitude > rb.angularVelocity.magnitude ? rb.linearVelocity : rb.angularVelocity);
             }
         } else {
-            if ((transform.position - lastPosition).magnitude >= velocityThreshold) {
+            if (velocityFilterMode == ForceFilterMode.GREATER_THAN && (transform.position - lastPosition).magnitude >= velocityThreshold || velocityFilterMode == ForceFilterMode.LESS_THAN && (transform.position - lastPosition).magnitude <= velocityThreshold) {
                 triggered = true;
                 onEvent?.Invoke((transform.position - lastPosition).normalized);
             }

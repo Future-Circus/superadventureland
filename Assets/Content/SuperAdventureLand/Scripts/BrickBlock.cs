@@ -26,7 +26,16 @@
         public override void Start()
         {
             base.Start();
-            dp_hitSfx = "bricks";
+        }
+        public override void OnValidate() {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (dp_hitSfx == null) {
+                dp_hitSfx = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/bricks.wav");
+            }
+            base.OnValidate();
+            #endif
         }
         public override void ExecuteState() {
             base.ExecuteState();

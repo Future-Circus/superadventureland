@@ -268,6 +268,7 @@ MonoBehaviour:
   enableRigidbody: 1
   enableColliders: 1
   constraints: 0
+  breakJoint: 0
 --- !u!114 &1288318632662031127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3527,6 +3528,7 @@ MonoBehaviour:
   enableRigidbody: 1
   enableColliders: 1
   constraints: 0
+  breakJoint: 0
 --- !u!114 &1333451352111456040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5159,6 +5161,7 @@ MonoBehaviour:
   enableRigidbody: 1
   enableColliders: 1
   constraints: 0
+  breakJoint: 0
 --- !u!114 &8827081823917482136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5605,6 +5608,7 @@ MonoBehaviour:
   eventOnStart: 0
   isEnabled: 0
   velocityThreshold: 3
+  velocityFilterMode: 0
   debugger: 0
 --- !u!114 &5922465741288086298
 MonoBehaviour:
@@ -12137,9 +12141,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 4776738997034414175}
   dp_activatedBlock: {fileID: 8893981690802476106}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 7663999415382672032}
 --- !u!1 &2058056532246389383
@@ -30369,9 +30374,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 5815188393093466552}
   dp_activatedBlock: {fileID: 4507843369903920961}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 5940546621826679326}
 --- !u!1 &4899936731442299732
@@ -33697,9 +33703,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 8113579022258408700}
   dp_activatedBlock: {fileID: 5747962333366852627}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 6170961361652764325}
 --- !u!1 &5572997153436245718
@@ -42867,9 +42874,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 1027727197972266415}
   dp_activatedBlock: {fileID: 5967811757347701130}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 1839227185636281071}
 --- !u!1 &6296690632080603053
@@ -57461,6 +57469,7 @@ MonoBehaviour:
   enableRigidbody: 1
   enableColliders: 1
   constraints: 0
+  breakJoint: 0
 --- !u!114 &1240926276205304339
 MonoBehaviour:
   m_ObjectHideFlags: 0

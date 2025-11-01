@@ -27,13 +27,23 @@
     }
     public class Block : StandardEntity<BlockState>
     {
+        public GameObject spentBlock;
         public Transform dp_unactivatedBlock;
         public Transform dp_activatedBlock;
-        public string dp_hitSfx = "thud";
+        public AudioClip dp_hitSfx;
         private float dp_activateThreshold = 1.2f;
         private SpringJoint springJoint;
         [HideInInspector] public Vector3 hitVelocity;
-
+        public override void OnValidate() {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (dp_hitSfx == null) {
+                dp_hitSfx = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/thud.mp3");
+            }
+            base.OnValidate();
+            #endif
+        }
         public override void Awake()
         {
             base.Awake();
@@ -67,12 +77,15 @@
                     dp_hitSfx.PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
                     if (!shouldDestroy)
                     {
-                        Debug.Log("dp_activatedBlock!");
                         dp_unactivatedBlock?.gameObject.SetActive(false);
                         dp_activatedBlock?.gameObject.SetActive(true);
                     }
                     else
                     {
+                        if (spentBlock) {
+                            Instantiate(spentBlock, transform.position, transform.rotation);
+                            spentBlock = null;
+                        }
                         SetState(BlockState.DESTROY);
                     }
                     break;
@@ -226,7 +239,7 @@
         {
             get
             {
-                return dp_activatedBlock == null;
+                return dp_activatedBlock == null || spentBlock != null;
             }
         }
         public void SetupInteractionFilters()

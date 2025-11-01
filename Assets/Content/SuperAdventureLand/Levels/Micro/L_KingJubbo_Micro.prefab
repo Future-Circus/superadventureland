@@ -1250,9 +1250,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 5030866854171414438}
   dp_activatedBlock: {fileID: 78033187603182728}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &122059672207729720
@@ -7612,9 +7613,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 855340735369890965}
   dp_activatedBlock: {fileID: 6095233473055287906}
-  dp_hitSfx: coin
+  dp_hitSfx: {fileID: 8300000, guid: d7e51c82c62bf4f69bce14ccd632011a, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   dp_itemPrefab: {fileID: 7200948106535748897, guid: 33204854d9dd6473f8b8b6ce0e5b5323, type: 3}
   dp_itemSpawnPoint: {fileID: 7425828187075077821}
@@ -7622,6 +7624,7 @@ MonoBehaviour:
   dp_itemPopupForce: 1.5
   dp_canSpawnItem: 1
   dp_itemName: 
+  spentBlockEvent: {fileID: 0}
 --- !u!1 &336462265766205285
 GameObject:
   m_ObjectHideFlags: 0
@@ -16046,9 +16049,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 6582853926994538595}
   dp_activatedBlock: {fileID: 566550557175152453}
-  dp_hitSfx: coin
+  dp_hitSfx: {fileID: 8300000, guid: d7e51c82c62bf4f69bce14ccd632011a, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   dp_itemPrefab: {fileID: 7200948106535748897, guid: 33204854d9dd6473f8b8b6ce0e5b5323, type: 3}
   dp_itemSpawnPoint: {fileID: 2395310069058343413}
@@ -16056,6 +16060,7 @@ MonoBehaviour:
   dp_itemPopupForce: 1.5
   dp_canSpawnItem: 1
   dp_itemName: 
+  spentBlockEvent: {fileID: 0}
 --- !u!1 &689551920590821610
 GameObject:
   m_ObjectHideFlags: 0
@@ -20232,9 +20237,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 1754059356676751851}
   dp_activatedBlock: {fileID: 3768713550116272986}
-  dp_hitSfx: coin
+  dp_hitSfx: {fileID: 8300000, guid: d7e51c82c62bf4f69bce14ccd632011a, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   dp_itemPrefab: {fileID: 7200948106535748897, guid: 33204854d9dd6473f8b8b6ce0e5b5323, type: 3}
   dp_itemSpawnPoint: {fileID: 4345328049678817416}
@@ -20242,6 +20248,7 @@ MonoBehaviour:
   dp_itemPopupForce: 1.5
   dp_canSpawnItem: 1
   dp_itemName: 
+  spentBlockEvent: {fileID: 0}
 --- !u!1 &1179747169689380282
 GameObject:
   m_ObjectHideFlags: 0
@@ -20627,9 +20634,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 4323837541289422179}
   dp_activatedBlock: {fileID: 8107551669390250480}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &1232610314668524870
@@ -28184,9 +28192,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 508719391891326539}
   dp_activatedBlock: {fileID: 6538045644119827825}
-  dp_hitSfx: coin
+  dp_hitSfx: {fileID: 8300000, guid: d7e51c82c62bf4f69bce14ccd632011a, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   dp_itemPrefab: {fileID: 7200948106535748897, guid: 33204854d9dd6473f8b8b6ce0e5b5323, type: 3}
   dp_itemSpawnPoint: {fileID: 4802164824354188939}
@@ -28194,6 +28203,7 @@ MonoBehaviour:
   dp_itemPopupForce: 1.5
   dp_canSpawnItem: 1
   dp_itemName: 
+  spentBlockEvent: {fileID: 0}
 --- !u!1 &1434131074276211516
 GameObject:
   m_ObjectHideFlags: 0
@@ -32036,9 +32046,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 5102432453376659228}
   dp_activatedBlock: {fileID: 8000716338306485333}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &2153582199735106356
@@ -37849,9 +37860,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 2824689262478802775}
   dp_activatedBlock: {fileID: 8212712607836078780}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &2324914319980028978
@@ -38647,9 +38659,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 7301222900300600668}
   dp_activatedBlock: {fileID: 8240103277724056305}
-  dp_hitSfx: coin
+  dp_hitSfx: {fileID: 8300000, guid: d7e51c82c62bf4f69bce14ccd632011a, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   dp_itemPrefab: {fileID: 7200948106535748897, guid: 33204854d9dd6473f8b8b6ce0e5b5323, type: 3}
   dp_itemSpawnPoint: {fileID: 1381542755886740286}
@@ -38657,6 +38670,7 @@ MonoBehaviour:
   dp_itemPopupForce: 1.5
   dp_canSpawnItem: 1
   dp_itemName: 
+  spentBlockEvent: {fileID: 0}
 --- !u!1 &2432052619344957617
 GameObject:
   m_ObjectHideFlags: 0
@@ -40031,9 +40045,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 7578143565223259757}
   dp_activatedBlock: {fileID: 4218661712051778576}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &2606093362590447708
@@ -41267,9 +41282,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 3153645884494804426}
   dp_activatedBlock: {fileID: 3612235442242330219}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &2697184970455965327
@@ -45350,9 +45366,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 0}
   dp_activatedBlock: {fileID: 0}
-  dp_hitSfx: Audio/thud
+  dp_hitSfx: {fileID: 8300000, guid: d7e51c82c62bf4f69bce14ccd632011a, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   powerupName: Hammer
   singleUse: 0
@@ -46812,9 +46829,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 7847775561914471350}
   dp_activatedBlock: {fileID: 7187958448020099138}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &3386894064729025220
@@ -47811,9 +47829,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 9054223269924155410}
   dp_activatedBlock: {fileID: 1269597786263000395}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &3477559738633968746
@@ -51558,9 +51577,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 8944213616077695979}
   dp_activatedBlock: {fileID: 3330141097992067944}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &3819194259623378286
@@ -53071,9 +53091,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 6663094690308110635}
   dp_activatedBlock: {fileID: 2562299771139871726}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &3953002642299246790
@@ -58036,9 +58057,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 2496802872477330007}
   dp_activatedBlock: {fileID: 6829491427742400942}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &4592390140425732915
@@ -60115,9 +60137,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 4054891512053144656}
   dp_activatedBlock: {fileID: 6883844798812391469}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &4906264168451320850
@@ -77638,9 +77661,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 2714072115868091054}
   dp_activatedBlock: {fileID: 4934428574249554523}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &6090099841092173651
@@ -83922,9 +83946,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 3201341910106352098}
   dp_activatedBlock: {fileID: 7465095558299399525}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &6790205979369219423
@@ -90144,9 +90169,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 8664191531703176999}
   dp_activatedBlock: {fileID: 8833304108973845478}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &7651012305319936685
@@ -92130,9 +92156,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 5086831416015476039}
   dp_activatedBlock: {fileID: 3619894705020832683}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &7848824185095694212
@@ -97437,9 +97464,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 3235247296918831809}
   dp_activatedBlock: {fileID: 2620469435082141567}
-  dp_hitSfx: thud
+  dp_hitSfx: {fileID: 8300000, guid: d1800bccfb93d40b79569107565cc93b, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   onBreak: {fileID: 0}
 --- !u!1 &8371717940461997750

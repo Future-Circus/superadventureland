@@ -14,6 +14,7 @@ namespace DreamPark.Easy {
         public override void OnEvent(object arg0 = null)
         {
             if (particleEffect != null) {
+                Debug.Log("[EasyParticle] OnEvent - particleEffect: " + particleEffect.name);
                 GameObject particle = Instantiate(particleEffect);
                 particle.transform.position = transform.position;
                 if (copyRotation) {
@@ -27,6 +28,8 @@ namespace DreamPark.Easy {
                 } else {
                     onEvent?.Invoke(arg0);
                 }
+            } else {
+                Debug.LogWarning("[EasyParticle] No particle effect set");
             }
         }
 

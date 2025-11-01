@@ -100,20 +100,20 @@ public class RigidbodySnapshot {
 
     public void Restore(Rigidbody rb)
     {
-        rb.mass = mass;
-        rb.useGravity = useGravity;
-        rb.isKinematic = isKinematic;
-        rb.interpolation = interpolation;
-        rb.collisionDetectionMode = collisionDetectionMode;
-        rb.constraints = constraints;
+        // rb.mass = mass;
+        // rb.useGravity = useGravity;
+        // rb.isKinematic = isKinematic;
+        // rb.interpolation = interpolation;
+        // rb.collisionDetectionMode = collisionDetectionMode;
+        // rb.constraints = constraints;
     }
 
     public void Freeze(Rigidbody rb) {
-        rb.useGravity = false;
-        rb.isKinematic = true;
-        rb.interpolation = RigidbodyInterpolation.None;
-        rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
+        // rb.useGravity = false;
+        // rb.isKinematic = true;
+        // rb.interpolation = RigidbodyInterpolation.None;
+        // rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        // rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 }
 

@@ -31,6 +31,7 @@
         [Range(0.01f, 100.00f),SerializeField] public float dp_itemPopupForce = 1.5f;
         [HideInInspector] public bool dp_canSpawnItem = true;
         [HideInInspector] public string dp_itemName;
+        public EasyEvent spentBlockEvent;
         public override void Awake () {
             base.Awake();
             if (dp_itemPrefab != null) {
@@ -40,7 +41,6 @@
         public override void ExecuteState() {
             switch (state) {
                 case BlockState.ACTIVATE:
-                Debug.Log($"SpawnItems: {dp_itemCount}");
                     var itemCount = dp_itemCount;
                     while (itemCount > 0)
                     {
@@ -48,6 +48,10 @@
                         itemCount--;
                     }
                     base.ExecuteState();
+                    if (spentBlockEvent != null) {
+                        spentBlockEvent.OnEvent(null);
+                        enabled = false;
+                    }
                     break;
                 default:
                     base.ExecuteState();
@@ -69,7 +73,6 @@
                     if (dp_itemCount == 1) {
                         itemScript.PopUpItem(Vector3.up*dp_itemPopupForce);
                     } else {
-                        Debug.Log($"SpawnItem: {currentItem} of {dp_itemCount}");
                         Vector3 direction;
                         float angle = (360f / dp_itemCount) * currentItem;
                         direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;

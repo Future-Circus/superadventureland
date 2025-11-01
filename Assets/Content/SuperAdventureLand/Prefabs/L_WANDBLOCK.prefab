@@ -161,9 +161,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 0}
   dp_activatedBlock: {fileID: 0}
-  dp_hitSfx: Audio/thud
+  dp_hitSfx: {fileID: 8300000, guid: d7e51c82c62bf4f69bce14ccd632011a, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   powerupName: Wand
   singleUse: 0

@@ -541,6 +541,7 @@ MonoBehaviour:
   enableRigidbody: 1
   enableColliders: 1
   constraints: 0
+  breakJoint: 0
 --- !u!114 &8002445041850074351 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5506044401367877144, guid: e43d7b7533d1c44c0bb43ad7b4653b0b, type: 3}
@@ -925,6 +926,7 @@ MonoBehaviour:
   enableRigidbody: 1
   enableColliders: 1
   constraints: 0
+  breakJoint: 0
 --- !u!114 &6364294971218142486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1435,6 +1437,7 @@ MonoBehaviour:
   eventOnStart: 1
   isEnabled: 0
   velocityThreshold: 6
+  velocityFilterMode: 0
   debugger: 1
 --- !u!114 &5082644129920687423
 MonoBehaviour:
@@ -2604,6 +2607,7 @@ MonoBehaviour:
   enableRigidbody: 1
   enableColliders: 1
   constraints: 0
+  breakJoint: 0
 --- !u!114 &4466082966733067180 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4857532543464745764, guid: e43d7b7533d1c44c0bb43ad7b4653b0b, type: 3}

@@ -444,9 +444,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 465154458501543393}
   dp_activatedBlock: {fileID: 8146030303616728058}
-  dp_hitSfx: Audio/thud
+  dp_hitSfx: {fileID: 8300000, guid: d7e51c82c62bf4f69bce14ccd632011a, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   dp_itemPrefab: {fileID: 7200948106535748897, guid: 33204854d9dd6473f8b8b6ce0e5b5323, type: 3}
   dp_itemSpawnPoint: {fileID: 0}
@@ -454,6 +455,7 @@ MonoBehaviour:
   dp_itemPopupForce: 1.5
   dp_canSpawnItem: 1
   dp_itemName: 
+  spentBlockEvent: {fileID: 0}
 --- !u!1001 &143612704921293322
 PrefabInstance:
   m_ObjectHideFlags: 0

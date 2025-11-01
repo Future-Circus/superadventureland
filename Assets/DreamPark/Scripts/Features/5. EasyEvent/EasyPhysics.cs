@@ -7,6 +7,7 @@ public class EasyPhysics : EasyEvent
     public bool enableRigidbody = true;
     public bool enableColliders = true;
     public RigidbodyConstraints constraints = RigidbodyConstraints.None;
+    public bool breakJoint = false;
 
     public override void OnEvent(object arg0 = null)
     {
@@ -18,6 +19,7 @@ public class EasyPhysics : EasyEvent
             rb.isKinematic = isKinematic;
             rb.useGravity = useGravity;
             rb.constraints = constraints;
+            BreakJoint();
         } else {
             if (enableRigidbody) {
                 rb = gameObject.AddComponent<Rigidbody>();
@@ -30,5 +32,10 @@ public class EasyPhysics : EasyEvent
             }
         }
         onEvent?.Invoke(null);
+    }
+    private void BreakJoint() {
+        if (TryGetComponent<Joint>(out var joint)) {
+            Destroy(joint);
+        }
     }
 }

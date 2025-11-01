@@ -44,6 +44,21 @@ GameObject:
   - component: {fileID: 7243224158840123403}
   - component: {fileID: 6168779885608861641}
   - component: {fileID: 8351943442329609850}
+  - component: {fileID: 5622954540073728357}
+  - component: {fileID: 6526295075914044004}
+  - component: {fileID: 2306718106250210839}
+  - component: {fileID: 430899391245012834}
+  - component: {fileID: 2213874751393589261}
+  - component: {fileID: 8381910035669736833}
+  - component: {fileID: 8371130368575084303}
+  - component: {fileID: 6772516425704988037}
+  - component: {fileID: 142426126010923120}
+  - component: {fileID: 1326044595724091465}
+  - component: {fileID: 4309177316548209459}
+  - component: {fileID: 4100928951878485369}
+  - component: {fileID: 1817259661715594456}
+  - component: {fileID: 3275946522206987239}
+  - component: {fileID: 7260994029679084826}
   m_Layer: 6
   m_Name: ItemBlock
   m_TagString: Block
@@ -280,9 +295,10 @@ MonoBehaviour:
   currentTargetPositionLocal: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   _currentWaypointIndex: 0
+  spentBlock: {fileID: 0}
   dp_unactivatedBlock: {fileID: 219289350819651248}
   dp_activatedBlock: {fileID: 1949564686607965248}
-  dp_hitSfx: coin
+  dp_hitSfx: {fileID: 8300000, guid: d7e51c82c62bf4f69bce14ccd632011a, type: 3}
   hitVelocity: {x: 0, y: 0, z: 0}
   dp_itemPrefab: {fileID: 7200948106535748897, guid: 33204854d9dd6473f8b8b6ce0e5b5323, type: 3}
   dp_itemSpawnPoint: {fileID: 5466125706616748749}
@@ -290,6 +306,535 @@ MonoBehaviour:
   dp_itemPopupForce: 1.5
   dp_canSpawnItem: 1
   dp_itemName: 
+  spentBlockEvent: {fileID: 5622954540073728357}
+--- !u!114 &5622954540073728357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308db504c270740d79da359842066e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6526295075914044004}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 0}
+  belowEvent: {fileID: 0}
+  eventOnStart: 1
+  isEnabled: 0
+  routes: []
+  ignoreAboveEvent: 1
+--- !u!114 &6526295075914044004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e08f6ba136d247f9a3f177d15043740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2306718106250210839}
+        m_TargetAssemblyTypeName: EasyCollision, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 5622954540073728357}
+  belowEvent: {fileID: 2306718106250210839}
+  eventOnStart: 0
+  isEnabled: 0
+  randomDelay: 0
+  delay: 0.5
+  maxDelay: 0.5
+--- !u!114 &2306718106250210839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c201a560a806b445c8122fcf9ec39171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 430899391245012834}
+        m_TargetAssemblyTypeName: EasyForceFilter, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 6526295075914044004}
+  belowEvent: {fileID: 430899391245012834}
+  eventOnStart: 0
+  isEnabled: 0
+  layers:
+  - Player
+  tags:
+  - Player
+  collisionEvent: 0
+--- !u!114 &430899391245012834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d4149c6150b43e8b6e46312c3d7ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2213874751393589261}
+        m_TargetAssemblyTypeName: EasyPhysics, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2306718106250210839}
+  belowEvent: {fileID: 2213874751393589261}
+  eventOnStart: 0
+  isEnabled: 0
+  minimumForce: 1
+  forceFilterMode: 0
+--- !u!114 &2213874751393589261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36907d0c139cc4f099bc153013093247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8381910035669736833}
+        m_TargetAssemblyTypeName: DreamPark.Easy.EasyParticle, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 430899391245012834}
+  belowEvent: {fileID: 8381910035669736833}
+  eventOnStart: 0
+  isEnabled: 0
+  isKinematic: 0
+  useGravity: 1
+  enableRigidbody: 1
+  enableColliders: 1
+  constraints: 0
+  breakJoint: 1
+--- !u!114 &8381910035669736833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18bcdc43859e147059f89a9bb6e7eb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8371130368575084303}
+        m_TargetAssemblyTypeName: EasyAudio, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 2213874751393589261}
+  belowEvent: {fileID: 8371130368575084303}
+  eventOnStart: 0
+  isEnabled: 0
+  particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}
+  copyRotation: 0
+  parent: 0
+  delayNextEvent: 0
+--- !u!114 &8371130368575084303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c856270ba58f24da1bfe8e21e6998f8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6772516425704988037}
+        m_TargetAssemblyTypeName: EasyForce, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 8381910035669736833}
+  belowEvent: {fileID: 6772516425704988037}
+  eventOnStart: 0
+  isEnabled: 0
+  audioClip: {fileID: 8300000, guid: d8bf1f05ce6e84f9dacaf5c4ec3368f1, type: 3}
+  volume: 1
+  pitch: 1
+  pitchVariation: 0.1
+  loop: 0
+  delayNextEvent: 0
+--- !u!114 &6772516425704988037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbbf2a954d4a94bdbbdd087aa5db1b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 142426126010923120}
+        m_TargetAssemblyTypeName: EasyTag, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 8371130368575084303}
+  belowEvent: {fileID: 142426126010923120}
+  eventOnStart: 0
+  isEnabled: 0
+  force: {x: 0, y: 10, z: 0}
+  forceVariation: {x: 5, y: 0, z: 5}
+  torque: {x: 0, y: 0, z: 0}
+  torqueVariation: {x: 10, y: 10, z: 10}
+  forceOrigin: {fileID: 0}
+  forceMode: 1
+--- !u!114 &142426126010923120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cbc1105834a4601b37a2d57d0c1252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1326044595724091465}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 6772516425704988037}
+  belowEvent: {fileID: 1326044595724091465}
+  eventOnStart: 0
+  isEnabled: 0
+  newTag: ActiveHit
+--- !u!114 &1326044595724091465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e08f6ba136d247f9a3f177d15043740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4309177316548209459}
+        m_TargetAssemblyTypeName: EasyInteraction, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 142426126010923120}
+  belowEvent: {fileID: 4309177316548209459}
+  eventOnStart: 0
+  isEnabled: 0
+  randomDelay: 0
+  delay: 0.5
+  maxDelay: 0.5
+--- !u!114 &4309177316548209459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 925b5c47538214059b34d8f55cb7b53b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4100928951878485369}
+        m_TargetAssemblyTypeName: EasyDelay, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1326044595724091465}
+  belowEvent: {fileID: 4100928951878485369}
+  eventOnStart: 0
+  isEnabled: 0
+  interactionFilters:
+  - layers:
+    - Level
+    tags:
+    - Lava
+    collisionEvent: 0
+    onEvent: {fileID: 3275946522206987239}
+  - layers:
+    - Level
+    tags: []
+    collisionEvent: 0
+    onEvent: {fileID: 4100928951878485369}
+  onlyDetectOnce: 1
+  continueToNextEvent: 0
+  detecting: 0
+--- !u!114 &4100928951878485369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e08f6ba136d247f9a3f177d15043740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1817259661715594456}
+        m_TargetAssemblyTypeName: EasyScale, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 4309177316548209459}
+  belowEvent: {fileID: 1817259661715594456}
+  eventOnStart: 0
+  isEnabled: 0
+  randomDelay: 0
+  delay: 1
+  maxDelay: 0.5
+--- !u!114 &1817259661715594456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1356cce3628e44d8aa951dff6d23e40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3275946522206987239}
+        m_TargetAssemblyTypeName: DreamPark.Easy.EasyParticle, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 4100928951878485369}
+  belowEvent: {fileID: 3275946522206987239}
+  eventOnStart: 0
+  isEnabled: 0
+  targetScale: {x: 0, y: 0, z: 0}
+  duration: 0.4
+  delayNextEvent: 1
+--- !u!114 &3275946522206987239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18bcdc43859e147059f89a9bb6e7eb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7260994029679084826}
+        m_TargetAssemblyTypeName: EasyDestroy, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 1817259661715594456}
+  belowEvent: {fileID: 7260994029679084826}
+  eventOnStart: 0
+  isEnabled: 0
+  particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}
+  copyRotation: 0
+  parent: 0
+  delayNextEvent: 1
+--- !u!114 &7260994029679084826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933093546870012743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7c906da6f464316b597e917607438c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4309177316548209459}
+        m_TargetAssemblyTypeName: EasyInteraction, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  aboveEvent: {fileID: 3275946522206987239}
+  belowEvent: {fileID: 0}
+  eventOnStart: 0
+  isEnabled: 0
 --- !u!1 &4286422869914931290
 GameObject:
   m_ObjectHideFlags: 0

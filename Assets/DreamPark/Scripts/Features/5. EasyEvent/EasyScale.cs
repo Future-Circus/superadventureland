@@ -29,7 +29,7 @@ public class EasyScale : EasyEvent
             transform.localScale = Vector3.Lerp(transform.localScale, targetScale, (Time.time - startTime) / duration);
             yield return null;
         }
-        if (!delayNextEvent) {
+        if (delayNextEvent) {
             onEvent?.Invoke(null);
         }
     }

@@ -105,7 +105,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 598716456543707186}
+        m_TargetAssemblyTypeName: SuperAdventureLand.EasyThrow, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 598716456543707186}
   eventOnStart: 1
@@ -157,8 +169,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 9136671223534793505}
+  belowEvent: {fileID: 2931645876847216336}
   eventOnStart: 0
   isEnabled: 0
   targetLayerOrder:
@@ -220,7 +232,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7889798837513365968}
+        m_TargetAssemblyTypeName: DreamPark.Easy.EasyParticle, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 2931645876847216336}
   belowEvent: {fileID: 7889798837513365968}
   eventOnStart: 0
@@ -257,8 +281,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 5822476465467976828}
+  belowEvent: {fileID: 2237203422382887609}
   eventOnStart: 0
   isEnabled: 0
   particleEffect: {fileID: 5189605913638902629, guid: 07bfffd94d30f4bb7bdaee2f0eb7dbd2, type: 3}
@@ -298,7 +322,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1832419880898647461}
+        m_TargetAssemblyTypeName: DreamPark.Easy.EasyParticle, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
   belowEvent: {fileID: 0}
   eventOnStart: 0
@@ -332,8 +368,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
+  aboveEvent: {fileID: 2073895623992990237}
+  belowEvent: {fileID: 8295610618324342699}
   eventOnStart: 0
   isEnabled: 0
   particleEffect: {fileID: 100000, guid: e68811c19d42249b78b79947a2f0acf2, type: 3}

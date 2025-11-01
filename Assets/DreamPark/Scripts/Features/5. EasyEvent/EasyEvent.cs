@@ -11,7 +11,7 @@ public class EasyEvent : MonoBehaviour
     [HideInInspector] public UnityEvent<object> onEvent = new UnityEvent<object>();
     [HideInInspector] public EasyEvent aboveEvent;
     [HideInInspector] public EasyEvent belowEvent;
-    public bool eventOnStart = false;
+    [ReadOnly] public bool eventOnStart = false;
     [HideInInspector] public bool isEnabled = false;
 
     public virtual void Awake() {
@@ -57,6 +57,13 @@ public class EasyEvent : MonoBehaviour
         if (PrefabUtility.IsPartOfPrefabInstance(this))
         {
             BuildSelfLink();
+            return;
+        }
+
+        if (!PrefabUtility.IsPartOfAnyPrefab(gameObject))
+        {
+            BuildSelfLink();
+            return;
         }
         #endif
     }
