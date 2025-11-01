@@ -715,5 +715,27 @@
 
             Debug.Log($"{name}: Added wall + lava colliders.");
         }
+
+        public void OnValidate()
+        {
+#if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+                
+            // Skip validation when this object is part of a prefab asset (during Apply/Save/etc)
+            if (PrefabUtility.IsPartOfPrefabAsset(this))
+                return;
+
+            // If in prefab edit mode (Prefab Stage), only rebuild when user is actively editing the prefab contents
+            var stage = PrefabStageUtility.GetCurrentPrefabStage();
+            if (stage != null && stage.scene == gameObject.scene || PrefabUtility.IsPartOfPrefabInstance(this))
+            {
+                if (TryGetComponent(out FloorCutout floorCutout)) {
+                    floorCutout.points = points;
+                }
+                return;
+            }
+#endif
+        }
     }
 }
