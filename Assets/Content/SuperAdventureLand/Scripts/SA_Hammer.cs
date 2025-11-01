@@ -51,7 +51,7 @@
                     throwSound.PlaySFX(spawnPosition, 0.6f, Random.Range(0.8f, 1.2f));
 
                     Rigidbody rb = projectile.GetComponent<Rigidbody>();
-                    if (!rb.LaunchAtLayer(1 << LayerMask.NameToLayer("Level"), 5f, 1 << LayerMask.NameToLayer("Entity") | 1 << LayerMask.NameToLayer("Level"), 20f))
+                    if (!rb.LaunchAtLayer(1 << LayerMask.NameToLayer("Enemy"), 5f, 1 << LayerMask.NameToLayer("Entity") | 1 << LayerMask.NameToLayer("Level"), 20f))
                     {
                         Vector3 forwardVelocity = forwardDirection * 0.2f;
                         Vector3 upwardVelocity = Vector3.up * Mathf.Sqrt(2f * Physics.gravity.magnitude * 2f);

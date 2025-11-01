@@ -95,7 +95,7 @@
         {
 
             // Get layer masks for "Level" and "Entity"
-            int levelLayerMask = LayerMask.GetMask("Entity") |LayerMask.GetMask("Level");
+            int levelLayerMask = LayerMask.GetMask("Entity") | LayerMask.GetMask("Level");
             int entityLayerMask = LayerMask.GetMask("Enemy");
 
             GameObject bestTarget = null;
@@ -118,7 +118,7 @@
 
             foreach (Collider collider in colliders)
             {
-                string[] filteredTags = { gameObject.tag, "ActiveHit", "Untagged", "Ground", "Stone", "", null, "Item" };
+                string[] filteredTags = { null, "", gameObject.tag, "ActiveHit", "Ground", "Item", "Lava", "Stone" };
 
                 // Dont target objects if it has one of these tags
                 if (filteredTags.Contains(collider.gameObject.tag))

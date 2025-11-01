@@ -39,7 +39,8 @@
     public class Wackable : StandardEntity<WackableState>
     {
         public AudioSource smackSound;
-        [HideInInspector] string dp_hitSfx = "slap";
+        public AudioClip dp_hitSfx;
+        public GameObject dp_hitFx;
         public float forceMultiplier = 2.0f; // Strength of the smack
         public float upwardMin = 2.0f;
         public GameObject target;
@@ -48,6 +49,19 @@
         public bool resetAfterHit = false;
         [ShowIf("resetAfterHit")]
         public float resetTime = 3f;
+        public override void OnValidate() {
+            #if UNITY_EDITOR
+            if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            if (dp_hitSfx == null) {
+                dp_hitSfx = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Content/SuperAdventureLand/Audio/slap.wav");
+            }
+            if (dp_hitFx == null) {
+                dp_hitFx = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Content/SuperAdventureLand/VFX/FX_SteamCloud.prefab");
+            }
+            base.OnValidate();
+            #endif
+        }
         public override void ExecuteState() {
             switch (state) {
                 case WackableState.START:
@@ -90,7 +104,9 @@
                         transform.rotation = ogPosition.rotation;
                         rb.linearVelocity = Vector3.zero;
                         rb.angularVelocity = Vector3.zero;
-                        "FX_SteamCloud".SpawnAsset(transform.position, transform.rotation);
+                        if (dp_hitFx != null) {
+                            dp_hitFx.SpawnAsset(transform.position, transform.rotation);
+                        }
                         SetState(WackableState.IDLE);
                     }
                     break;
@@ -126,8 +142,8 @@
 
             if (smackSound != null) {
                 smackSound.Play();
-            } else if (!string.IsNullOrEmpty(dp_hitSfx)) {
-                dp_hitSfx.PlaySFX(transform.position, 1f, UnityEngine.Random.Range(0.8f, 1.2f));
+            } else if (dp_hitSfx != null) {
+                dp_hitSfx.PlaySFX(transform.position, 1f, Random.Range(0.8f, 1.2f));
             }
 
             if (target != null)
