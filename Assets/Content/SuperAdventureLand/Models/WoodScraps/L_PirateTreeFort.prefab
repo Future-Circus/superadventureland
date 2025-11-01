@@ -126,10 +126,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7825894929532233763}
+        m_TargetAssemblyTypeName: EasyPhysics, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 7825894929532233763}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers: []
@@ -155,7 +167,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 1655901223813594196}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0
@@ -433,10 +445,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5750191303224753189}
+        m_TargetAssemblyTypeName: EasyPhysics, Assembly-CSharp
+        m_MethodName: OnEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   aboveEvent: {fileID: 0}
-  belowEvent: {fileID: 0}
-  eventOnStart: 0
+  belowEvent: {fileID: 5750191303224753189}
+  eventOnStart: 1
   isEnabled: 0
   interactionFilters:
   - layers: []
@@ -462,7 +486,7 @@ MonoBehaviour:
   onEvent:
     m_PersistentCalls:
       m_Calls: []
-  aboveEvent: {fileID: 0}
+  aboveEvent: {fileID: 4776551706214370914}
   belowEvent: {fileID: 0}
   eventOnStart: 0
   isEnabled: 0

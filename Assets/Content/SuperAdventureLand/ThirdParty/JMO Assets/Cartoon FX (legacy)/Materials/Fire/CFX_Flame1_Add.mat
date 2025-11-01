@@ -12,13 +12,13 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHABLEND_ON
-  - _ALPHATEST_ON
+  - _CFXR_ADDITIVE
   m_InvalidKeywords:
   - _
   - _CFXR_DITHERED_SHADOWS_OFF
   - _CFXR_OVERLAYBLEND_RGBA
   - _CFXR_OVERLAYTEX_OFF
+  - _SINGLECHANNEL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -60,7 +60,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BacklightTransmittance: 1
-    - _BlendingType: 0
+    - _BlendingType: 3
     - _BumpScale: 1
     - _CFXR_DITHERED_SHADOWS: 0
     - _CFXR_OVERLAYBLEND: 0
@@ -71,7 +71,7 @@ Material:
     - _DissolveSmooth: 0.1
     - _Distort: 0.1
     - _DoubleDissolve: 0
-    - _DstBlend: 7
+    - _DstBlend: 10
     - _EdgeFadePow: 1
     - _FadeAlongU: 0
     - _HdrBoost: 0
@@ -82,12 +82,12 @@ Material:
     - _LightingWorldPosStrength: 0.2
     - _SecondColorSmooth: 0.2
     - _ShadowStrength: 1
-    - _SingleChannel: 0
+    - _SingleChannel: 1
     - _SoftParticlesFadeDistanceFar: 1
     - _SoftParticlesFadeDistanceNear: 0
     - _SrcBlend: 5
     - _UVDistortionAdd: 0
-    - _UseAlphaClip: 1
+    - _UseAlphaClip: 0
     - _UseBackLighting: 0
     - _UseDissolve: 0
     - _UseDissolveOffsetUV: 0
